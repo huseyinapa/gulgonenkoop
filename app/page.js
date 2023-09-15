@@ -31,7 +31,7 @@ export default function Home() {
 
       {/* Bölüm 2 */}
       <section id="product">
-        <Store />
+        {/* <Store /> */}
       </section>
     </main>
   );
