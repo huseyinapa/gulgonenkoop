@@ -21,18 +21,14 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <main data-theme="garden">
       {/* Header */}
       <Header onClick={handleScrollToSection} />
       {/* Bölüm 1 */}
-      <section id="home">
-        <Store />
-      </section>
+      <section id="home">{/* <Store /> */}</section>
 
       {/* Bölüm 2 */}
-      <section id="product">
-        {/* <Store /> */}
-      </section>
+      <section id="product">{/* <Store /> */}</section>
     </main>
   );
 }

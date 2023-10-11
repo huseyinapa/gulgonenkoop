@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Header({ onClick }) {
   return (
-    <header className="bg-gradient-to-r from-blue-500 to-purple-500 p-4">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="navbar bg-base-100 p-4">
+      <div className="container mx-auto flex justify-center items-center">
         {/* Sol Taraf - Logo ve İsim */}
         <div className="flex items-center space-x-4">
           <div className="relative w-20 h-20 rounded-full overflow-hidden">
@@ -27,7 +27,7 @@ export default function Header({ onClick }) {
         </div>
 
         {/* Orta Alan - Boş */}
-        <div className="flex-grow"></div>
+        {/* <div className="flex-grow"></div> */}
 
         {/* Sağ Taraf - Navigasyon Menüsü ve Diğer Öğeler */}
         <nav className="space-x-6 text-white">
