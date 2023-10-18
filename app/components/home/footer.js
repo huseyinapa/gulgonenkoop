@@ -1,30 +1,60 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
-      <aside className="flex flex-row">
-        <Image
-          src="/images/gulgonen.svg"
-          alt="GülGönen"
-          className="w-40 lg:w-40 h-36 object-cover"
-          width={"20"}
-          height={"20"}
-        />
-        <div className="flex flex-col items-start space-y-1">
-          <h1>
-            <span className="font-semibold text-lg">S.S. GülGönen</span>
-          </h1>
-          <h1>
-            <span className="text-md">Tarımsal Kalkınma Kooperatifi</span>
-          </h1>
+      <aside className="flex flex-col md:flex-row">
+        <div className="flex flex-row items-center">
+          <Link href={"/"}>
+            <Image
+              src="/images/gulgonen.svg"
+              alt="GülGönen"
+              className="w-28 md:w-40 h-20 md:h-36 object-cover"
+              width={"20"}
+              height={"20"}
+            />
+          </Link>
+          <div className="flex flex-col items-start space-y-1">
+            <h1>
+              <span className="font-semibold text-base md:text-md">S.S. GülGönen</span>
+            </h1>
+            <h1>
+              <span>Tarımsal Kalkınma Kooperatifi</span>
+            </h1>
+          </div>
+        </div>
+        <div className="divider md:divider-horizontal"></div>
+        <div className="flex flex-row items-center">
+          <Link href={"https://instagram.com/apadijital/"} target="_blank">
+            {/* web site eklenebilir. */}
+            <Image
+              src="/images/APA.png"
+              alt="apadigital"
+              className="w-16 md:w-24 h-16 md:h-24 object-cover rounded-md"
+              width={"20"}
+              height={"20"}
+            />
+          </Link>
+          <div className="flex flex-col items-start ml-5 space-y-1">
+            <h1>
+              <span className="font-semibold text-base md:text-md">Apa Dijital Ajans</span>
+            </h1>
+            <h1>
+              <span className="text-md">tarafından geliştirilmiştir.</span>
+            </h1>
+          </div>
         </div>
       </aside>
       <nav className="grid grid-flow-col gap-4">
         <a className="link link-hover">Hakkımızda</a>
         <a className="link link-hover">İletişim</a>
-        <a className="link link-hover">Gizlilik Politikası</a>
-        <a className="link link-hover">Press kit</a>
+        <a className="link link-hover" href="/privacy-policy">
+          Gizlilik Politikası
+        </a>
+        <a className="link link-hover" href="/terms-of-use">
+          Kullanım Koşulları
+        </a>
       </nav>
       <nav>
         <div className="grid grid-flow-col gap-4">

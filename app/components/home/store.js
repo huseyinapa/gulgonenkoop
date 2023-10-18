@@ -1,6 +1,13 @@
 import React from "react";
 
 export default function Store() {
+  const images = [
+    "/images/photo1.jpeg", // Fotoğraf yollarını kendi dosya isimlerinize göre güncelleyin
+    "/images/photo2.jpeg",
+    "/images/photo1.jpeg",
+    // Eklemek istediğiniz diğer fotoğraf yollarını buraya ekleyin
+  ];
+
   return (
     <div className="relative justify-center">
       <div className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40">
@@ -29,7 +36,19 @@ export default function Store() {
           <span className="font-medium">Kooperatifimize bir göz atalım!</span>
         </h1>
       </div>
-      <div className="mx-auto mt-5 bg-pink-100 justify-center items-center max-w-xs md:max-w-3xl xl:max-w-6xl h-96"></div>
+      <div className="mx-auto mt-5 bg-pink-100 justify-center items-center max-w-xs md:max-w-3xl xl:max-w-6xl h-96">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {images.map((image, index) => (
+            <div key={index}>
+              <img
+                src={image}
+                alt={`Photo ${index}`}
+                className="w-full h-auto"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

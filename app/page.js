@@ -2,9 +2,9 @@
 
 // Home.js (Sayfa bileşeni olarak kullanılıyor)
 import React, { useRef } from "react";
-import Header from "@/components/home/header";
-import Store from "@/components/home/store";
-import Footer from "@/components/home/footer";
+import Header from "./components/home/header";
+import Store from "./components/home/store";
+import Footer from "./components/home/footer";
 
 export default function Home() {
   const scrollRef = useRef(null);
