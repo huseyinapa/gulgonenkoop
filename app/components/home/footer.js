@@ -29,8 +29,8 @@ export default function Footer() {
           <Link href={"https://instagram.com/apadijital/"} target="_blank">
             {/* web site eklenebilir. */}
             <Image
-              src="/images/APA.png"
-              alt="apadigital"
+              src="/images/apa.png"
+              alt="APA Digital"
               className="w-16 md:w-24 h-16 md:h-24 object-cover rounded-md"
               width={"20"}
               height={"20"}

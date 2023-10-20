@@ -2,10 +2,9 @@ import React from "react";
 
 export default function Store() {
   const images = [
-    "/images/photo1.jpeg", // Fotoğraf yollarını kendi dosya isimlerinize göre güncelleyin
+    "/images/photo1.jpeg",
     "/images/photo2.jpeg",
     "/images/photo1.jpeg",
-    // Eklemek istediğiniz diğer fotoğraf yollarını buraya ekleyin
   ];
 
   return (
@@ -14,10 +13,10 @@ export default function Store() {
         <div className="blur-[106px] h-72 bg-gradient-to-br from-[#d82685c2] to-[#d8268557]"></div>
         <div className="blur-[106px] h-48 bg-gradient-to-r from-[#d82685c2] to-[#d8268557]"></div>
       </div>
-      <div className="mx-auto py-5 max-w-3xl px-6 md:px-12 xl:px-6">
+      <div className="mx-auto py-5 max-w-4xl px-6 md:px-12 xl:px-6">
         <h1 className="mt-5 text-5xl text-center tracking-wide">
           <span className="animate-text bg-gradient-to-r from-[#a0155f] via-[#d82685c2] to-[#d8268539] bg-clip-text text-transparent font-bold">
-            GülGönen Tarımsal Kalkınma
+            S.S. GülGönen Tarımsal Kalkınma
           </span>
         </h1>
         <h1 className="mt-4 mb-10 text-4xl text-center text-[#bc4c81] font-semibold">
@@ -36,15 +35,36 @@ export default function Store() {
           <span className="font-medium">Kooperatifimize bir göz atalım!</span>
         </h1>
       </div>
-      <div className="mx-auto mt-5 bg-pink-100 justify-center items-center max-w-xs md:max-w-3xl xl:max-w-6xl h-96">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mx-auto mt-5 justify-center items-center max-w-xs lg:max-w-max h-auto">
+        <div className="carousel max-w-lg">
           {images.map((image, index) => (
-            <div key={index}>
-              <img
-                src={image}
-                alt={`Photo ${index}`}
-                className="w-full h-auto"
-              />
+            <div
+              key={index}
+              id={"slide" + index}
+              className="carousel-item relative w-full"
+            >
+              <img src={image} className="w-full" />
+              <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                {index === 0 ? (
+                  <a></a>
+                ) : (
+                  <a
+                    href={"#slide" + (index !== 0 ? index - 1 : index)}
+                    className="btn btn-circle"
+                  >
+                    ❮
+                  </a>
+                )}
+                {/* {index < images.length ? <></> : <></>} */}
+                <a
+                  href={
+                    "#slide" + (index + 1 < images.length ? index + 1 : "0")
+                  }
+                  className="btn btn-circle"
+                >
+                  ❯
+                </a>
+              </div>
             </div>
           ))}
         </div>
