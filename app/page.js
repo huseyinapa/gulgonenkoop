@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 import Header from "./components/home/header";
 import Store from "./components/home/store";
 import Footer from "./components/home/footer";
+import Product from "./components/home/product";
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -28,6 +29,10 @@ export default function Home() {
       {/* Bölüm 1 */}
       <section id="home">
         <Store />
+      </section>
+
+      <section id="products">
+        <Product />
       </section>
 
       {/* Bölüm 2 */}

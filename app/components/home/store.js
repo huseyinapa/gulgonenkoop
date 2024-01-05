@@ -13,7 +13,7 @@ export default function Store() {
         <div className="blur-[106px] h-72 bg-gradient-to-br from-[#d82685c2] to-[#d8268557]"></div>
         <div className="blur-[106px] h-48 bg-gradient-to-r from-[#d82685c2] to-[#d8268557]"></div>
       </div>
-      <div className="mx-auto py-5 max-w-4xl px-6 md:px-12 xl:px-6">
+      <div className="mx-auto py-5 max-w-4xl px-2 md:px-12 xl:px-6">
         <h1 className="mt-5 text-5xl text-center tracking-wide">
           <span className="animate-text bg-gradient-to-r from-[#220615] via-[#220615c2] to-[#22061565] bg-clip-text text-transparent font-bold">
             S.S. GülGönen Tarımsal Kalkınma
@@ -31,10 +31,10 @@ export default function Store() {
           </span>
         </h1>
         <div className="divider my-16"></div>
-        <h1 className="text-xl text-center">
-          <span className="font-medium">Kooperatifimize bir göz atalım!</span>
-        </h1>
       </div>
+      {/* <h1 className="text-xl text-center">
+        <span className="font-medium">Kooperatifimize bir göz atalım!</span>
+      </h1>
       <div className="mx-auto mt-5 justify-center items-center max-w-xs lg:max-w-max h-auto">
         <div className="carousel max-w-lg">
           {images.map((image, index) => (
@@ -55,7 +55,6 @@ export default function Store() {
                     ❮
                   </a>
                 )}
-                {/* {index < images.length ? <></> : <></>} */}
                 <a
                   href={
                     "#slide" + (index + 1 < images.length ? index + 1 : "0")
@@ -68,7 +67,7 @@ export default function Store() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function Header({ onClick }) {
           <span onClick={() => onClick("home")}>Ana Sayfa</span>
         </div>
         <div className="link link-hover">
-          <span>Ürünlerimiz</span>
+          <span onClick={() => onClick("products")}>Ürünlerimiz</span>
         </div>
         <Image
           src="/images/gulgonen.svg"
