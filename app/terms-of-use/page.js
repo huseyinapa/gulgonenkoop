@@ -12,6 +12,7 @@ export default function TermsofUse() {
   };
   return (
     <div data-theme="garden">
+      <title>S.S. GülGönen | Kullanım Koşulları</title>
       <Header onClick={onClick} />
       <h1 className="mt-3 text-center font-semibold text-2xl">
         Kullanım Koşulları

@@ -11,6 +11,7 @@ export default function PrivacyPolicy() {
   };
   return (
     <div data-theme="garden">
+      <title>S.S. GülGönen | Gizlilik Politikası</title>
       <Header onClick={onClick} />
       <h1 className="mt-3 text-center font-semibold text-2xl">
         Gizlilik Politikası
