@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <main data-theme="garden">
+    <main data-theme="garden"  className="min-w-fit">
       {/* Header */}
       <Header onClick={handleScrollToSection} />
       {/* Bölüm 1 */}

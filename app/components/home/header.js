@@ -21,10 +21,10 @@ export default function Header({ onClick }) {
           priority
         />
         <div className="link link-hover">
-          <span>İletişim</span>
+          <span onClick={() => {}}>Siparişlerim</span>
         </div>
         <div className="link link-hover">
-          <span>Hakkımızda</span>
+          <span onClick={() => {}}>Sepetim</span>
         </div>
       </div>
 
