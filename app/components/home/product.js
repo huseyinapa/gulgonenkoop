@@ -70,7 +70,7 @@ export default function Product() {
             <span className="pl-4 text-lg font-bold">100 GR</span>
           </div>
         </figure>
-        <div className="relative card-body mx-auto">
+        <div className="card-body relative mx-auto">
           <h1 className="card-title justify-center text-[#8a4269] font-bold">
             {product.name}
           </h1>

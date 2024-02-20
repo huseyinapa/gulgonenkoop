@@ -16,8 +16,8 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
       amount: 12,
       stock: 12,
       image: "12",
-      name: "12",
-      description: "12",
+      name: "Gül Reçeli",
+      description: "250 ML cam şişede sunulan doğal gül reçeli.",
       price: "300",
       gram: "100", //!
     },
@@ -27,10 +27,10 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
       amount: 12,
       stock: 12,
       image: "12",
-      name: "12",
-      description: "12",
+      name: "Gül Reçeli",
+      description: "250 ML cam şişede sunulan doğal gül reçeli.",
       price: "300",
-      gram: "100", //!
+      gram: "250", //!
     },
   ]);
   const [length, setLength] = useState(3333333333333);
@@ -190,7 +190,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
   }
 
   return (
-    <div className="min-w-fit md:min-w-full h-auto mx-auto bg-slate-700">
+    <div className="min-w-fit md:min-w-full h-auto mx-auto">
       <Toaster position="bottom-right" reverseOrder={false} />
 
       {length === 0 ? (
@@ -206,20 +206,45 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
           </div>
         </div>
       ) : (
-        <div className="mx-auto justify-center bg-slate-300 w-[99%] px-4">
+        <div className="mx-auto justify-center w-[99%] px-4">
           <div className="flex flex-row h-20 items-center justify-between">
             <a className="text-2xl font-bold text-secondary">
               Sepetim (3 Ürün)
             </a>
           </div>
-          <div className="flex flex-row justify-between items-center space-x-6">
+          <div className="flex flex-row justify-between items-start space-x-6">
+            {/* // ? Sepetteki ürün listesi */}
             <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
               {cartItems.map((item) =>
                 ProductCard({ key: item.pid, product: item })
               )}
             </div>
-            <div className="card w-72 md:w-48 lg:w-[500px] lg:h-48 bg-slate-400">
-              <a>Seçilen Ürünler (3)</a>
+            {/* //? Ödeme Detay kartı */}
+            <div className="card w-72 md:w-[300px] lg:w-[300px] lg:min-h-80 lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
+              <div className="card-title p-2 justify-center">
+                Seçilen Ürünler ({cartItems.length})
+              </div>
+              <div className="card-body justify-between">
+                <div className="flex flex-row justify-between">
+                  <div className="flex flex-col items-start">
+                    <a className="font-semibold">Ürünler:</a>
+                    <a className="font-semibold">Kargo ücreti:</a>
+                    <div className="divider divider-secondary h-0" />
+                    <h1 className="font-semibold">Toplam tutar + KDV:</h1>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <a className="">200 TL</a>
+                    <a className="">Alıcı öder</a>
+                    <div className="divider divider-secondary h-0" />
+                    <h1 className="">200 TL</h1>
+                  </div>
+                </div>
+                <div className="card-actions justify-center">
+                  <button className="btn btn-sm lg:btn-md bg-success text-white">
+                    Alış
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -346,9 +371,10 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
               <h2 className="font-bold text-lg lg:text-xl text-secondary">
                 {product.name}
               </h2>
-              <div className="flex flex-col mt-2 lg:mt-4 space-y-1">
+              <div className="flex flex-col mt-2 lg:mt-3 space-y-1">
+                <a className="font-normal">{product.description}</a>
                 <a className="font-normal">Kargo firması: PTT Kargo</a>
-                <a className="font-normal">Kargo ücreti: Alıcı öder</a>
+                {/* <a className="font-normal">Kargo ücreti: Alıcı öder</a> */}
               </div>
             </div>
             <div className="flex flex-row justify-between space-x-2">
