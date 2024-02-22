@@ -206,28 +206,46 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
           </div>
         </div>
       ) : (
-        <div className="mx-auto justify-center w-[99%] px-4">
-          <div className="flex flex-row h-20 items-center justify-between">
-            <a className="text-2xl font-bold text-secondary">
-              Sepetim (3 Ürün)
-            </a>
-          </div>
-          <div className="flex flex-row justify-between items-start space-x-6">
+        <div className="mx-auto w-[99%] min-h-[550px] justify-center px-4">
+          <div className="flex flex-row justify-between items-center space-x-6">
             {/* // ? Sepetteki ürün listesi */}
-            <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
-              {cartItems.map((item) =>
-                ProductCard({ key: item.pid, product: item })
-              )}
+            <div>
+              <div className="flex flex-row h-20 items-center justify-between">
+                <h1 className="text-2xl font-bold text-secondary">
+                  Sepetim ({cartItems.length} Ürün)
+                </h1>
+                <div className="form-control mr-3 items-center">
+                  <label className="cursor-pointer label  space-x-2">
+                    <span className="label-text font-medium lg:text-md">
+                      Tümünü seç
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={check ? "checked" : ""}
+                      className="checkbox checkbox-lg checkbox-secondary"
+                      onChange={() => {
+                        setCheck(!check); // sepet listesine  ekleme işlemi burada
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+              <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
+                {cartItems.map((item) =>
+                  ProductCard({ key: item.pid, product: item })
+                )}
+              </div>
             </div>
             {/* //? Ödeme Detay kartı */}
             <div className="card w-72 md:w-[300px] lg:w-[300px] lg:min-h-80 lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
-              <div className="card-title p-2 justify-center">
+              <div className="card-title py-3 justify-center">
                 Seçilen Ürünler ({cartItems.length})
               </div>
-              <div className="card-body justify-between">
+              <div className="card-body justify-between items-center">
                 <div className="flex flex-row justify-between">
                   <div className="flex flex-col items-start">
                     <a className="font-semibold">Ürünler:</a>
+                    {/* //! Seçilen ürünlerin fiyatını anlık olarak güncelle */}
                     <a className="font-semibold">Kargo ücreti:</a>
                     <div className="divider divider-secondary h-0" />
                     <h1 className="font-semibold">Toplam tutar + KDV:</h1>
@@ -240,9 +258,13 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
                   </div>
                 </div>
                 <div className="card-actions justify-center">
-                  <button className="btn btn-sm lg:btn-md bg-success text-white">
-                    Alış
-                  </button>
+                  <a
+                    className="btn btn-sm lg:btn-md bg-success text-white"
+                    onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                    href="/odeme" //! daha sonra kaldırılacak
+                  >
+                    Alışverişi tamamla
+                  </a>
                 </div>
               </div>
             </div>
@@ -252,106 +274,11 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
     </div>
   );
 
-  // {cartItems.map((item) => (
-  //   <div
-  //     key={item.pid}
-  //     className={`card relative card-compact
-  //     ${
-  //       item.amount > item.stock
-  //         ? "bg-error"
-  //         : !item.stock
-  //         ? "bg-error"
-  //         : "bg-[#cc3b6477]"
-  //     }
-  //     text-neutral-content w-50 md:w-72 h-80 lg:h-auto shadow-[#c2154677] shadow-2xl`}
-  //   >
-  //     <figure className="relative pt-4">
-  //       <img
-  //         src={item.image}
-  //         alt={item.name}
-  //         className="w-36 lg:w-60 h-48 lg:h-64 object-cover rounded-lg"
-  //       />
-  //       {/* {!item.stockStatus && (
-  //         <div className="absolute bg-white w-50 md:w-72 h-80 lg:h-72 opacity-40"></div>
-  //       )} */}
-  //       <button
-  //         className="absolute top-5 right-5 btn btn-square btn-ghost bg-neutral-content shadow-lg"
-  //         onClick={() => handleRemoveItem(item.pid)}
-  //       >
-  //         <svg
-  //           xmlns="http://www.w3.org/2000/svg"
-  //           x="0px"
-  //           y="0px"
-  //           width="24"
-  //           height="24"
-  //           viewBox="0 0 48 48"
-  //         >
-  //           <path d="M 24 4 C 20.491685 4 17.570396 6.6214322 17.080078 10 L 10.238281 10 A 1.50015 1.50015 0 0 0 9.9804688 9.9785156 A 1.50015 1.50015 0 0 0 9.7578125 10 L 6.5 10 A 1.50015 1.50015 0 1 0 6.5 13 L 8.6386719 13 L 11.15625 39.029297 C 11.427329 41.835926 13.811782 44 16.630859 44 L 31.367188 44 C 34.186411 44 36.570826 41.836168 36.841797 39.029297 L 39.361328 13 L 41.5 13 A 1.50015 1.50015 0 1 0 41.5 10 L 38.244141 10 A 1.50015 1.50015 0 0 0 37.763672 10 L 30.919922 10 C 30.429604 6.6214322 27.508315 4 24 4 z M 24 7 C 25.879156 7 27.420767 8.2681608 27.861328 10 L 20.138672 10 C 20.579233 8.2681608 22.120844 7 24 7 z M 11.650391 13 L 36.347656 13 L 33.855469 38.740234 C 33.730439 40.035363 32.667963 41 31.367188 41 L 16.630859 41 C 15.331937 41 14.267499 40.033606 14.142578 38.740234 L 11.650391 13 z M 20.476562 17.978516 A 1.50015 1.50015 0 0 0 19 19.5 L 19 34.5 A 1.50015 1.50015 0 1 0 22 34.5 L 22 19.5 A 1.50015 1.50015 0 0 0 20.476562 17.978516 z M 27.476562 17.978516 A 1.50015 1.50015 0 0 0 26 19.5 L 26 34.5 A 1.50015 1.50015 0 1 0 29 34.5 L 29 19.5 A 1.50015 1.50015 0 0 0 27.476562 17.978516 z"></path>
-  //         </svg>
-  //       </button>
-  //     </figure>
-  //     <div className="card-body">
-  //       <h2 className="card-title">{item.name}</h2>
-  //       <p>{item.description}</p>
-  //       <div className="card-actions items-center justify-between">
-  //         <div className="font-semibold text-sm lg:text-lg">
-  //           {item.price}₺
-  //         </div>
-  //         {!item.stock ? (
-  //           <div>
-  //             <span className="text-white font-bold">
-  //               Stok tükenmiştir.
-  //             </span>
-  //           </div>
-  //         ) : (
-  //           <>
-  //             <div className="btn-group shadow-lg rounded-2xl">
-  //               <button
-  //                 className="btn btn-xs lg:btn-sm btn-square"
-  //                 onClick={() => handleDecreaseAmount(item.pid)}
-  //               >
-  //                 -
-  //               </button>
-  //               <span className="px-4 lg:pt-1 text-center justify-center">
-  //                 {item.amount}
-  //               </span>
-  //               <button
-  //                 className="btn btn-xs lg:btn-sm btn-square hover:bg-red-300"
-  //                 onClick={() => handleIncreaseAmount(item.id)}
-  //               >
-  //                 +
-  //               </button>
-  //             </div>
-  //             <div
-  //               product-tip="Adet sayısı, stok miktarını geçemez."
-  //               className="tooltip"
-  //             >
-  //               <svg
-  //                 xmlns="http://www.w3.org/2000/svg"
-  //                 fill="none"
-  //                 viewBox="0 0 24 24"
-  //                 className="stroke-neutral-content shrink-0 w-6 h-6"
-  //               >
-  //                 <path
-  //                   strokeLinecap="round"
-  //                   strokeLinejoin="round"
-  //                   strokeWidth="2"
-  //                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-  //                 ></path>
-  //               </svg>
-  //             </div>
-  //           </>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </div>
-  // ))}
-
   function ProductCard({ key, product }) {
     return (
       <div
         key={key}
-        className="relative mx-auto bg-white items-stretch lg:items-start w-[500px] md:w-[500px] lg:w-[700px] lg:h-48 flex md:flex-row p-4 space-x-4 shadow-secondary shadow-[0_0_10px] rounded-lg"
+        className="relative mx-auto bg-white items-stretch lg:items-start w-[500px] lg:w-[600px] xl:w-[700px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-4 space-x-4 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="relative">
           <img
@@ -403,7 +330,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
           </div>
           {/* <div className="divider w-0 md:w-auto h-0 md:h-5 md:divider-vertical"></div> */}
           <div className="flex flex-row items-center justify-between">
-            <div className="btn-group shadow-lg bg-secondary rounded-2xl">
+            <div className="btn-group shadow-lg bg-secondary rounded-2xl space-x-1">
               <button
                 className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white"
                 // onClick={() => handleDecreaseAmount(item.pid)}

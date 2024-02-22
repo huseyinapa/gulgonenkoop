@@ -192,14 +192,12 @@ function Cart() {
           </div>
         </div>
       ) : (
-        <div className="px-5 justify-center py-8">
-          <div className={`flex ${currentStep === 3 && "justify-center"}`}>
-            <CartProduct
-              cartProducts={cartItems}
-              setCartItem={setCartItems}
-              //   setCompleted={setCompleted}
-            />
-          </div>
+        <div className="px-4">
+          <CartProduct
+            cartProducts={cartItems}
+            setCartItem={setCartItems}
+            //   setCompleted={setCompleted}
+          />
         </div>
       )}
       <Footer />
