@@ -5,32 +5,33 @@ import Footer from "../components/home/footer";
 import Header from "../components/home/header";
 import Functions from "../functions";
 import toast, { Toaster } from "react-hot-toast";
+import BottomNavBar from "../components/bottomNavBar";
 
 export default function Payment() {
   const [isChecked, setChecked] = useState(false);
 
   const handleCheckboxChange = () => setChecked(!isChecked);
   return (
-    <div data-theme="garden">
+    <div data-theme="garden" className="min-w-fit min-h-[500px]">
       <Toaster position="top-center" reverseOrder={false} />
 
       <Header />
-      <div className="mx-auto min-w-fit min-h-[500px]">
+      <div className="mx-auto">
         <div className="flex flex-row items-center justify-center space-x-1">
           <img className="size-8" src="/images/icons/security-shield.png" />
           <span className="font-semibold">Güvenli Ödeme</span>
         </div>
-        <div className="flex flex-row items-start md:justify-between py-4 md:p-3 lg:p-8 bg-red-100">
-          <div className="flex flex-col gap-3 mr-5 md:w-[450px] lg:w-[610px] xl:w-[700px] items-center bg-red-200">
-            <div className="flex flex-col items-center justify-center md:flex-row gap-5 bg-red-300">
-              <div className="card p-2 w-[200px] md:w-[200px] lg:w-[280px] xl:w-[300px] h-44 md:h-44 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
-                <div className="card-title text-lg lg:text-xl text-secondary pl-2">
+        <div className="flex flex-row items-start md:justify-between py-4 px-3 md:p-3 lg:p-8">
+          <div className="flex flex-col items-center gap-5 mr-5 w-[350px] md:w-[470px] lg:w-[610px] xl:w-[700px] p-4">
+            <div className="flex flex-col items-center justify-center md:flex-row gap-4">
+              <div className="card p-2 w-[320px] md:w-[220px] lg:w-[280px] xl:w-[300px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
+                <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
                   Teslimat Adresim
                 </div>
-                <div className="card-body p-0 pt-3 md:pt-2 pl-3">
+                <div className="card-body p-0 pt-1 md:pt-2 pl-3">
                   <div className="text-sm lg:text-base">
                     {shortenText(
-                      "Bilmemne mahallesi aslgfkhalsşjkfh aslişfkhsaşlkfhas aslfşkhsaşlfkhsaşl aslşkhfaşslkfhsa şlaskhflşaskhf Kadıköy/İstanbul"
+                      "Bilmemne mahallesi aslgfkhalsşjkfh asdfghjkl asfasf asdasfsdfgh Kadıköy/İstanbul"
                     )}
                   </div>
                 </div>
@@ -38,11 +39,11 @@ export default function Payment() {
                   <div className="btn btn-sm">Adres ekle/değiştir</div>
                 </div>
               </div>
-              <div className="card p-2 w-[200px] md:w-[200px] lg:w-[280px] xl:w-[300px] h-44 md:h-44 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
-                <div className="card-title text-lg lg:text-xl text-secondary pl-2">
+              <div className="card p-2 w-[320px] md:w-[220px] lg:w-[280px] xl:w-[300px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
+                <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
                   Fatura Adresim
                 </div>
-                <div className="card-body p-0 pt-3 pl-3">
+                <div className="card-body p-0 pt-1 md:pt-2 pl-3">
                   <div className="text-sm lg:text-base">
                     {shortenText(
                       "Bilmemne mahallesi aslgfkhalsşjkfh Kadıköy/İstanbul"
@@ -55,8 +56,8 @@ export default function Payment() {
               </div>
             </div>
 
-            <div className="card pt-3 w-[350px] md:w-[430px] lg:w-[500px] xl:w-[620px] h-80 md:h-44 lg:h-48 xl:h-48 shadow-secondary shadow-[0_0_10px]">
-              <div className="card-title pl-5 text-secondary text-lg">
+            <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-56 md:h-52 lg:h-48 xl:h-48 shadow-secondary shadow-[0_0_10px]">
+              <div className="card-title px-3 md:p-0 md:pl-5 text-secondary text-center md:text-start text-lg lg:text-xl">
                 Diğer Ödeme Seçenekleri (Havale, EFT)
               </div>
               <div className="card-body pl-5 p-0 pt-3">
@@ -71,8 +72,8 @@ export default function Payment() {
                   {transfer("Açıklama: XUW", "XUW")}
                 </div>
               </div>
-              <div className="card-actions justify-end p-3">
-                <a className="">
+              <div className="card-actions justify-center md:justify-end py-3 md:p-3">
+                <a className="text-sm">
                   <span className="mr-1 text-secondary">XUW</span>
                   kodunu açıklama kısmına yazınız.
                 </a>
@@ -81,7 +82,7 @@ export default function Payment() {
           </div>
 
           {/* //? Ödeme Detay kartı */}
-          <div className="card w-72 md:w-[250px] lg:w-[300px] md:h-[300px] lg:h-80 shadow-secondary shadow-[0_0_0_2px]">
+          <div className="card w-[230px] md:w-[250px] lg:w-[300px] md:h-[300px] lg:h-80 shadow-secondary shadow-[0_0_0_2px]">
             <div className="card-title md:text-lg pt-3 justify-center">
               Ödenecek Tutar
             </div>
@@ -162,11 +163,12 @@ export default function Payment() {
         </div>
       </div>
       <Footer />
+      <BottomNavBar />
     </div>
   );
 
   function shortenText(input) {
-    var output = new Functions().shortenText(input, 80);
+    var output = new Functions().shortenText(input, 75);
 
     return output;
   }
@@ -175,7 +177,7 @@ export default function Payment() {
       <div className="flex flex-row items-center gap-2">
         <span> {text} </span>
         <img
-          className="size-5"
+          className="link size-5"
           src="images/icons/copy.png"
           onClick={() => {
             navigator.clipboard.writeText(copyData).then(() => {

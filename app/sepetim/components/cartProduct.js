@@ -190,7 +190,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
   }
 
   return (
-    <div className="min-w-fit md:min-w-full h-auto mx-auto">
+    <div className="mx-auto min-w-fit md:min-w-full h-auto">
       <Toaster position="bottom-right" reverseOrder={false} />
 
       {length === 0 ? (
@@ -206,12 +206,12 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
           </div>
         </div>
       ) : (
-        <div className="mx-auto w-[99%] min-h-[550px] justify-center px-4">
+        <div className="mx-auto min-h-[550px] justify-center px-0 md:px-4">
           <div className="flex flex-row justify-between items-center space-x-6">
             {/* // ? Sepetteki ürün listesi */}
             <div>
-              <div className="flex flex-row h-20 items-center justify-between">
-                <h1 className="text-2xl font-bold text-secondary">
+              <div className="flex flex-row h-20 items-center justify-between bg-red-100">
+                <h1 className="text-lg lg:text-2xl font-bold text-secondary">
                   Sepetim ({cartItems.length} Ürün)
                 </h1>
                 <div className="form-control mr-3 items-center">
@@ -237,35 +237,40 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
               </div>
             </div>
             {/* //? Ödeme Detay kartı */}
-            <div className="card w-72 md:w-[300px] lg:w-[300px] lg:min-h-80 lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
-              <div className="card-title py-3 justify-center">
+            <div className="card hidden md:flex w-72 md:w-[200px] lg:w-[300px] md:h-[250px] lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
+              <div className="card-title text-lg md:text-lg lg:text-2xl py-3 justify-center">
                 Seçilen Ürünler ({cartItems.length})
               </div>
-              <div className="card-body justify-between items-center">
-                <div className="flex flex-row justify-between">
-                  <div className="flex flex-col items-start">
-                    <a className="font-semibold">Ürünler:</a>
-                    {/* //! Seçilen ürünlerin fiyatını anlık olarak güncelle */}
-                    <a className="font-semibold">Kargo ücreti:</a>
-                    <div className="divider divider-secondary h-0" />
-                    <h1 className="font-semibold">Toplam tutar + KDV:</h1>
-                  </div>
-                  <div className="flex flex-col items-end">
+              <div className="card-body justify-between items-center p-0 px-3">
+                {/* //! Seçilen ürünlerin fiyatını anlık olarak güncelle */}
+                <div className="flex flex-col justify-between">
+                  <div className="flex flex-row justify-between">
+                    <a className="font-medium lg:font-semibold">Ürünler:</a>
                     <a className="">200 TL</a>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <a className="font-medium lg:font-semibold">
+                      Kargo ücreti:
+                    </a>
                     <a className="">Alıcı öder</a>
-                    <div className="divider divider-secondary h-0" />
-                    <h1 className="">200 TL</h1>
+                  </div>
+                  <div className="divider divider-secondary h-0" />
+                  <div className="flex flex-row justify-between">
+                    <h1 className="font-medium lg:font-semibold">
+                      Toplam tutar + KDV:
+                    </h1>
+                    <a className="">200 TL</a>
                   </div>
                 </div>
-                <div className="card-actions justify-center">
-                  <a
-                    className="btn btn-sm lg:btn-md bg-success text-white"
-                    onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                    href="/odeme" //! daha sonra kaldırılacak
-                  >
-                    Alışverişi tamamla
-                  </a>
-                </div>
+              </div>
+              <div className="card-actions justify-center p-4">
+                <a
+                  className="btn btn-sm md:h-10 lg:btn-md bg-success text-white"
+                  onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                  href="/odeme" //! daha sonra kaldırılacak
+                >
+                  Alışverişi tamamla
+                </a>
               </div>
             </div>
           </div>
@@ -278,16 +283,16 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
     return (
       <div
         key={key}
-        className="relative mx-auto bg-white items-stretch lg:items-start w-[500px] lg:w-[600px] xl:w-[700px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-4 space-x-4 shadow-secondary shadow-[0_0_10px] rounded-lg"
+        className="relative mx-auto bg-white items-stretch lg:items-start w-[350px] md:w-[450px] lg:w-[500px] xl:w-[700px] h-[150px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="relative">
           <img
             src="/images/icons/shopping-bag.svg"
             alt="Ürün görseli"
-            className="md:w-48 h-36 object-cover bg-red-400" //rounded-lg rounded-br-[80px]
+            className="w-auto md:w-36 h-[100px] md:h-40 object-contain bg-red-400" //rounded-lg rounded-br-[80px]
           />
           <div className="absolute bg-secondary w-16 h-8 lg:h-8 p-0 pt-[2px] bottom-3 left-0 rounded-r-xl">
-            <span className="pl-1.5 text-sm text-white font-bold">
+            <span className="pl-1.5 text-xs md:text-sm lg:text-base text-white font-bold">
               {product.gram} gr
             </span>
           </div>
@@ -295,17 +300,17 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
         <div className="flex flex-col justify-between w-full lg:h-full">
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
-              <h2 className="font-bold text-lg lg:text-xl text-secondary">
+              <h2 className="font-bold text-md lg:text-xl text-secondary">
                 {product.name}
               </h2>
-              <div className="flex flex-col mt-2 lg:mt-3 space-y-1">
-                <a className="font-normal">{product.description}</a>
-                <a className="font-normal">Kargo firması: PTT Kargo</a>
+              <div className="flex flex-col mt-1 md:mt-2 lg:mt-3 space-y-1">
+                <a className="font-normal text-xs md:text-sm">{product.description}</a>
+                <a className="font-normal text-xs md:text-sm">Kargo firması: PTT Kargo</a>
                 {/* <a className="font-normal">Kargo ücreti: Alıcı öder</a> */}
               </div>
             </div>
             <div className="flex flex-row justify-between space-x-2">
-              <div className="btn btn-white btn-sm">
+              <div className="btn btn-white btn-sm w-11">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -321,7 +326,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
               <input
                 type="checkbox"
                 checked={check ? "checked" : ""}
-                className="checkbox checkbox-lg checkbox-secondary"
+                className="checkbox checkbox-md md:checkbox-lg checkbox-secondary"
                 onChange={() => {
                   setCheck(!check); // sepet listesine  ekleme işlemi burada
                 }}
@@ -337,7 +342,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
               >
                 -
               </button>
-              <span className="text-center text-white justify-center">
+              <span className="text-xs text-white justify-center">
                 {product.amount}
               </span>
               <button
@@ -348,7 +353,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
               </button>
             </div>
             <div className="">
-              <a className="text-base font-semibold text-secondary">
+              <a className="text-sm md:text-base font-semibold text-secondary">
                 Toplam: {product.price} TL
               </a>
             </div>

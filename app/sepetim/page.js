@@ -8,6 +8,7 @@ import Header from "../components/home/header";
 import CartProduct from "./components/cartProduct";
 
 import Footer from "../components/home/footer";
+import BottomNavBar from "../components/bottomNavBar";
 
 // import CartManager from "../utils/cart";
 // import ProductManager from "../utils/product";
@@ -149,7 +150,7 @@ function Cart() {
 
   return (
     //bg-[#f0a2f041]
-    <main data-theme="garden">
+    <main data-theme="garden" className="min-w-fit">
       <Toaster position="bottom-right" reverseOrder={false} />
 
       <Header />
@@ -201,6 +202,8 @@ function Cart() {
         </div>
       )}
       <Footer />
+      
+      <BottomNavBar />
     </main>
   );
 }
