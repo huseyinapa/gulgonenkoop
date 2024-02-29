@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Footer from "../components/home/footer";
-import Header from "../components/home/header";
-import Functions from "../functions";
 import toast, { Toaster } from "react-hot-toast";
+
+import PayHeader from "./components/header";
+import Footer from "../components/home/footer";
 import BottomNavBar from "../components/bottomNavBar";
+
+import Functions from "../functions";
 
 export default function Payment() {
   const [isChecked, setChecked] = useState(false);
@@ -15,13 +17,13 @@ export default function Payment() {
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
       <Toaster position="top-center" reverseOrder={false} />
 
-      <Header />
+      <PayHeader />
       <div className="mx-auto">
         <div className="flex flex-row items-center justify-center space-x-1">
           <img className="size-8" src="/images/icons/security-shield.png" />
           <span className="font-semibold">Güvenli Ödeme</span>
         </div>
-        <div className="flex flex-row items-start md:justify-between py-4 px-3 md:p-3 lg:p-8">
+        <div className="flex flex-row items-start justify-center md:justify-between py-4 px-3 md:p-3 lg:p-8">
           <div className="flex flex-col items-center gap-5 mr-5 w-[350px] md:w-[470px] lg:w-[610px] xl:w-[700px] p-4">
             <div className="flex flex-col items-center justify-center md:flex-row gap-4">
               <div className="card p-2 w-[320px] md:w-[220px] lg:w-[280px] xl:w-[300px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
@@ -82,7 +84,7 @@ export default function Payment() {
           </div>
 
           {/* //? Ödeme Detay kartı */}
-          <div className="card w-[230px] md:w-[250px] lg:w-[300px] md:h-[300px] lg:h-80 shadow-secondary shadow-[0_0_0_2px]">
+          <div className="card hidden md:flex w-[230px] md:w-[250px] lg:w-[300px] md:h-[300px] lg:h-80 shadow-secondary shadow-[0_0_0_2px]">
             <div className="card-title md:text-lg pt-3 justify-center">
               Ödenecek Tutar
             </div>
@@ -163,7 +165,8 @@ export default function Payment() {
         </div>
       </div>
       <Footer />
-      <BottomNavBar />
+
+      <BottomNavBar title={"Ödenecek Tutar"} sozlesme={true} />
     </div>
   );
 

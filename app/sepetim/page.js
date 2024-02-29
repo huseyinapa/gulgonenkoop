@@ -202,8 +202,12 @@ function Cart() {
         </div>
       )}
       <Footer />
-      
-      <BottomNavBar />
+
+      <BottomNavBar
+        data={cartItems}
+        title={`Seçilen Ürünler (${cartItems.length})`}
+        sozlesme={false}
+      />
     </main>
   );
 }

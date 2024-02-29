@@ -1,28 +1,82 @@
-export default function BottomNavBar() {
+export default function BottomNavBar({ data, title, sozlesme }) {
   return (
-    <div className="sticky bottom-0 lg:hidden">
-      <div className="btm-nav h-[210px] bg-white shadow-[0_0_10px] shadow-black">
-        <div className="flex flex-row items-start justify-between px-4 bg-red-100 buradan devam butonu ortala">
-          <div>
-            <div className="text-lg font-bold">Seçilen Ürünler (2)</div>
-            <div className="mt-2 space-y-1">
-              <div className="flex flex-row gap-2">
-                <div className="text-sm font-semibold"> Toplam KDV dahil: </div>
-                <div className="text-sm font-bold"> 200 TL</div>
-              </div>
-              <div className="flex flex-row gap-2">
-                <div className="text-sm font-semibold">Kargo ücreti: </div>
-                <div className="text-sm font-bold"> Alıcı öder </div>
+    <div className="sticky bottom-0 md:hidden">
+      <div
+        className={`btm-nav
+        ${sozlesme ? "h-[220px]" : "h-[190px]"}
+        items-start bg-white shadow-[0_0_10px] shadow-black`}
+      >
+        <div
+          className={`flex flex-col
+          ${sozlesme ? "h-[140px] items-stretch" : "h-[110px] items-stretch"}
+          justify-center px-4
+        `}
+        >
+          <div className={`flex flex-row justify-between`}>
+            <div>
+              <div className="text-lg font-bold">{title}</div>
+              <div className="mt-2 space-y-1">
+                <div className="flex flex-row gap-2">
+                  <div className="text-sm font-semibold">Toplam KDV dahil:</div>
+                  <div className="text-sm font-semibold">200 TL</div>
+                </div>
+                <div className="flex flex-row gap-2">
+                  <div className="text-sm font-semibold">Kargo ücreti:</div>
+                  <div className="text-sm font-semibold">Alıcı öder</div>
+                </div>
               </div>
             </div>
+            {sozlesme ? (
+              <div className="flex flex-col items-center gap-2">
+                <a
+                  className="btn btn-sm h-10 bg-purple-600 text-white"
+                  onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                  href="/odeme" //! daha sonra kaldırılacak
+                >
+                  Siparişi Onayla
+                </a>
+                <a className="btn btn-sm bg-gray-300 text-white">Geri Dön</a>
+              </div>
+            ) : (
+              <a
+                className="btn btn-sm h-10 bg-success text-white"
+                onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                href="/odeme" //! daha sonra kaldırılacak
+              >
+                Alışverişi tamamla
+              </a>
+            )}
           </div>
-          <a
-            className="btn btn-md bg-success text-white"
-            onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-            href="/odeme" //! daha sonra kaldırılacak
-          >
-            Alışverişi tamamla
-          </a>
+          {sozlesme && (
+            <div className="form-control items-center">
+              <label className="label cursor-pointer space-x-2">
+                <input
+                  type="checkbox"
+                  className={`checkbox 
+              `}
+                  // ${effect ? "checkbox-warning stroke-2" : "checkbox-primary"}
+                  // checked={isChecked}
+                  // onChange={handleCheckboxChange}
+                />
+                <a
+                  className={`label-text flex flex-row gap-2`}
+                  // ${effect && "text-red-400"}
+                >
+                  <span
+                    className="text-secondary"
+                    onClick={() => {
+                      // document
+                      //   .getElementById("distance_selling_contract")
+                      //   .showModal();
+                    }}
+                  >
+                    Mesafeli Satış Sözleşmesini
+                  </span>
+                  onaylıyorum.
+                </a>
+              </label>
+            </div>
+          )}
         </div>
       </div>
 

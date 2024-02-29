@@ -5,19 +5,21 @@ export default function Footer() {
   return (
     <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
       <aside className="flex flex-col md:flex-row">
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row w-[300px] md:w-auto items-center gap-3">
           <Link href={"/"}>
             <Image
-              src="/images/gulgonen.svg"
+              src="/images/gulgonen-logo.png"
               alt="GülGönen"
-              className="w-28 md:w-40 h-20 md:h-36 object-cover"
+              className="size-20 md:size-28 object-cover"
               width={"20"}
               height={"20"}
             />
           </Link>
-          <div className="flex flex-col items-start space-y-1">
+          <div className="flex flex-col items-start gap-1">
             <h1>
-              <span className="font-semibold text-base md:text-md">S.S. GülGönen</span>
+              <span className="font-semibold text-base md:text-md">
+                S.S. GülGönen
+              </span>
             </h1>
             <h1>
               <span>Tarımsal Kalkınma Kooperatifi</span>
@@ -25,20 +27,22 @@ export default function Footer() {
           </div>
         </div>
         <div className="divider md:divider-horizontal"></div>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row w-[300px] md:w-auto items-center gap-3">
           <Link href={"https://instagram.com/apadijital/"} target="_blank">
             {/* web site eklenebilir. */}
             <Image
               src="/images/apa.png"
               alt="APA Digital"
-              className="w-16 md:w-24 h-16 md:h-24 object-cover rounded-md"
+              className="size-[70px] w-[80px] md:w-24 md:h-24 object-cover rounded-md"
               width={"20"}
               height={"20"}
             />
           </Link>
-          <div className="flex flex-col items-start ml-5 space-y-1">
+          <div className="flex flex-col items-start gap-1">
             <h1>
-              <span className="font-semibold text-base md:text-md">APA Dijital Ajans</span>
+              <span className="font-semibold text-base md:text-md">
+                APA Dijital Ajans
+              </span>
             </h1>
             <h1>
               <span className="text-md">tarafından geliştirilmiştir.</span>
@@ -95,7 +99,10 @@ export default function Footer() {
               <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
             </svg>
           </a>
-          <a href="https://www.facebook.com/groups/388470874661959/" target="_blank">
+          <a
+            href="https://www.facebook.com/groups/388470874661959/"
+            target="_blank"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

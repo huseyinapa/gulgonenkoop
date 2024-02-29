@@ -207,10 +207,10 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
         </div>
       ) : (
         <div className="mx-auto min-h-[550px] justify-center px-0 md:px-4">
-          <div className="flex flex-row justify-between items-center space-x-6">
+          <div className="flex flex-row justify-center md:justify-between items-center space-x-6">
             {/* // ? Sepetteki ürün listesi */}
             <div>
-              <div className="flex flex-row h-20 items-center justify-between bg-red-100">
+              <div className="flex flex-row h-20 items-center justify-between">
                 <h1 className="text-lg lg:text-2xl font-bold text-secondary">
                   Sepetim ({cartItems.length} Ürün)
                 </h1>
@@ -283,7 +283,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
     return (
       <div
         key={key}
-        className="relative mx-auto bg-white items-stretch lg:items-start w-[350px] md:w-[450px] lg:w-[500px] xl:w-[700px] h-[150px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
+        className="relative mx-auto bg-white items-stretch lg:items-start w-[350px] md:w-[450px] lg:w-[500px] xl:w-[700px] h-[140px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="relative">
           <img
@@ -291,7 +291,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
             alt="Ürün görseli"
             className="w-auto md:w-36 h-[100px] md:h-40 object-contain bg-red-400" //rounded-lg rounded-br-[80px]
           />
-          <div className="absolute bg-secondary w-16 h-8 lg:h-8 p-0 pt-[2px] bottom-3 left-0 rounded-r-xl">
+          <div className="absolute bg-secondary w-14 md:w-16 h-7 lg:h-8 p-0 pt-[1px] md:pt-[2px] bottom-3 left-0 rounded-r-xl">
             <span className="pl-1.5 text-xs md:text-sm lg:text-base text-white font-bold">
               {product.gram} gr
             </span>
