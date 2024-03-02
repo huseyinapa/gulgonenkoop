@@ -19,10 +19,10 @@ export default function Payment() {
 
       <PayHeader />
       <div className="mx-auto">
-        <div className="flex flex-row items-center justify-center space-x-1">
+        {/* <div className="flex flex-row items-center justify-center space-x-1">
           <img className="size-8" src="/images/icons/security-shield.png" />
           <span className="font-semibold">Güvenli Ödeme</span>
-        </div>
+        </div> */}
         <div className="flex flex-row items-start justify-center md:justify-between py-4 px-3 md:p-3 lg:p-8">
           <div className="flex flex-col items-center gap-5 mr-5 w-[350px] md:w-[470px] lg:w-[610px] xl:w-[700px] p-4">
             <div className="flex flex-col items-center justify-center md:flex-row gap-4">

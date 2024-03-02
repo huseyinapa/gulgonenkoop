@@ -27,8 +27,8 @@ export default function Footer() {
           </div>
         </div>
         <div className="divider md:divider-horizontal"></div>
-        <div className="flex flex-row w-[300px] md:w-auto items-center gap-3">
-          <Link href={"https://instagram.com/apadijital/"} target="_blank">
+        <Link href={"https://instagram.com/apadijital/"} target="_blank">
+          <div className="flex flex-row w-[300px] md:w-auto items-center gap-3">
             {/* web site eklenebilir. */}
             <Image
               src="/images/apa.png"
@@ -37,18 +37,18 @@ export default function Footer() {
               width={"20"}
               height={"20"}
             />
-          </Link>
-          <div className="flex flex-col items-start gap-1">
-            <h1>
-              <span className="font-semibold text-base md:text-md">
-                APA Dijital Ajans
-              </span>
-            </h1>
-            <h1>
-              <span className="text-md">tarafından geliştirilmiştir.</span>
-            </h1>
+            <div className="flex flex-col items-start gap-1">
+              <h1>
+                <span className="font-semibold text-base md:text-md">
+                  APA Dijital Ajans
+                </span>
+              </h1>
+              <h1>
+                <span className="text-md">tarafından geliştirilmiştir.</span>
+              </h1>
+            </div>
           </div>
-        </div>
+        </Link>
       </aside>
       <nav className="grid grid-flow-col gap-4">
         <a className="link link-hover">Hakkımızda</a>

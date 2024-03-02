@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function PayHeader({ onClick }) {
+export default function CartHeader({ onClick }) {
   return (
     <div className="navbar justify-between h-36 px-2 md:px-8 shadow-[0_0_5px]">
       {/* Büyük Ekran */}
@@ -23,10 +23,10 @@ export default function PayHeader({ onClick }) {
         </div>
       </div>
       <div className="navbar-center flex justify-center items-center">
-        <div className="flex flex-row items-center justify-center gap-1">
+        {/* <div className="flex flex-row items-center justify-center gap-1">
           <img className="size-8" src="/images/icons/security-shield.png" />
           <span className="font-semibold">Güvenli Ödeme</span>
-        </div>
+        </div> */}
       </div>
       <div className="navbar-end flex">
         <div className="btn btn-circle md:btn-square flex flex-row md:w-[150px]">

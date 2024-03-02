@@ -304,8 +304,12 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
                 {product.name}
               </h2>
               <div className="flex flex-col mt-1 md:mt-2 lg:mt-3 space-y-1">
-                <a className="font-normal text-xs md:text-sm">{product.description}</a>
-                <a className="font-normal text-xs md:text-sm">Kargo firması: PTT Kargo</a>
+                <a className="font-normal text-xs md:text-sm">
+                  {product.description}
+                </a>
+                <a className="font-normal text-xs md:text-sm">
+                  Kargo firması: PTT Kargo
+                </a>
                 {/* <a className="font-normal">Kargo ücreti: Alıcı öder</a> */}
               </div>
             </div>
@@ -337,16 +341,16 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
           <div className="flex flex-row items-center justify-between">
             <div className="btn-group shadow-lg bg-secondary rounded-2xl space-x-1">
               <button
-                className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white"
+                className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
                 // onClick={() => handleDecreaseAmount(item.pid)}
               >
-                -
+                &minus;
               </button>
               <span className="text-xs text-white justify-center">
                 {product.amount}
               </span>
               <button
-                className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white"
+                className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
                 // onClick={() => handleIncreaseAmount(item.id)}
               >
                 +

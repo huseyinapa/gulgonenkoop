@@ -3,10 +3,8 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-import Header from "../components/home/header";
-
+import CartHeader from "./components/header";
 import CartProduct from "./components/cartProduct";
-
 import Footer from "../components/home/footer";
 import BottomNavBar from "../components/bottomNavBar";
 
@@ -153,7 +151,7 @@ function Cart() {
     <main data-theme="garden" className="min-w-fit">
       <Toaster position="bottom-right" reverseOrder={false} />
 
-      <Header />
+      <CartHeader />
       {length === 3333333333333 ? (
         <div className="mx-auto h-60 justify-center">
           <div className="flex flex-col items-center space-y-2">
