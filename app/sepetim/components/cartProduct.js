@@ -141,7 +141,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
 
   const handleUpdateCart = async () => {
     try {
-      const url = `https://www.gonenkleopatra.com/api_kleopatra/cart/aupdate.php`;
+      const url = `https://www.gulgonenkoop.com/api_gulgonen/cart/aupdate.php`;
 
       for (let i = 0; i < cartItems.length; i++) {
         var id = localStorage.getItem("id");

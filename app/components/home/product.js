@@ -1,43 +1,30 @@
-import Link from "next/link";
+import ProductManager from "@/app/utils/product";
+import { useEffect, useState } from "react";
 
 export default function Product() {
-  const products = [
-    {
-      id: "P-234",
-      image: "images/görsel1.jpg",
-      name: "Gül Reçeli",
-      description: "Cam kavanoz doğal gül reçeli",
-      price: "50",
-    },
-    {
-      id: "P-234",
-      image: "images/görsel1.jpg",
-      name: "Gül Reçeli",
-      description: "Cam kavanoz doğal gül reçeli  alçksfhnlasişk hasli kfhas",
-      price: "50",
-    },
-    {
-      id: "P-234",
-      image: "images/görsel1.jpg",
-      name: "Gül Reçeli",
-      description: "Cam kavanoz doğal gül reçeli",
-      price: "50",
-    },
-    {
-      id: "P-234",
-      image: "images/görsel1.jpg",
-      name: "Gül Reçeli",
-      description: "Cam kavanoz doğal gül reçeli",
-      price: "50",
-    },
-    {
-      id: "P-234",
-      image: "images/görsel1.jpg",
-      name: "Gül Reçeli",
-      description: "Cam kavanoz doğal gül reçeli",
-      price: "50",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  const productManager = new ProductManager();
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  async function getProducts() {
+    try {
+      const products = await productManager.fetchProducts();
+      console.log(products);
+
+      if (products !== null) {
+        setProducts(products);
+      } else {
+        // alert("else");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="flex flex-wrap mx-auto my-8 p-4 justify-center sm:items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10 bg-red-200">
       {products.map((product) => (
@@ -49,7 +36,7 @@ export default function Product() {
   function ProductCard({ product }) {
     return (
       <div
-        key={product.pid}
+        key={product.id}
         className="card bg-white text-neutral-content w-[180px] md:w-[260px] lg:w-72 h-[330px] md:h-[400px] lg:h-[450px] shadow-[#FFA4D5] shadow-[0_0_40px_3px]"
       >
         <figure className="relative">
