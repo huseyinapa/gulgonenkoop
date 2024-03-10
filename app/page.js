@@ -6,6 +6,9 @@ import Header from "./components/home/header";
 import Store from "./components/home/store";
 import Footer from "./components/home/footer";
 import Product from "./components/home/product";
+import RegistrationModal from "./components/home/modals/register";
+import LoginModal from "./components/home/modals/login";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -23,8 +26,9 @@ export default function Home() {
   };
 
   return (
-    <main data-theme="garden"  className="min-w-fit">
-      {/* Header */}
+    <main data-theme="garden" className="min-w-fit">
+      <Toaster position="bottom-right" reverseOrder={false} />
+
       <Header onClick={handleScrollToSection} />
       {/* Bölüm 1 */}
       <section id="home">
@@ -35,9 +39,10 @@ export default function Home() {
         <Product />
       </section>
 
-      {/* Bölüm 2 */}
-      <section id="product">{/* <Store /> */}</section>
       <Footer />
+
+      <RegistrationModal />
+      <LoginModal />
     </main>
   );
 }
