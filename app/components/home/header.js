@@ -1,7 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
-export default function PayHeader({ onClick }) {
+import func from "../../functions";
+
+export default function Header({ onClick }) {
+  const [email, setEmail] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+
+    if (storedEmail) {
+      // toast("giriş yapıldı");
+      setEmail(storedEmail);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   return (
     <div className="navbar justify-between h-36 px-2 md:px-8 shadow-[0_0_5px]">
       {/* Büyük Ekran */}
@@ -41,26 +58,67 @@ export default function PayHeader({ onClick }) {
           </svg>
           <div className="text-md hidden md:flex">Hesabım</div>
         </div> */}
-        <div className="flex flex-row gap-2">
-          <div
-            className="btn btn-circle flex flex-row md:w-[150px] bg-secondary"
-            onClick={() => {
-              document.getElementById("register_modal").showModal();
-            }}
-          >
-            <div className="text-md hidden md:flex  text-secondary-content">
-              Kayıt ol
+        {isLoggedIn ? (
+          <div className="flex flex-row gap-2">
+            <div className="btn flex flex-row md:w-[150px] bg-secondary">
+              <div className="text-md hidden md:flex text-white">Sepetim</div>
+            </div>
+            {/* <div className="btn md:w-[150px]">
+              <div className="text-md hidden md:flex">Hesabım</div>
+            </div> */}
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost flex flex-row"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  className="flex size-5 md:size-6 mx-auto"
+                  color="currentColor"
+                >
+                  <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z" />
+                </svg>
+                <div className="md:text-sm lg:text-base hidden md:flex">
+                  {new func().shortenText(email.split("@")[0], 10)}
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a>Sepetim</a>
+                </li>
+                <li>
+                  <a>Çıkış yap</a>
+                </li>
+              </ul>
             </div>
           </div>
-          <div
-            className="btn btn-circle flex flex-row md:w-[150px]"
-            onClick={() => {
-              document.getElementById("login_modal").showModal();
-            }}
-          >
-            <div className="text-md hidden md:flex">Giriş yap</div>
+        ) : (
+          <div className="flex flex-row gap-2">
+            <div
+              className="btn btn-circle flex flex-row md:w-[150px] bg-secondary"
+              onClick={() => {
+                document.getElementById("register_modal").showModal();
+              }}
+            >
+              <div className="text-md hidden md:flex  text-secondary-content">
+                Kayıt ol
+              </div>
+            </div>
+            <div
+              className="btn btn-circle flex flex-row md:w-[150px]"
+              onClick={() => {
+                document.getElementById("login_modal").showModal();
+              }}
+            >
+              <div className="text-md hidden md:flex">Giriş yap</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {/* //// ! profilim, çıkış yap 1vb */}
     </div>

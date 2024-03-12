@@ -29,7 +29,7 @@ class UserService {
         );
 
         // console.log(`Response: ${response.data.data}`);
-        if (response.data.success) {p
+        if (response.data.success) {
           resolve(response);
         } else {
           resolve(null);
