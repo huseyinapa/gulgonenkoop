@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import func from "../../functions";
 
-export default function Header({ onClick }) {
+export default function Header({ onClick, cartItems }) {
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -60,9 +60,23 @@ export default function Header({ onClick }) {
         </div> */}
         {isLoggedIn ? (
           <div className="flex flex-row gap-2">
-            <div className="btn flex flex-row md:w-[150px] bg-secondary">
+            <a className="btn md:w-[150px] bg-secondary" href="/sepetim">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="white"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
               <div className="text-md hidden md:flex text-white">Sepetim</div>
-            </div>
+            </a>
             {/* <div className="btn md:w-[150px]">
               <div className="text-md hidden md:flex">Hesabım</div>
             </div> */}
@@ -89,10 +103,10 @@ export default function Header({ onClick }) {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a>Sepetim</a>
+                  <a onClick={() => {}}>Siparişlerim</a>
                 </li>
                 <li>
-                  <a>Çıkış yap</a>
+                  <a className="text-red-500">Çıkış yap</a>
                 </li>
               </ul>
             </div>

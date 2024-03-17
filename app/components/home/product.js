@@ -1,10 +1,13 @@
+import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Product() {
   const [products, setProducts] = useState([]);
 
   const productManager = new ProductManager();
+  const cartManager = new CartManager();
 
   useEffect(() => {
     getProducts();
@@ -26,7 +29,7 @@ export default function Product() {
   }
 
   return (
-    <div className="flex flex-wrap mx-auto my-8 p-4 justify-center sm:items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10 bg-red-200">
+    <div className="flex flex-wrap mx-auto my-8 p-4 justify-center sm:items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -65,7 +68,7 @@ export default function Product() {
 
           <div className="absolute bg-secondary w-20 lg:w-24 h-8 md:h-10 lg:h-11 pt-[3px] lg:pt-[6px] bottom-3 right-0 rounded-l-xl">
             <span className="pl-4 text-sm md:text-md lg:text-lg font-bold">
-              100 GR
+              {product.size} {product.type}
             </span>
           </div>
         </figure>
@@ -79,7 +82,10 @@ export default function Product() {
           </p>
         </div>
         <div className="card-actions justify-between items-center p-3">
-          <button className="btn btn-xs md:btn-sm lg:btn-md h-8 bg-secondary text-white">
+          <button
+            className="btn btn-xs md:btn-sm lg:btn-md h-8 bg-secondary text-white"
+            onClick={() => handleAddCart(product)}
+          >
             Sepete Ekle
           </button>
           <div className="text-[#8a4269] font-semibold text-base lg:text-lg">
@@ -88,5 +94,55 @@ export default function Product() {
         </div>
       </div>
     );
+  }
+
+  async function handleAddCart(data) {
+    var id = localStorage.getItem("id") ?? null;
+    if (id === null) {
+      toast.error(
+        "Sepete ürün eklemek için kayıt olmanız/giriş yapmanız gerekir."
+      );
+      return;
+    }
+
+    try {
+      const productForm = new FormData();
+      productForm.append("id", data.id);
+
+      const productInCartForm = new FormData();
+      productInCartForm.append("id", id);
+      productInCartForm.append("pid", data.id);
+
+      const productData = await productManager.getProduct(productForm);
+
+      const cartProductData = await cartManager.getProductInCart(
+        productInCartForm
+      );
+
+      if (productData !== null && productData.stock < 1) {
+        // product !== null &&
+        return toast.error("Ürün stokta bulunmuyor.");
+      } else if (
+        cartProductData !== null &&
+        cartProductData.amount >= productData.stock
+      ) {
+        return toast.error(`Stoktaki tutardan fazlası sepete eklenemez.`); // sepette bulunan miktarda eklenebilir.
+      }
+
+      const formData = new FormData();
+      formData.append("id", id); // Müşteri kimliği
+      formData.append("pid", data.id);
+      formData.append("amount", "1");
+      formData.append("date", Date.now().toString());
+
+      await toast.promise(cartManager.add(formData), {
+        loading: "Ekleniyor...",
+        success: "Ürün sepete eklendi!",
+        error: "Ürün sepete eklenemedi.",
+      });
+    } catch (error) {
+      toast.error("Bilinmeyen hata. Kod: PC-HAC");
+      // console.log(error);
+    }
   }
 }

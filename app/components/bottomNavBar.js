@@ -1,14 +1,21 @@
-export default function BottomNavBar({ data, title, sozlesme }) {
+export default function BottomNavBar({ data, title, agreement }) {
+  console.log(data);
+
+  const totalPrice = data.reduce(
+    (total, item) => total + item.price * item.amount,
+    0
+  );
+
   return (
     <div className="sticky bottom-0 md:hidden">
       <div
         className={`btm-nav
-        ${sozlesme ? "h-[220px]" : "h-[190px]"}
+        ${agreement ? "h-[220px]" : "h-[190px]"}
         items-start bg-white shadow-[0_0_10px] shadow-black`}
       >
         <div
           className={`flex flex-col
-          ${sozlesme ? "h-[140px] items-stretch" : "h-[110px] items-stretch"}
+          ${agreement ? "h-[140px] items-stretch" : "h-[110px] items-stretch"}
           justify-center px-4
         `}
         >
@@ -18,7 +25,7 @@ export default function BottomNavBar({ data, title, sozlesme }) {
               <div className="mt-2 space-y-1">
                 <div className="flex flex-row gap-2">
                   <div className="text-sm font-semibold">Toplam KDV dahil:</div>
-                  <div className="text-sm font-semibold">200 TL</div>
+                  <div className="text-sm font-semibold">{totalPrice} TL</div>
                 </div>
                 <div className="flex flex-row gap-2">
                   <div className="text-sm font-semibold">Kargo ücreti:</div>
@@ -26,7 +33,7 @@ export default function BottomNavBar({ data, title, sozlesme }) {
                 </div>
               </div>
             </div>
-            {sozlesme ? (
+            {agreement ? (
               <div className="flex flex-col items-center gap-2">
                 <a
                   className="btn btn-sm h-10 bg-purple-600 text-white"
@@ -47,7 +54,7 @@ export default function BottomNavBar({ data, title, sozlesme }) {
               </a>
             )}
           </div>
-          {sozlesme && (
+          {agreement && (
             <div className="form-control items-center">
               <label className="label cursor-pointer space-x-2">
                 <input

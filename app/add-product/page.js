@@ -67,7 +67,7 @@ function ProductAdd() {
     const pprice = parseInt(price) + kdv;
     // alert(pprice);
     const id = await create.productIdentifier();
-    const date = new Date.now();
+    const date = Date.now().toString();
 
     const productFormData = new FormData();
     productFormData.append("id", id);
@@ -82,7 +82,7 @@ function ProductAdd() {
     productFormData.append("date", date);
 
     try {
-      await toast.promise(productManager.addProduct(productFormData), {
+      await toast.promise(productManager.add(productFormData), {
         loading: "Ekleniyor...",
         success: "Ürün başarıyla eklendi!",
         error: "Ürün sepete eklenemedi.",

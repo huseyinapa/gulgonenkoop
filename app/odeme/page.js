@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import PayHeader from "./components/header";
@@ -8,11 +8,21 @@ import Footer from "../components/home/footer";
 import BottomNavBar from "../components/bottomNavBar";
 
 import Functions from "../functions";
+import Product from "./components/items";
 
 export default function Payment() {
   const [isChecked, setChecked] = useState(false);
+  const [items, setItems] = useState([]);
 
   const handleCheckboxChange = () => setChecked(!isChecked);
+
+  useEffect(() => {
+    const selectedItems = localStorage.getItem("selected.items");
+    const convertedItems = JSON.parse(selectedItems) || [];
+
+    setItems(convertedItems);
+  }, []);
+
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
       <Toaster position="top-center" reverseOrder={false} />
@@ -81,6 +91,8 @@ export default function Payment() {
                 </a>
               </div>
             </div>
+
+            <Product products={items} />
           </div>
 
           {/* //? Ödeme Detay kartı */}
@@ -166,7 +178,7 @@ export default function Payment() {
       </div>
       <Footer />
 
-      <BottomNavBar title={"Ödenecek Tutar"} sozlesme={true} />
+      <BottomNavBar data={[]} title={"Ödenecek Tutar"} agreement={true} />
     </div>
   );
 

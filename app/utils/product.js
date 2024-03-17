@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class ProductManager {
-  addProduct(productData) {
+  add(productData) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
@@ -23,7 +23,7 @@ class ProductManager {
     });
   }
 
-  removeProduct(productData) {
+  remove(productData) {
     return new Promise(async (resolve, reject) => {
       await axios
         .post(
@@ -142,6 +142,8 @@ class ProductManager {
                 description: element.description,
                 price: element.price,
                 stock: element.stock,
+                size: element.size,
+                type: element.type,
                 image: element.image,
                 index: index,
               });

@@ -2,114 +2,22 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Image from "next/image";
-
 import toast, { Toaster } from "react-hot-toast";
 
-function CartProduct({ cartProducts, setCartItem, setCompleted }) {
-  const [check, setCheck] = useState(false);
-
-  const [cartItems, setCartItems] = useState([
-    {
-      id: "12",
-      pid: "kle13",
-      amount: 12,
-      stock: 12,
-      image: "12",
-      name: "Gül Reçeli",
-      description: "250 ML cam şişede sunulan doğal gül reçeli.",
-      price: "300",
-      gram: "100", //!
-    },
-    {
-      id: "12",
-      pid: "kle13",
-      amount: 12,
-      stock: 12,
-      image: "12",
-      name: "Gül Reçeli",
-      description: "250 ML cam şişede sunulan doğal gül reçeli.",
-      price: "300",
-      gram: "250", //!
-    },
-  ]);
-  const [length, setLength] = useState(3333333333333);
+function CartProduct({
+  cartProducts,
+  setCartItem,
+  setCompleted,
+  selectedItems,
+  setSelectedItems,
+}) {
+  const [selected, setSelect] = useState(selectedItems);
+  const [cartItems, setCartItems] = useState(cartProducts);
 
   useEffect(() => {
-    // setCartItems(cartProducts);
-    setLength(cartProducts.length);
     // fetchCartItems();
     // console.log(cartItems.map((e) => e).join(", "));
   }, []);
-
-  const fetchCartItems = async () => {
-    try {
-      const id = localStorage.getItem("id");
-
-      const formData = new FormData();
-      formData.append("id", id);
-
-      const response = await cartManager.fetchCart(formData);
-
-      // console.log(`RESPONSEİ: ${response}`);
-
-      if (response !== null) {
-        // console.log("cart items: ", response);
-        const products = [];
-
-        for (let i = 0; i < response.length; i++) {
-          // console.log(response[i].pid);
-          const formPData = new FormData();
-          formPData.append("id", response[i].pid);
-          let product = await productManager.getProduct(formPData);
-
-          products.push({
-            ...product,
-
-            // id: product.id,
-            // name: product.name,
-            // description: product.description,
-            // price: product.price,
-            // stock: product.stock,
-            // featured: product.featured,
-            // image: product.image,
-
-            pid: response[i].pid, // kaldırılabilir, yerine id kullanılır.
-            amount: response[i].amount,
-          });
-        }
-
-        // for (let ix = 0; ix < products.length; ix++) {
-        //   const element = products[ix];
-        //   console.log(`PRODUCTS: ${element}`);
-        // }
-        setCartItem(products);
-        setCartItems(products);
-        // setLength(products.length);
-        // const totalPrice = products.reduce(
-        //   (total, item) => total + item.price * item.amount,
-        //   0
-        // );
-        // console.log(products);
-
-        setCompleted((prevCompleted) => ({
-          ...prevCompleted,
-          product: true,
-        }));
-      } else {
-        // console.log(response);
-        setCompleted((prevCompleted) => ({
-          ...prevCompleted,
-          product: false,
-        }));
-        setLength(0);
-        // alert("Bilinmeyen sorun oluştu!");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Bilinmeyen hata: " + error);
-    }
-  };
 
   const handleDecreaseAmount = (itemId) => {
     setCartItems((prevCartItems) =>
@@ -158,7 +66,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
 
         if (response.product.success) {
           if (i + 1 === cartItems.length) {
-            fetchCartItems();
+            // fetchCartItems();
             toast.success("Sepetiniz güncellendi!");
           }
         } else {
@@ -189,97 +97,131 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
     } else toast.error("Ürün sepetinizden kaldırılamadı.");
   }
 
+  const totalPrice = selected.reduce(
+    (total, item) => total + item.price * item.amount,
+    0
+  );
+
   return (
     <div className="mx-auto min-w-fit md:min-w-full h-auto">
       <Toaster position="bottom-right" reverseOrder={false} />
 
-      {length === 0 ? (
-        <div className="container mx-auto h-52 w-auto justify-center items-center">
-          <div className="flex flex-col space-y-4 w-60 mt-5 justify-center items-center">
-            <Image
-              alt="sepetboş"
-              src="/images/icons/cart-2.png"
-              width={64}
-              height={64}
-            />
-            <p className="text-center text-gray-600">Sepetiniz boş.</p>
-          </div>
-        </div>
-      ) : (
-        <div className="mx-auto min-h-[550px] justify-center px-0 md:px-4">
-          <div className="flex flex-row justify-center md:justify-between items-center space-x-6">
-            {/* // ? Sepetteki ürün listesi */}
-            <div>
-              <div className="flex flex-row h-20 items-center justify-between">
-                <h1 className="text-lg lg:text-2xl font-bold text-secondary">
-                  Sepetim ({cartItems.length} Ürün)
-                </h1>
-                <div className="form-control mr-3 items-center">
-                  <label className="cursor-pointer label  space-x-2">
-                    <span className="label-text font-medium lg:text-md">
-                      Tümünü seç
-                    </span>
-                    <input
-                      type="checkbox"
-                      checked={check ? "checked" : ""}
-                      className="checkbox checkbox-lg checkbox-secondary"
-                      onChange={() => {
-                        setCheck(!check); // sepet listesine  ekleme işlemi burada
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
-                {cartItems.map((item) =>
-                  ProductCard({ key: item.pid, product: item })
-                )}
-              </div>
-            </div>
-            {/* //? Ödeme Detay kartı */}
-            <div className="card hidden md:flex w-72 md:w-[200px] lg:w-[300px] md:h-[250px] lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
-              <div className="card-title text-lg md:text-lg lg:text-2xl py-3 justify-center">
-                Seçilen Ürünler ({cartItems.length})
-              </div>
-              <div className="card-body justify-between items-center p-0 px-3">
-                {/* //! Seçilen ürünlerin fiyatını anlık olarak güncelle */}
-                <div className="flex flex-col justify-between">
-                  <div className="flex flex-row justify-between">
-                    <a className="font-medium lg:font-semibold">Ürünler:</a>
-                    <a className="">200 TL</a>
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <a className="font-medium lg:font-semibold">
-                      Kargo ücreti:
-                    </a>
-                    <a className="">Alıcı öder</a>
-                  </div>
-                  <div className="divider divider-secondary h-0" />
-                  <div className="flex flex-row justify-between">
-                    <h1 className="font-medium lg:font-semibold">
-                      Toplam tutar + KDV:
-                    </h1>
-                    <a className="">200 TL</a>
-                  </div>
-                </div>
-              </div>
-              <div className="card-actions justify-center p-4">
-                <a
-                  className="btn btn-sm md:h-10 lg:btn-md bg-success text-white"
-                  onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                  href="/odeme" //! daha sonra kaldırılacak
-                >
-                  Alışverişi tamamla
-                </a>
+      <div className="mx-auto min-h-[550px] justify-center px-0 md:px-4">
+        <div className="flex flex-row justify-center md:justify-between items-center space-x-6">
+          {/* // ? Sepetteki ürün listesi */}
+          <div>
+            <div className="flex flex-row h-20 items-center justify-between">
+              <h1 className="text-lg lg:text-2xl font-bold text-secondary">
+                Sepetim ({selected.length} Ürün)
+              </h1>
+              <div className="form-control mr-3 items-center">
+                <label className="cursor-pointer label  space-x-2">
+                  <span className="label-text font-medium lg:text-md">
+                    Tümünü seç
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={
+                      cartItems.length === selected.length ? "checked" : ""
+                    }
+                    className="checkbox checkbox-lg checkbox-secondary"
+                    onChange={() => {
+                      // setCheck(!check); // sepet listesine  ekleme işlemi burada
+                      // console.log(cartItems.length);
+
+                      if (cartItems.length === selected.length) {
+                        setSelectedItems([]);
+                        setSelect([]);
+                        return;
+                      }
+
+                      const arr = [];
+
+                      for (let index = 0; index < cartItems.length; index++) {
+                        const element = cartItems[index];
+
+                        // console.log(element);
+                        // console.log(selected);
+
+                        arr.push(element);
+                      }
+                      // console.log(arr);
+
+                      setSelect(arr);
+                      setSelectedItems(arr);
+                    }}
+                  />
+                </label>
               </div>
             </div>
+            <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
+              {cartItems.map((item) =>
+                ProductCard({
+                  key: item.pid,
+                  product: item,
+                  selected: selected,
+                })
+              )}
+            </div>
+          </div>
+          {/* //? Ödeme Detay kartı */}
+          <div className="card hidden md:flex w-72 md:w-[200px] lg:w-[300px] md:h-[250px] lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
+            <div className="card-title text-lg md:text-lg lg:text-2xl py-5 justify-center">
+              Seçilen Ürünler ({selectedItems.length})
+            </div>
+            <div className="card-body justify-between items-center p-0">
+              {/* //! Seçilen ürünlerin fiyatını anlık olarak güncelle */}
+              <div className="flex flex-col justify-between">
+                <div className="flex flex-row justify-between">
+                  <a className="font-medium lg:font-semibold">Ürünler:</a>
+                  <a className="">{totalPrice} TL</a>
+                </div>
+                <div className="flex flex-row justify-between">
+                  <a className="font-medium lg:font-semibold">Kargo ücreti:</a>
+                  <a className="">Alıcı öder</a>
+                </div>
+                <div className="divider divider-secondary h-0" />
+                <div className="flex flex-row justify-between">
+                  <h1 className="font-medium lg:font-semibold">
+                    Toplam tutar + KDV:
+                  </h1>
+                  <a className="">{totalPrice} TL</a>
+                </div>
+              </div>
+            </div>
+            <div className="card-actions justify-center p-4">
+              <a
+                className="btn btn-sm md:h-10 lg:btn-md bg-success text-white"
+                onClick={() => {
+                  if (selected.length > 0) {
+                    localStorage.setItem(
+                      "selected.items",
+                      JSON.stringify(selected)
+                    );
+                    // var items = localStorage.getItem("selected.items");
+
+                    // console.log(items);
+
+                    window.location.href = "/odeme";
+                  } else
+                    return toast.error(
+                      "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin."
+                    );
+                }} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                // href="/odeme" //! daha sonra kaldırılacak
+              >
+                Alışverişi tamamla
+              </a>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 
   function ProductCard({ key, product }) {
+    // console.log(product);
+
     return (
       <div
         key={key}
@@ -293,7 +235,7 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
           />
           <div className="absolute bg-secondary w-14 md:w-16 h-7 lg:h-8 p-0 pt-[1px] md:pt-[2px] bottom-3 left-0 rounded-r-xl">
             <span className="pl-1.5 text-xs md:text-sm lg:text-base text-white font-bold">
-              {product.gram} gr
+              {product.size} {product.type}
             </span>
           </div>
         </figure>
@@ -329,10 +271,22 @@ function CartProduct({ cartProducts, setCartItem, setCompleted }) {
               </div>
               <input
                 type="checkbox"
-                checked={check ? "checked" : ""}
+                checked={selected.includes(product) ? "checked" : ""}
                 className="checkbox checkbox-md md:checkbox-lg checkbox-secondary"
                 onChange={() => {
-                  setCheck(!check); // sepet listesine  ekleme işlemi burada
+                  // setCheck(!check); // sepet listesine  ekleme işlemi burada
+                  // console.log(selected);
+
+                  if (selected.includes(product)) {
+                    setSelect([...selected.filter((item) => item !== product)]);
+                    setSelectedItems([
+                      ...selected.filter((item) => item !== product),
+                    ]);
+                  } else {
+                    setSelect([...selected, product]);
+                    setSelectedItems([...selected, product]);
+                  }
+                  // console.log(selected);
                 }}
               />
             </div>
