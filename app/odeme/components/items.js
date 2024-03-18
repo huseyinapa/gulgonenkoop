@@ -1,8 +1,10 @@
 // var items = localStorage.getItem("selected.items");
 export default function Product({ products }) {
   return (
-    <div className="">
+    <div className="bg-white w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] rounded-2xl">
       {/* Ürün sayısı vs dışı çizgi falan filan düzenleme */}
+
+      <div className="card-title m-4 text-secondary">Teslim edilecek ürün(ler)</div>
       <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
         {products.map((item) =>
           ProductCard({
@@ -20,7 +22,7 @@ export default function Product({ products }) {
     return (
       <div
         key={key}
-        className="relative mx-auto bg-white items-stretch lg:items-start w-[250px] md:w-[350px] lg:w-[400px] xl:w-[600px] h-[140px] md:h-48 lg:h-48 xl:h-40 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
+        className="relative mx-auto bg-white items-stretch lg:items-start w-[150px] md:w-[250px] lg:w-[300px] xl:w-[500px] h-[140px] md:h-48 lg:h-48 xl:h-40 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="">
           <img
