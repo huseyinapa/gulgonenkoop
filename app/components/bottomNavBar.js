@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export default function BottomNavBar({ data, title, agreement }) {
   console.log(data);
 
@@ -47,8 +49,22 @@ export default function BottomNavBar({ data, title, agreement }) {
             ) : (
               <a
                 className="btn btn-sm h-10 bg-success text-white"
-                onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                href="/odeme" //! daha sonra kaldırılacak
+                onClick={() => {
+                  if (data.length > 0) {
+                    localStorage.setItem(
+                      "selected.items",
+                      JSON.stringify(data)
+                    );
+                    // var items = localStorage.getItem("selected.items");
+
+                    // console.log(items);
+
+                    window.location.href = "/odeme";
+                  } else
+                    return toast.error(
+                      "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin."
+                    );
+                }}
               >
                 Alışverişi tamamla
               </a>

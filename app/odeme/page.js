@@ -23,6 +23,11 @@ export default function Payment() {
     setItems(convertedItems);
   }, []);
 
+  const totalPrice = items.reduce(
+    (total, item) => total + item.price * item.amount,
+    0
+  );
+
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
       <Toaster position="top-center" reverseOrder={false} />
@@ -105,7 +110,7 @@ export default function Payment() {
               <div className="flex flex-col justify-between">
                 <div className="flex flex-row justify-between">
                   <a className="font-medium lg:font-semibold">Ürünler:</a>
-                  <a className="">200 TL</a>
+                  <a className="">{totalPrice} TL</a>
                 </div>
                 <div className="flex flex-row justify-between">
                   <a className="font-medium lg:font-semibold">Kargo ücreti:</a>
@@ -116,7 +121,7 @@ export default function Payment() {
                   <h1 className="font-medium lg:font-semibold">
                     Toplam tutar + KDV:
                   </h1>
-                  <a className="">200 TL</a>
+                  <a className="">{totalPrice} TL</a>
                 </div>
               </div>
               {/* <div className="flex flex-row justify-between">
@@ -178,7 +183,7 @@ export default function Payment() {
       </div>
       <Footer />
 
-      <BottomNavBar data={[]} title={"Ödenecek Tutar"} agreement={true} />
+      <BottomNavBar data={items} title={"Ödenecek Tutar"} agreement={true} />
     </div>
   );
 
@@ -187,6 +192,7 @@ export default function Payment() {
 
     return output;
   }
+
   function transfer(text, copyData) {
     return (
       <div className="flex flex-row items-center gap-2">

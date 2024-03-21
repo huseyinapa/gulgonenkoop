@@ -3,16 +3,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import CartManager from "@/app/utils/cart";
+import ProductManager from "@/app/utils/product";
 
-function CartProduct({
-  cartProducts,
-  setCartItem,
-  setCompleted,
-  selectedItems,
-  setSelectedItems,
-}) {
+function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
   const [selected, setSelect] = useState(selectedItems);
   const [cartItems, setCartItems] = useState(cartProducts);
+
+  const cartManager = new CartManager();
+  const productManager = new ProductManager();
 
   useEffect(() => {
     // fetchCartItems();
@@ -20,6 +19,22 @@ function CartProduct({
   }, []);
 
   const handleDecreaseAmount = (itemId) => {
+    setSelect((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.pid === itemId
+          ? { ...item, amount: item.amount > 1 ? item.amount - 1 : item.amount }
+          : item
+      )
+    );
+
+    setSelectedItems((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.pid === itemId
+          ? { ...item, amount: item.amount > 1 ? item.amount - 1 : item.amount }
+          : item
+      )
+    );
+
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) =>
         item.pid === itemId
@@ -32,7 +47,36 @@ function CartProduct({
   const handleIncreaseAmount = async (itemId) => {
     const form = new FormData();
     form.append("id", itemId);
+
     const product = await productManager.getProduct(form);
+
+    console.log(selected);
+
+    setSelect((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.pid === itemId
+          ? {
+              ...item,
+              amount:
+                item.amount < product.stock ? item.amount + 1 : item.amount,
+            }
+          : item
+      )
+    );
+
+    setSelectedItems((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.pid === itemId
+          ? {
+              ...item,
+              amount:
+                item.amount < product.stock ? item.amount + 1 : item.amount,
+            }
+          : item
+      )
+    );
+
+    console.log(selected);
 
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) =>
@@ -207,8 +251,7 @@ function CartProduct({
                     return toast.error(
                       "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin."
                     );
-                }} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                // href="/odeme" //! daha sonra kaldırılacak
+                }}
               >
                 Alışverişi tamamla
               </a>
@@ -220,7 +263,7 @@ function CartProduct({
   );
 
   function ProductCard({ key, product }) {
-    // console.log(product);
+    console.log(product);
 
     return (
       <div
@@ -271,7 +314,7 @@ function CartProduct({
               </div>
               <input
                 type="checkbox"
-                checked={selected.includes(product) ? "checked" : ""}
+                checked={selected.map((item) => item.pid).includes(product.pid)}
                 className="checkbox checkbox-md md:checkbox-lg checkbox-secondary"
                 onChange={() => {
                   // setCheck(!check); // sepet listesine  ekleme işlemi burada
@@ -296,7 +339,7 @@ function CartProduct({
             <div className="btn-group shadow-lg bg-secondary rounded-2xl space-x-1">
               <button
                 className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
-                // onClick={() => handleDecreaseAmount(item.pid)}
+                onClick={() => handleDecreaseAmount(product.pid)}
               >
                 &minus;
               </button>
@@ -305,7 +348,7 @@ function CartProduct({
               </span>
               <button
                 className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
-                // onClick={() => handleIncreaseAmount(item.id)}
+                onClick={() => handleIncreaseAmount(product.id)}
               >
                 +
               </button>

@@ -1,22 +1,34 @@
 // var items = localStorage.getItem("selected.items");
 export default function Product({ products }) {
+  const totalPrice = products.reduce(
+    (total, item) => total + item.price * item.amount,
+    0
+  );
   return (
     <div className="bg-white w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] rounded-2xl">
       {/* Ürün sayısı vs dışı çizgi falan filan düzenleme */}
-
-      <div className="card-title m-4 text-secondary">Teslim edilecek ürün(ler)</div>
-      <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
+      <div className="flex flex-row justify-between px-2">
+        <div className="card-title m-4 text-secondary">Seçilen ürün(ler)</div>
+        <a
+          className="btn btn-ghost font-semibold text-lg m-4 text-purple-600 cursor-pointer"
+          href="/sepetim"
+        >
+          Düzenle
+        </a>
+      </div>
+      <div className="flex-wrap grid grid-cols-1 justify-center items-end gap-4">
         {products.map((item) =>
           ProductCard({
             key: item.pid,
             product: item,
+            totalPrice: totalPrice,
           })
         )}
       </div>
     </div>
   );
 
-  function ProductCard({ key, product }) {
+  function ProductCard({ key, product, totalPrice }) {
     // console.log(product);
 
     return (
@@ -55,7 +67,7 @@ export default function Product({ products }) {
             </span>
             <div className="">
               <a className="text-sm md:text-base font-semibold text-secondary">
-                Toplam: {product.price} TL
+                Toplam: {totalPrice} TL
               </a>
             </div>
           </div>
