@@ -9,10 +9,17 @@ import BottomNavBar from "../components/bottomNavBar";
 
 import Functions from "../functions";
 import Product from "./components/items";
+import AddressModal from "./components/addressModal";
+import axios from "axios";
 
 export default function Payment() {
   const [isChecked, setChecked] = useState(false);
   const [items, setItems] = useState([]);
+
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+
+  const [userIp, setUserIp] = useState("");
 
   const handleCheckboxChange = () => setChecked(!isChecked);
 
@@ -21,7 +28,15 @@ export default function Payment() {
     const convertedItems = JSON.parse(selectedItems) || [];
 
     setItems(convertedItems);
+
+    getIP();
+    setCity();
   }, []);
+
+  const getIP = async () => {
+    const res = await axios.get("https://api.ipify.org/?format=json");
+    setUserIp(res.data.ip);
+  };
 
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.amount,
@@ -41,34 +56,24 @@ export default function Payment() {
         <div className="flex flex-row items-start justify-center md:justify-between py-4 px-3 md:p-3 lg:p-8">
           <div className="flex flex-col items-center gap-5 mr-5 w-[350px] md:w-[470px] lg:w-[610px] xl:w-[700px] p-4">
             <div className="flex flex-col items-center justify-center md:flex-row gap-4">
-              <div className="card p-2 w-[320px] md:w-[220px] lg:w-[280px] xl:w-[300px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
+              <div className="card p-2 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
                 <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
                   Teslimat Adresim
                 </div>
                 <div className="card-body p-0 pt-1 md:pt-2 pl-3">
                   <div className="text-sm lg:text-base">
-                    {shortenText(
-                      "Bilmemne mahallesi aslgfkhalsşjkfh asdfghjkl asfasf asdasfsdfgh Kadıköy/İstanbul"
-                    )}
+                    {shortenText("Adres eklenmemiş")}
                   </div>
                 </div>
                 <div className="card-actions justify-end pr-2 pb-2">
-                  <div className="btn btn-sm">Adres ekle/değiştir</div>
-                </div>
-              </div>
-              <div className="card p-2 w-[320px] md:w-[220px] lg:w-[280px] xl:w-[300px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
-                <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
-                  Fatura Adresim
-                </div>
-                <div className="card-body p-0 pt-1 md:pt-2 pl-3">
-                  <div className="text-sm lg:text-base">
-                    {shortenText(
-                      "Bilmemne mahallesi aslgfkhalsşjkfh Kadıköy/İstanbul"
-                    )}
-                  </div>
-                </div>
-                <div className="card-actions justify-end pr-2 pb-2">
-                  <div className="btn btn-sm">Adres ekle/değiştir</div>
+                  <a
+                    className="btn btn-sm"
+                    onClick={() => {
+                      document.getElementById("address_modal").showModal();
+                    }}
+                  >
+                    Adres ekle/değiştir
+                  </a>
                 </div>
               </div>
             </div>
@@ -184,6 +189,8 @@ export default function Payment() {
       <Footer />
 
       <BottomNavBar data={items} title={"Ödenecek Tutar"} agreement={true} />
+
+      <AddressModal cities={cities} districts={districts} />
     </div>
   );
 
@@ -218,5 +225,28 @@ export default function Payment() {
         />
       </div>
     );
+  }
+
+  async function setCity() {
+    const api_cities = await fetch("/api/address");
+    const cities = await api_cities.json();
+
+    const storedCity = localStorage.getItem("city");
+
+    // console.log(api_cities);
+
+    const sortedCities = cities;
+    // .slice()
+    // .sort((a, b) => a.name.localeCompare(b.name));
+
+    setCities(sortedCities);
+
+    for (let index = 0; index < sortedCities.length; index++) {
+      if (sortedCities[index]["name"] === storedCity) {
+        const api_districts = sortedCities[index]["districts"];
+        setDistricts(api_districts || []);
+        break;
+      }
+    }
   }
 }
