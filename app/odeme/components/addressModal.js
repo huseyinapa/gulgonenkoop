@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function AddressModal() {
+export default function AddressModal({ setAddress }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
 
@@ -11,14 +11,41 @@ export default function AddressModal() {
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
+    localStorage.removeItem("city");
+    localStorage.removeItem("district");
+
     setCity();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // _paymentData(paymentData);
-    // alert(e.target.value);
-    toast.success("Adresiniz onaylandı! Bir sonraki adıma geçebilirsiniz.");
+
+    // console.log(name);
+    // console.log(surname);
+    // console.log(phone);
+    // console.log(identityNumber);
+    // console.log(city);
+    // console.log(district);
+    // console.log(address);
+    // console.log(zipCode);
+
+    if (
+      name &&
+      surname &&
+      phone &&
+      identityNumber &&
+      city !== "İl Seçiniz" &&
+      district !== "İlçe Seçiniz" &&
+      address &&
+      zipCode
+    ) {
+      setAddress(userInfo);
+      toast.success("Teslimat bilgileri kaydedildi.");
+      document.getElementById("address_modal").close();
+    } else {
+      setAddress({});
+      toast.error("Teslimat bilgileri kaydedilemedi");
+    }
   };
 
   const {
@@ -38,7 +65,7 @@ export default function AddressModal() {
       [field]: value,
     }));
 
-    localStorage.setItem(field, value);
+    // localStorage.setItem(field, value);
 
     setAddressData(userInfo);
 
@@ -48,39 +75,50 @@ export default function AddressModal() {
   return (
     <dialog id="address_modal" className="modal modal-bottom md:modal-middle">
       <div className="modal-box space-y-3">
-        <h3 className="font-bold text-lg text-center">Teslimat Adresi</h3>
+        <h3 className="sticky font-bold text-lg text-center">
+          Teslimat Adresi
+        </h3>
         <form onSubmit={handleSubmit}>
-          <div className="grid gap-3 lg:gap-4 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 place-items-center">
-            <div className="w-[200px]">
-              <label htmlFor="name" className="text-gray-600">
+          <div className="grid gap-3 lg:gap-4 grid-cols-2 lg:grid-cols-2 place-items-center">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="name"
+                className="text-sm md:text-base text-gray-600"
+              >
                 İsim
               </label>
               <input
                 type="name"
                 id="name"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                // value={name}
-                // onChange={(e) => handleUserInfoChange("name", e.target.value)}
+                value={name}
+                onChange={(e) => handleUserInfoChange("name", e.target.value)}
                 required
               />
             </div>
-            <div className="w-[200px]">
-              <label htmlFor="surname" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="surname"
+                className="text-sm md:text-base text-gray-600"
+              >
                 Soyisim
               </label>
               <input
                 type="surname"
                 id="surname"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                // value={surname}
-                // onChange={(e) =>
-                //   handleUserInfoChange("surname", e.target.value)
-                // }
+                value={surname}
+                onChange={(e) =>
+                  handleUserInfoChange("surname", e.target.value)
+                }
                 required
               />
             </div>
-            <div className="w-[200px]">
-              <label htmlFor="phone" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="phone"
+                className="text-sm md:text-base text-gray-600"
+              >
                 Telefon Numarası
               </label>
               <input
@@ -88,13 +126,16 @@ export default function AddressModal() {
                 id="phone"
                 placeholder="+90..."
                 className="border border-gray-300 p-2 rounded-md w-full"
-                // value={phone}
-                // onChange={(e) => handleUserInfoChange("phone", e.target.value)}
+                value={phone}
+                onChange={(e) => handleUserInfoChange("phone", e.target.value)}
                 required
               />
             </div>
-            <div className="w-[200px]">
-              <label htmlFor="identityNumber" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="identityNumber"
+                className="text-sm md:text-base text-gray-600"
+              >
                 T.C. Kimlik Numarası
               </label>
               <input
@@ -102,19 +143,22 @@ export default function AddressModal() {
                 type="text"
                 name="identityNumber"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                // value={identityNumber}
-                // onChange={(e) => {
-                //   const inputValue = e.target.value;
-                //   // Girilen değer yalnızca rakamlardan oluşuyorsa
-                //   if (/^\d*$/.test(inputValue)) {
-                //     handleUserInfoChange("identityNumber", inputValue);
-                //   }
-                // }}
+                value={identityNumber}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Girilen değer yalnızca rakamlardan oluşuyorsa
+                  if (/^\d*$/.test(inputValue)) {
+                    handleUserInfoChange("identityNumber", inputValue);
+                  }
+                }}
                 required
               />
             </div>
-            <div className="w-[200px]">
-              <label htmlFor="city" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="city"
+                className="text-sm md:text-base text-gray-600"
+              >
                 İl Seçiniz
               </label>
               <select
@@ -135,8 +179,11 @@ export default function AddressModal() {
               </select>
             </div>
             {/* {districts.length > 0 && ( */}
-            <div className="w-[200px]">
-              <label htmlFor="district" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="district"
+                className="text-sm md:text-base text-gray-600"
+              >
                 İlçe Seçiniz
               </label>
               <select
@@ -158,21 +205,29 @@ export default function AddressModal() {
             </div>
             {/* // )} */}
 
-            <div className="w-[200px]">
-              <label htmlFor="address" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="address"
+                className="text-sm md:text-base text-gray-600"
+              >
                 Adresiniz
               </label>
               <input
                 type="text"
                 id="address"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                // value={address}
-                // onChange={handleAddressChange}
+                value={address || ""}
+                onChange={(e) =>
+                  handleUserInfoChange("address", e.target.value)
+                }
                 required
               />
             </div>
-            <div className="w-[200px]">
-              <label htmlFor="zipCode" className="text-gray-600">
+            <div className="w-[150px] md:w-[200px]">
+              <label
+                htmlFor="zipCode"
+                className="text-sm md:text-base text-gray-600"
+              >
                 Posta Kodu
               </label>
               <input
@@ -180,10 +235,10 @@ export default function AddressModal() {
                 type="number"
                 name="zipCode"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                // value={zipCode}
-                // onChange={(e) =>
-                //   handleUserInfoChange("zipCode", e.target.value)
-                // }
+                value={zipCode}
+                onChange={(e) =>
+                  handleUserInfoChange("zipCode", e.target.value)
+                }
                 required
               />
             </div>
@@ -246,6 +301,7 @@ export default function AddressModal() {
 
   async function handleCitySelect(city) {
     handleUserInfoChange("city", city);
+
     const api_cities = await fetch("/api/address");
     const cities = (await api_cities.json()).data;
 
@@ -258,8 +314,9 @@ export default function AddressModal() {
     }
 
     handleUserInfoChange("district", null);
-    // localStorage.setItem("city", city);
-    // localStorage.removeItem("district");
+
+    localStorage.setItem("city", city);
+    localStorage.removeItem("district");
   }
 
   async function handleDistrictSelect(district) {

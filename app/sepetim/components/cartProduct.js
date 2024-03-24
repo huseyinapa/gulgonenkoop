@@ -320,11 +320,13 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
                   // setCheck(!check); // sepet listesine  ekleme işlemi burada
                   // console.log(selected);
 
-                  if (selected.includes(product)) {
-                    setSelect([...selected.filter((item) => item !== product)]);
-                    setSelectedItems([
-                      ...selected.filter((item) => item !== product),
-                    ]);
+                  if (selected.map((item) => item.pid).includes(product.pid)) {
+                    setSelect(
+                      selected.filter((item) => item.pid !== product.pid)
+                    );
+                    setSelectedItems(
+                      selected.filter((item) => item.pid !== product.pid)
+                    );
                   } else {
                     setSelect([...selected, product]);
                     setSelectedItems([...selected, product]);

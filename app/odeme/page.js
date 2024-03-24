@@ -16,8 +16,7 @@ export default function Payment() {
   const [isChecked, setChecked] = useState(false);
   const [items, setItems] = useState([]);
 
-  const [cities, setCities] = useState([]);
-  const [districts, setDistricts] = useState([]);
+  const [address, setAddress] = useState({});
 
   const [userIp, setUserIp] = useState("");
 
@@ -30,7 +29,6 @@ export default function Payment() {
     setItems(convertedItems);
 
     getIP();
-    setCity();
   }, []);
 
   const getIP = async () => {
@@ -61,8 +59,21 @@ export default function Payment() {
                   Teslimat Adresim
                 </div>
                 <div className="card-body p-0 pt-1 md:pt-2 pl-3">
+                  <div className="flex flex-row gap-4">
+                    <div className="text-sm lg:text-base">
+                      Müşteri Adı: {shortenText(`${address["name"]} ${address["surname"]}`)}
+                    </div>
+                    <div className="text-sm lg:text-base">
+                      {shortenText(`${address["identityNumber"]}`)}
+                    </div>
+                  </div>
                   <div className="text-sm lg:text-base">
-                    {shortenText("Adres eklenmemiş")}
+                    {shortenText(
+                      address["address"] ?? "Adres bilgileri bulunmuyor"
+                    )}
+                  </div>
+                  <div className="text-sm lg:text-base">
+                    {shortenText(`${address["district"]}/${address["city"]}`)}
                   </div>
                 </div>
                 <div className="card-actions justify-end pr-2 pb-2">
@@ -190,7 +201,7 @@ export default function Payment() {
 
       <BottomNavBar data={items} title={"Ödenecek Tutar"} agreement={true} />
 
-      <AddressModal cities={cities} districts={districts} />
+      <AddressModal setAddress={setAddress} />
     </div>
   );
 
@@ -225,28 +236,5 @@ export default function Payment() {
         />
       </div>
     );
-  }
-
-  async function setCity() {
-    const api_cities = await fetch("/api/address");
-    const cities = await api_cities.json();
-
-    const storedCity = localStorage.getItem("city");
-
-    // console.log(api_cities);
-
-    const sortedCities = cities;
-    // .slice()
-    // .sort((a, b) => a.name.localeCompare(b.name));
-
-    setCities(sortedCities);
-
-    for (let index = 0; index < sortedCities.length; index++) {
-      if (sortedCities[index]["name"] === storedCity) {
-        const api_districts = sortedCities[index]["districts"];
-        setDistricts(api_districts || []);
-        break;
-      }
-    }
   }
 }
