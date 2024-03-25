@@ -41,6 +41,8 @@ export default function Payment() {
     0
   );
 
+  console.log(address);
+
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
       <Toaster position="top-center" reverseOrder={false} />
@@ -59,26 +61,43 @@ export default function Payment() {
                   Teslimat Adresim
                 </div>
                 <div className="card-body p-0 pt-1 md:pt-2 pl-3">
-                  <div className="flex flex-row gap-4">
+                  {Object.keys(address).length === 0 ? (
                     <div className="text-sm lg:text-base">
-                      Müşteri Adı: {shortenText(`${address["name"]} ${address["surname"]}`)}
+                      Adres girilmemiş.
                     </div>
-                    <div className="text-sm lg:text-base">
-                      {shortenText(`${address["identityNumber"]}`)}
-                    </div>
-                  </div>
-                  <div className="text-sm lg:text-base">
-                    {shortenText(
-                      address["address"] ?? "Adres bilgileri bulunmuyor"
-                    )}
-                  </div>
-                  <div className="text-sm lg:text-base">
-                    {shortenText(`${address["district"]}/${address["city"]}`)}
-                  </div>
+                  ) : (
+                    <>
+                      <div className="flex flex-row gap-4">
+                        <div className="text-sm lg:text-base">
+                          Müşteri Adı:
+                          {shortenText(
+                            `${address["name"]} ${address["surname"]}`
+                          )}
+                        </div>
+                        <div className="text-sm lg:text-base">
+                          {shortenText(`${address["identityNumber"]}`)}
+                        </div>
+                      </div>
+                      <div className="text-sm lg:text-base">
+                        {shortenText(
+                          address["address"] ?? "Adres bilgileri bulunmuyor"
+                        )}
+                      </div>
+                      <div className="text-sm lg:text-base">
+                        {shortenText(
+                          `${address["district"]}/${address["city"]}`
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="card-actions justify-end pr-2 pb-2">
                   <a
-                    className="btn btn-sm"
+                    className={`btn btn-sm ${
+                      Object.keys(address).length === 0
+                        ? "bg-secondary text-secondary-content"
+                        : ""
+                    }`}
                     onClick={() => {
                       document.getElementById("address_modal").showModal();
                     }}
