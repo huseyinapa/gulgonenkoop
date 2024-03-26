@@ -103,7 +103,7 @@ function ProductAdd() {
 
   return (
     <div data-theme="garden">
-      <Toaster position="bottom-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
 
       <Header />
       <div className="flex flex-row mx-auto">

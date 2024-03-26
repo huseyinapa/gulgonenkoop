@@ -181,9 +181,9 @@ export default function Cart() {
       <Footer />
 
       <BottomNavBar
-        data={selectedItems}
         title={`Seçilen Ürünler (${cartItems.length})`}
         agreement={false}
+        items={selectedItems}
       />
     </main>
   );

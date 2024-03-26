@@ -28,20 +28,29 @@ export default function Payment() {
 
     setItems(convertedItems);
 
+    checkAddres();
     getIP();
   }, []);
 
-  const getIP = async () => {
-    const res = await axios.get("https://api.ipify.org/?format=json");
-    setUserIp(res.data.ip);
-  };
+  const getIP = async () =>
+    setUserIp((await axios.get("https://api.ipify.org/?format=json")).data.ip);
+
+  function checkAddres() {
+    if (Object.keys(address).length !== 0) return;
+
+    const deliveryAddress = localStorage.getItem("delivery.address");
+
+    const convertedAddress = JSON.parse(deliveryAddress) || [];
+
+    setAddress(convertedAddress);
+  }
 
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.amount,
     0
   );
 
-  console.log(address);
+  // console.log(address);
 
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
@@ -69,7 +78,7 @@ export default function Payment() {
                     <>
                       <div className="flex flex-row gap-4">
                         <div className="text-sm lg:text-base">
-                          Müşteri Adı:
+                          Müşteri Adı:{" "}
                           {shortenText(
                             `${address["name"]} ${address["surname"]}`
                           )}
@@ -92,12 +101,26 @@ export default function Payment() {
                   )}
                 </div>
                 <div className="card-actions justify-end pr-2 pb-2">
+                  {Object.keys(address).length !== 0 && (
+                    <a
+                      className={`btn btn-sm btn-error text-secondary-content`}
+                      onClick={() => {
+                        setAddress({});
+                        localStorage.removeItem("delivery.address");
+                      }}
+                    >
+                      Adresi temizle
+                    </a>
+                  )}
                   <a
-                    className={`btn btn-sm ${
+                    className={`btn btn-sm 
+                    transition ease-out delay-150 duration-200
+                    ${
                       Object.keys(address).length === 0
                         ? "bg-secondary text-secondary-content"
                         : ""
-                    }`}
+                    }
+                    `}
                     onClick={() => {
                       document.getElementById("address_modal").showModal();
                     }}
@@ -207,8 +230,15 @@ export default function Payment() {
             <div className="card-actions justify-center p-4">
               <a
                 className="btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white"
-                onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                href="/odeme" //! daha sonra kaldırılacak
+                onClick={() => {
+                  if (!isChecked) {
+                    return toast.error(
+                      '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
+                    );
+                  } else if (Object.keys(address).length === 0) {
+                    return toast.error("Teslimat adresini doldurunuz.");
+                  }
+                }} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
               >
                 Siparişi Onayla
               </a>
@@ -218,7 +248,12 @@ export default function Payment() {
       </div>
       <Footer />
 
-      <BottomNavBar data={items} title={"Ödenecek Tutar"} agreement={true} />
+      <BottomNavBar
+        title={"Ödenecek Tutar"}
+        agreement={true}
+        items={items}
+        address={address}
+      />
 
       <AddressModal setAddress={setAddress} />
     </div>

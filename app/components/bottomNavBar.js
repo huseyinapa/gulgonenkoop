@@ -1,9 +1,14 @@
+import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function BottomNavBar({ data, title, agreement }) {
-  console.log(data);
+export default function BottomNavBar({ title, agreement, items, address }) {
+  console.log(items);
 
-  const totalPrice = data.reduce(
+  const [isChecked, setChecked] = useState(false);
+
+  const handleCheckboxChange = () => setChecked(!isChecked);
+
+  const totalPrice = items.reduce(
     (total, item) => total + item.price * item.amount,
     0
   );
@@ -39,8 +44,15 @@ export default function BottomNavBar({ data, title, agreement }) {
               <div className="flex flex-col items-center gap-2">
                 <a
                   className="btn btn-sm h-10 bg-purple-600 text-white"
-                  onClick={() => {}} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                  href="/odeme" //! daha sonra kaldırılacak
+                  onClick={() => {
+                    if (!isChecked) {
+                      return toast.error(
+                        '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
+                      );
+                    } else if (Object.keys(address).length === 0) {
+                      return toast.error("Teslimat adresini doldurunuz.");
+                    }
+                  }} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
                 >
                   Siparişi Onayla
                 </a>
@@ -50,10 +62,10 @@ export default function BottomNavBar({ data, title, agreement }) {
               <a
                 className="btn btn-sm h-10 bg-success text-white"
                 onClick={() => {
-                  if (data.length > 0) {
+                  if (items.length > 0) {
                     localStorage.setItem(
                       "selected.items",
-                      JSON.stringify(data)
+                      JSON.stringify(items)
                     );
                     // var items = localStorage.getItem("selected.items");
 
@@ -62,7 +74,7 @@ export default function BottomNavBar({ data, title, agreement }) {
                     window.location.href = "/odeme";
                   } else
                     return toast.error(
-                      "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin."
+                      "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin.a"
                     );
                 }}
               >
@@ -78,8 +90,8 @@ export default function BottomNavBar({ data, title, agreement }) {
                   className={`checkbox 
               `}
                   // ${effect ? "checkbox-warning stroke-2" : "checkbox-primary"}
-                  // checked={isChecked}
-                  // onChange={handleCheckboxChange}
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
                 />
                 <a
                   className={`label-text flex flex-row gap-2`}

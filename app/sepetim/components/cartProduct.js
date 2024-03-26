@@ -125,7 +125,12 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
   };
 
   async function handleRemoveItem(pid) {
+    //!
     const id = localStorage.getItem("id");
+
+    setCartItems(...cartItems.filter((x) => x.pid !== pid));
+    setSelectedItems(...selectedItems.filter((x) => x.pid !== pid));
+    setSelect(...selected.filter((x) => x.pid !== pid));
 
     const formData = new FormData();
     formData.append("id", id);
@@ -133,13 +138,14 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
 
     // alert(`${id} ${pid}`);
 
-    const response = await cartManager.removeCart(formData);
+    const response = await cartManager.remove(formData);
     // alert(response);
     if (response) {
-      fetchCartItems();
       toast.success("Ürün sepetinizden kaldırıldı!");
     } else toast.error("Ürün sepetinizden kaldırılamadı.");
   }
+
+  console.log(selected);
 
   const totalPrice = selected.reduce(
     (total, item) => total + item.price * item.amount,
@@ -148,8 +154,6 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
 
   return (
     <div className="mx-auto min-w-fit md:min-w-full h-auto">
-      <Toaster position="bottom-right" reverseOrder={false} />
-
       <div className="mx-auto min-h-[550px] justify-center px-0 md:px-4">
         <div className="flex flex-row justify-center md:justify-between items-center space-x-6">
           {/* // ? Sepetteki ürün listesi */}
@@ -299,7 +303,10 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
               </div>
             </div>
             <div className="flex flex-row justify-between space-x-2">
-              <div className="btn btn-white btn-sm w-11">
+              <div
+                className="btn btn-white btn-sm w-11"
+                onClick={() => handleRemoveItem(product.pid)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"

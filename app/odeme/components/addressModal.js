@@ -11,11 +11,31 @@ export default function AddressModal({ setAddress }) {
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    localStorage.removeItem("city");
-    localStorage.removeItem("district");
+    if (Object.keys(userInfo) === 0) {
+      localStorage.removeItem("city");
+    }
 
     setCity();
+
+    const deliveryAddressString = localStorage.getItem("delivery.address");
+    const deliveryAddress = JSON.parse(deliveryAddressString);
+    setUserInfo(deliveryAddress ?? {});
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
   }, []);
+
+  console.log(userInfo);
+
+  function handleBeforeUnload() {
+    if (Object.keys(userInfo).length === 2) {
+      localStorage.removeItem("city");
+      localStorage.removeItem("district");
+      console.log("Silindi");
+    }
+    console.log("Yenilendi");
+  }
+
+  // window.onbeforeunload olayına bir listener ekleyerek handleBeforeUnload fonksiyonunu çağırıyoruz
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,6 +59,9 @@ export default function AddressModal({ setAddress }) {
       address &&
       zipCode
     ) {
+      console.log(JSON.stringify(userInfo));
+
+      localStorage.setItem("delivery.address", JSON.stringify(userInfo));
       setAddress(userInfo);
       toast.success("Teslimat bilgileri kaydedildi.");
       document.getElementById("address_modal").close();
@@ -71,6 +94,8 @@ export default function AddressModal({ setAddress }) {
 
     // console.log("user info2: ", userInfo);ss
   };
+
+  console.log(userInfo);
 
   return (
     <dialog id="address_modal" className="modal modal-bottom md:modal-middle">

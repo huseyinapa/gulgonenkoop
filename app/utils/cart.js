@@ -32,7 +32,7 @@ class CartManager {
         );
         resolve(response.data.success);
       } catch (error) {
-        console.error("Ürün ekleme hatası:", error);
+        console.error("Ürün kaldırma hatası:", error);
         reject(false);
       }
     });
