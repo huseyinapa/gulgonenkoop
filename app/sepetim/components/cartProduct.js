@@ -128,21 +128,26 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
     //!
     const id = localStorage.getItem("id");
 
-    setCartItems(...cartItems.filter((x) => x.pid !== pid));
-    setSelectedItems(...selectedItems.filter((x) => x.pid !== pid));
-    setSelect(...selected.filter((x) => x.pid !== pid));
-
     const formData = new FormData();
     formData.append("id", id);
     formData.append("pid", pid);
 
-    // alert(`${id} ${pid}`);
+    setCartItems(cartItems.filter((x) => x.pid !== pid));
+    setSelectedItems(selectedItems.filter((x) => x.pid !== pid));
+    setSelect(selected.filter((x) => x.pid !== pid));
 
-    const response = await cartManager.remove(formData);
-    // alert(response);
-    if (response) {
-      toast.success("Ürün sepetinizden kaldırıldı!");
-    } else toast.error("Ürün sepetinizden kaldırılamadı.");
+    // alert(`${id} ${pid}`);
+    try {
+      const response = await cartManager.remove(formData);
+      // alert(response);
+      console.log(response);
+
+      if (response) {
+        toast.success("Ürün sepetinizden kaldırıldı!");
+      } else toast.error("Ürün sepetinizden kaldırılamadı.");
+    } catch (error) {
+      toast.error("Beklenmedik bir sorun oluştu. Kod: C-CP");
+    }
   }
 
   console.log(selected);

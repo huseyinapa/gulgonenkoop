@@ -30,6 +30,8 @@ class CartManager {
           `https://www.gulgonenkoop.com/api_gulgonen/cart/remove.php`,
           productData
         );
+        console.log(response.data);
+
         resolve(response.data.success);
       } catch (error) {
         console.error("Ürün kaldırma hatası:", error);
