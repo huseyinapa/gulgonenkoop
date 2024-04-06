@@ -171,6 +171,7 @@ export default function Cart() {
       ) : (
         <div className="px-4">
           <CartProduct
+            setLength={setLength}
             cartProducts={cartItems}
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}

@@ -6,7 +6,12 @@ import toast, { Toaster } from "react-hot-toast";
 import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
 
-function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
+function CartProduct({
+  setLength,
+  cartProducts,
+  selectedItems,
+  setSelectedItems,
+}) {
   const [selected, setSelect] = useState(selectedItems);
   const [cartItems, setCartItems] = useState(cartProducts);
 
@@ -136,7 +141,10 @@ function CartProduct({ cartProducts, selectedItems, setSelectedItems }) {
     setSelectedItems(selectedItems.filter((x) => x.pid !== pid));
     setSelect(selected.filter((x) => x.pid !== pid));
 
-    // alert(`${id} ${pid}`);
+    console.log(Object.keys(cartItems).length);
+
+    Object.keys(cartItems).length <= 1 ? setLength(9991) : null;
+
     try {
       const response = await cartManager.remove(formData);
       // alert(response);

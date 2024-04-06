@@ -98,6 +98,7 @@ export default function Header({ onClick, cartItems }) {
                   {new func().shortenText(email.split("@")[0], 10)}
                 </div>
               </div>
+
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
@@ -106,7 +107,29 @@ export default function Header({ onClick, cartItems }) {
                   <a onClick={() => {}}>Siparişlerim</a>
                 </li>
                 <li>
-                  <a className="text-red-500">Çıkış yap</a>
+                  <a
+                    className="text-red-500"
+                    onClick={() => {
+                      try {
+                        localStorage.removeItem("id");
+
+                        localStorage.removeItem("name");
+                        localStorage.removeItem("surname");
+
+                        localStorage.removeItem("email");
+                        localStorage.removeItem("password");
+
+                        //   trackGAEvent("Kullanıcı girişi", "Kayıt Butonu", "Kayıt yapıldı");
+
+                        setIsLoggedIn(false);
+                        toast.success(`Çıkış yapıldı.`);
+                      } catch (error) {
+                        toast.error(`Çıkış yapılamadı! Hata kodu: H-HH`);
+                      }
+                    }}
+                  >
+                    Çıkış yap
+                  </a>
                 </li>
               </ul>
             </div>

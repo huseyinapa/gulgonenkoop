@@ -14,6 +14,8 @@ import axios from "axios";
 
 export default function Payment() {
   const [isChecked, setChecked] = useState(false);
+  const [isCollapseChecked, setCollapseChecked] = useState(false);
+
   const [items, setItems] = useState([]);
 
   const [address, setAddress] = useState({});
@@ -28,14 +30,14 @@ export default function Payment() {
 
     setItems(convertedItems);
 
-    checkAddres();
+    checkAddress();
     getIP();
   }, []);
 
   const getIP = async () =>
     setUserIp((await axios.get("https://api.ipify.org/?format=json")).data.ip);
 
-  function checkAddres() {
+  function checkAddress() {
     if (Object.keys(address).length !== 0) return;
 
     const deliveryAddress = localStorage.getItem("delivery.address");
@@ -64,56 +66,51 @@ export default function Payment() {
         </div> */}
         <div className="flex flex-row items-start justify-center md:justify-between py-4 px-3 md:p-3 lg:p-8">
           <div className="flex flex-col items-center gap-5 mr-5 w-[350px] md:w-[470px] lg:w-[610px] xl:w-[700px] p-4">
-            <div className="flex flex-col items-center justify-center md:flex-row gap-4">
-              <div className="card p-2 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
-                <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
-                  Teslimat Adresim
-                </div>
-                <div className="card-body p-0 pt-1 md:pt-2 pl-3">
-                  {Object.keys(address).length === 0 ? (
-                    <div className="text-sm lg:text-base">
-                      Adres girilmemiş.
+            <div className="card p-2 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-[150px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
+              <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
+                Teslimat Adresim
+              </div>
+              <div className="card-body p-0 pt-1 md:pt-2 pl-3">
+                {Object.keys(address).length === 0 ? (
+                  <div className="text-sm lg:text-base">Adres girilmemiş.</div>
+                ) : (
+                  <>
+                    <div className="flex flex-row gap-4">
+                      <div className="text-sm lg:text-base">
+                        Müşteri Adı:{" "}
+                        {shortenText(
+                          `${address["name"]} ${address["surname"]}`
+                        )}
+                      </div>
+                      <div className="text-sm lg:text-base">
+                        {shortenText(`${address["identityNumber"]}`)}
+                      </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className="flex flex-row gap-4">
-                        <div className="text-sm lg:text-base">
-                          Müşteri Adı:{" "}
-                          {shortenText(
-                            `${address["name"]} ${address["surname"]}`
-                          )}
-                        </div>
-                        <div className="text-sm lg:text-base">
-                          {shortenText(`${address["identityNumber"]}`)}
-                        </div>
-                      </div>
-                      <div className="text-sm lg:text-base">
-                        {shortenText(
-                          address["address"] ?? "Adres bilgileri bulunmuyor"
-                        )}
-                      </div>
-                      <div className="text-sm lg:text-base">
-                        {shortenText(
-                          `${address["district"]}/${address["city"]}`
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className="card-actions justify-end pr-2 pb-2">
-                  {Object.keys(address).length !== 0 && (
-                    <a
-                      className={`btn btn-sm btn-error text-secondary-content`}
-                      onClick={() => {
-                        setAddress({});
-                        localStorage.removeItem("delivery.address");
-                      }}
-                    >
-                      Adresi temizle
-                    </a>
-                  )}
+                    <div className="text-sm lg:text-base">
+                      {shortenText(
+                        address["address"] ?? "Adres bilgileri bulunmuyor"
+                      )}
+                    </div>
+                    <div className="text-sm lg:text-base">
+                      {shortenText(`${address["district"]}/${address["city"]}`)}
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="card-actions justify-end pr-2 pb-2">
+                {Object.keys(address).length !== 0 && (
                   <a
-                    className={`btn btn-sm 
+                    className={`btn btn-sm btn-error text-secondary-content`}
+                    onClick={() => {
+                      setAddress({});
+                      localStorage.removeItem("delivery.address");
+                    }}
+                  >
+                    Adresi temizle
+                  </a>
+                )}
+                <a
+                  className={`btn btn-sm 
                     transition ease-out delay-150 duration-200
                     ${
                       Object.keys(address).length === 0
@@ -121,37 +118,140 @@ export default function Payment() {
                         : ""
                     }
                     `}
-                    onClick={() => {
-                      document.getElementById("address_modal").showModal();
-                    }}
-                  >
-                    Adres ekle/değiştir
-                  </a>
-                </div>
+                  onClick={() => {
+                    document.getElementById("address_modal").showModal();
+                  }}
+                >
+                  Adres ekle/değiştir
+                </a>
               </div>
             </div>
 
-            <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-56 md:h-52 lg:h-48 xl:h-48 shadow-secondary shadow-[0_0_10px]">
-              <div className="card-title px-3 md:p-0 md:pl-5 text-secondary text-center md:text-start text-lg lg:text-xl">
-                Diğer Ödeme Seçenekleri (Havale, EFT)
+            <div
+              className={`collapse collapse-arrow
+              ${!isCollapseChecked ? "bg-secondary-content" : "bg-base-200"}
+              `}
+            >
+              <input
+                type="radio"
+                name="my-accordion-2"
+                defaultChecked
+                checked={!isCollapseChecked ? "checked" : ""}
+                onChange={(status) => {
+                  // console.log(status.target.name);
+                  // console.log(status.target.checked);
+                  setCollapseChecked(false);
+                }}
+              />
+              <div className="collapse-title text-xl font-medium">
+                Kartla Öde
               </div>
-              <div className="card-body pl-5 p-0 pt-3">
-                <div className="flex flex-col">
-                  {transfer("Alıcı İsim/Soyisim: Merve Pektaş", "Merve Pektaş")}
-                  {transfer(
-                    "Iban: TR3746 9884 3673 44378",
-                    "TR3746 9884 3673 44378"
-                  )}
-                  {/* {transfer("Banka: QNB Finansbank", "QNB Finansbank")} */}
-                  <span> Banka: QNB Finansbank </span>
-                  {transfer("Açıklama: XUW", "XUW")}
+              <div className="collapse-content">
+                <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-56 md:h-52 lg:h-[250px] xl:h-[250px] shadow-secondary shadow-[0_0_10px]">
+                  <div className="card-title px-3 md:p-0 md:pl-5 text-secondary text-center md:text-start text-lg lg:text-xl">
+                    Kredi veya Banka kartı (Taksit desteklenmiyor.)
+                  </div>
+                  <div className="card-body form-control pl-5 p-0 pt-3">
+                    <div className="flex flex-col">
+                      <div className="max-w-xs">
+                        <label htmlFor="cardHolderName" className="label">
+                          <span className="label-text text-neutral font-semibold text-md">
+                            Kart Sahibi
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="••••  ••••  ••••  ••••"
+                          className="input input-bordered text-neutral w-auto max-w-xs h-10"
+                          id="cardHolderName"
+                          name="holdecardHolderNamerName"
+                          // value={paymentData.cardNumber || ""}
+                          // onChange={handleChange}
+                        />
+                      </div>
+                      <div className="max-w-xs">
+                        <label htmlFor="cardNumber" className="label">
+                          <span className="label-text text-neutral-content font-semibold text-md">
+                            Kart Numarası
+                          </span>
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="••••  ••••  ••••  ••••"
+                          className="input input-bordered text-neutral w-auto max-w-xs h-10"
+                          id="cardNumber"
+                          name="cardNumber"
+                          maxLength="19"
+                          // value={paymentData.cardNumber || ""}
+                          // onChange={handleChange}
+                        />
+                      </div>
+                      <div className="max-w-xs">
+                        <label htmlFor="cardNumber" className="label">
+                          <span className="label-text text-neutral-content font-semibold text-md">
+                            Kart Numarası
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="••••  ••••  ••••  ••••"
+                          className="input input-bordered text-neutral w-full max-w-xs"
+                          id="cardNumber"
+                          name="cardNumber"
+                          maxLength="19"
+                          // value={paymentData.cardNumber || ""}
+                          // onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="card-actions justify-center md:justify-end py-3 md:p-3">
-                <a className="text-sm">
-                  <span className="mr-1 text-secondary">XUW</span>
-                  kodunu açıklama kısmına yazınız.
-                </a>
+            </div>
+            <div
+              className={`collapse collapse-arrow 
+              ${isCollapseChecked ? "bg-secondary-content" : "bg-base-200"}
+            
+            `}
+            >
+              <input
+                type="radio"
+                name="my-accordion-2"
+                checked={isCollapseChecked ? "checked" : ""}
+                onChange={(status) => {
+                  setCollapseChecked(true);
+                }}
+              />
+              <div className="collapse-title text-xl font-medium">
+                Diğer Ödeme Seçenekleri
+              </div>
+              <div className="collapse-content">
+                <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-56 md:h-52 lg:h-48 xl:h-48 shadow-secondary shadow-[0_0_10px]">
+                  <div className="card-title px-3 md:p-0 md:pl-5 text-secondary text-center md:text-start text-lg lg:text-xl">
+                    Havale, Fast, EFT
+                  </div>
+                  <div className="card-body pl-5 p-0 pt-3">
+                    <div className="flex flex-col">
+                      {transfer(
+                        "Alıcı İsim/Soyisim: Merve Pektaş",
+                        "Merve Pektaş"
+                      )}
+                      {transfer(
+                        "Iban: TR3746 9884 3673 44378",
+                        "TR3746 9884 3673 44378"
+                      )}
+                      {/* {transfer("Banka: QNB Finansbank", "QNB Finansbank")} */}
+                      <span> Banka: QNB Finansbank </span>
+                      {transfer("Açıklama: XUW", "XUW")}
+                    </div>
+                  </div>
+                  <div className="card-actions justify-center md:justify-end py-3 md:p-3">
+                    <a className="text-sm">
+                      <span className="mr-1 text-secondary">XUW</span>
+                      kodunu açıklama kısmına yazınız.
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 

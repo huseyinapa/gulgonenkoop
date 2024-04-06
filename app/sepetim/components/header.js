@@ -1,7 +1,24 @@
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
-export default function CartHeader({ onClick }) {
+import func from "../.././functions";
+
+export default function CartHeader() {
+  const [email, setEmail] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+
+    if (storedEmail) {
+      // toast("giriş yapıldı");
+      setEmail(storedEmail);
+      setIsLoggedIn(true);
+    } else return (window.location.href = "/");
+  }, []);
+
   return (
     <div className="navbar justify-between h-36 px-2 md:px-8 shadow-[0_0_5px]">
       {/* Büyük Ekran */}
@@ -29,16 +46,65 @@ export default function CartHeader({ onClick }) {
         </div> */}
       </div>
       <div className="navbar-end flex">
-        <div className="btn btn-circle md:btn-square flex flex-row md:w-[150px]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-            className="size-5 md:size-6"
-            color="currentColor"
+        <div className="dropdown dropdown-end">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn bg-base-200 flex flex-row"
           >
-            <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z" />
-          </svg>
-          <div className="text-md hidden md:flex">Hesabım</div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+              className="flex size-5 md:size-6 mx-auto"
+              color="currentColor"
+            >
+              <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z" />
+            </svg>
+            <div className="md:text-sm lg:text-base hidden md:flex">
+              {new func().shortenText(email.split("@")[0], 10)}
+            </div>
+          </div>
+
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a onClick={() => {}}>Siparişlerim</a>
+            </li>
+            <li>
+              <a
+                className="text-red-500"
+                onClick={() => {
+                  try {
+                    localStorage.removeItem("id");
+
+                    localStorage.removeItem("name");
+                    localStorage.removeItem("surname");
+
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("password");
+
+                    //   trackGAEvent("Kullanıcı girişi", "Kayıt Butonu", "Kayıt yapıldı");
+
+                    setIsLoggedIn(false);
+
+                    toast.success(
+                      `Çıkış yapıldı. Ana sayfaya yönlendiriliyorsunuz!`
+                    );
+
+                    setTimeout(() => {
+                      window.location.href = "/";
+                    }, 1200);
+                  } catch (error) {
+                    toast.error(`Çıkış yapılamadı! Hata kodu: H-HH`);
+                  }
+                }}
+              >
+                Çıkış yap
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
       {/* //// ! profilim, çıkış yap 1vb */}
