@@ -5,18 +5,20 @@ export default function Product({ products }) {
     0
   );
   return (
-    <div className="bg-white w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] rounded-2xl">
+    <div className="bg-white w-[345px] md:w-[450px] lg:w-[575px] xl:w-[620px] min-h-[250px] rounded-2xl">
       {/* Ürün sayısı vs dışı çizgi falan filan düzenleme */}
-      <div className="flex flex-row justify-between px-2">
-        <div className="card-title m-4 text-secondary">Seçilen ürün(ler)</div>
+      <div className="flex flex-row justify-between px-2 pb-2">
+        <div className="card-title m-2 text-lg md:text-xl text-secondary">
+          Seçilen ürün(ler)
+        </div>
         <a
-          className="btn btn-ghost font-semibold text-lg m-4 text-purple-600 cursor-pointer"
+          className="btn btn-ghost font-semibold text-lg md:text-xl m-2 text-purple-600 cursor-pointer"
           href="/sepetim"
         >
           Düzenle
         </a>
       </div>
-      <div className="flex-wrap grid grid-cols-1 justify-center items-end gap-4">
+      <div className="flex-wrap grid grid-cols-1 justify-center items-end pb-6 gap-4">
         {products.map((item) =>
           ProductCard({
             key: item.pid,
@@ -34,13 +36,13 @@ export default function Product({ products }) {
     return (
       <div
         key={key}
-        className="relative mx-auto bg-white items-stretch lg:items-start w-[150px] md:w-[250px] lg:w-[300px] xl:w-[500px] h-[140px] md:h-48 lg:h-48 xl:h-40 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
+        className="relative mx-auto bg-white items-stretch lg:items-start w-[290px] md:w-[400px] lg:w-[480px] xl:w-[500px] h-[110px] md:h-[130px] lg:h-[150px] xl:h-[150px] flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="">
           <img
             src="/images/icons/shopping-bag.svg"
             alt="Ürün görseli"
-            className="w-auto md:w-36 h-[80px] md:h-32 object-contain bg-red-400" //rounded-lg rounded-br-[80px]
+            className="w-auto md:w-36 h-[80px] md:h-[100px] object-contain bg-red-400" //rounded-lg rounded-br-[80px]
           />
         </figure>
         <div className="flex flex-col justify-between w-full lg:h-full">
