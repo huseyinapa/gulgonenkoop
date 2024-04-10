@@ -36,7 +36,7 @@ export default function Product({ products }) {
     return (
       <div
         key={key}
-        className="relative mx-auto bg-white items-stretch lg:items-start w-[290px] md:w-[400px] lg:w-[480px] xl:w-[500px] h-[110px] md:h-[130px] lg:h-[150px] xl:h-[150px] flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
+        className="relative mx-auto bg-white items-stretch lg:items-start w-[290px] md:w-[400px] lg:w-[480px] xl:w-[500px] h-[110px] md:h-[130px] lg:h-[130px] xl:h-[130px] flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="">
           <img
