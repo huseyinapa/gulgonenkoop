@@ -7,7 +7,7 @@ const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 async function fetchAllIds() {
   try {
     const response = await axios.get(
-      "https://www.gulgonenkoop.com/api_gulgonen/user/getID.php"
+      "http://51.21.106.119/api_gulgonen/user/getID.php"
     );
     // console.log(response.data);
     return response.data.success ? response.data.userIDS : [];

@@ -5,7 +5,7 @@ class CartManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://www.gulgonenkoop.com/api_gulgonen/cart/add.php`,
+          `http://51.21.106.119/api_gulgonen/cart/add.php`,
           productData,
           {
             headers: {
@@ -27,7 +27,7 @@ class CartManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://www.gulgonenkoop.com/api_gulgonen/cart/remove.php`,
+          `http://51.21.106.119/api_gulgonen/cart/remove.php`,
           productData
         );
         console.log(response.data);
@@ -41,7 +41,7 @@ class CartManager {
   }
 
   getProductInCart(productData) {
-    var url = `https://www.gulgonenkoop.com/api_gulgonen/cart/get.php`;
+    var url = `http://51.21.106.119/api_gulgonen/cart/get.php`;
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -63,7 +63,7 @@ class CartManager {
   }
 
   // getProductsInCart(productData) {
-  //   var url = `https://www.gulgonenkoop.com/api_gulgonen/cart/all_get.php`;
+  //   var url = `http://51.21.106.119/api_gulgonen/cart/all_get.php`;
 
   //   return new Promise(async (resolve, reject) => {
   //     try {
@@ -87,7 +87,7 @@ class CartManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://www.gulgonenkoop.com/api_gulgonen/cart/get_all.php`,
+          `http://51.21.106.119/api_gulgonen/cart/get_all.php`,
           productData
         );
         // console.log(response);

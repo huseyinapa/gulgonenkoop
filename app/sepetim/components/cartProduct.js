@@ -98,7 +98,7 @@ function CartProduct({
 
   const handleUpdateCart = async () => {
     try {
-      const url = `https://www.gulgonenkoop.com/api_gulgonen/cart/aupdate.php`;
+      const url = `http://51.21.106.119/api_gulgonen/cart/aupdate.php`;
 
       for (let i = 0; i < cartItems.length; i++) {
         var id = localStorage.getItem("id");
