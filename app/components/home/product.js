@@ -37,6 +37,8 @@ export default function Product() {
   );
 
   function ProductCard({ product }) {
+    const [image, setImage] = useState(product.image);
+
     return (
       <div
         key={product.id}
@@ -44,11 +46,14 @@ export default function Product() {
       >
         <figure className="relative">
           <img
-            src={product.image}
+            src={image}
             alt={product.name}
             className="h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
+            onError={() => {
+              setImage(product.webpath);
+            }}
           />
-          <button
+          {/* <button
             className="absolute btn btn-sm lg:btn-md btn-circle text-white top-2 md:top-5 right-2 md:right-5 bg-secondary border-secondary hover:bg-secondary justify-items-center"
             // onClick={() => removeProduct(product.id, product.image)}
           >
@@ -64,9 +69,9 @@ export default function Product() {
                 className="swap-on fill-current w-7 h-7"
               />
             </label>
-          </button>
+          </button> */}
 
-          <div className="absolute bg-secondary w-20 lg:w-24 h-8 md:h-10 lg:h-11 pt-[3px] lg:pt-[6px] bottom-3 right-0 rounded-l-xl">
+          <div className="absolute bg-secondary w-20 lg:w-24 h-8 md:h-10 lg:h-11 place-content-center bottom-3 right-0 rounded-l-xl">
             <span className="pl-4 text-sm md:text-md lg:text-lg font-bold">
               {product.size} {product.type}
             </span>

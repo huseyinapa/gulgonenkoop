@@ -13,7 +13,7 @@ const RegistrationModal = () => {
   const userService = new UserService();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (!email || !password) {
       alert("E-posta ve parola alanları boş bırakılamaz!");
@@ -77,7 +77,7 @@ const RegistrationModal = () => {
       id="register_modal"
       className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
     >
-      <div className="modal-box">
+      <a className="modal-box">
         <h3 className="font-bold text-lg text-center ">KAYIT OL</h3>
         <form method="dialog" className="modal-middle" onSubmit={handleSubmit}>
           <div className="form-control w-full max-w-xs mb-4">
@@ -127,14 +127,14 @@ const RegistrationModal = () => {
             </button>
             <button
               type="submit"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
               className="btn glass p-2 bg-[#c21546] hover:bg-[#8f0f33] text-white transition-colors duration-300 ease-in-out"
             >
               Kayıt Ol
             </button>
           </div>
         </div>
-      </div>
+      </a>
     </dialog>
   );
 };

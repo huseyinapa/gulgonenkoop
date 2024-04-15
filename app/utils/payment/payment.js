@@ -1,6 +1,6 @@
 class PaymentManager {
   async pay() {
-    const url = "https://api.gonenkleopatra.com/api/payment";
+    const url = "https://api.gulgonenkoop.com/api/payment";
 
     const [expireMonth, expireYear] = paymentData.expiryDate.split("/");
 

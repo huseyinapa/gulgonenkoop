@@ -96,39 +96,6 @@ function CartProduct({
     );
   };
 
-  const handleUpdateCart = async () => {
-    try {
-      const url = `http://51.21.106.119/api_gulgonen/cart/aupdate.php`;
-
-      for (let i = 0; i < cartItems.length; i++) {
-        var id = localStorage.getItem("id");
-
-        const item = cartItems[i];
-        // console.log(item);
-
-        const formData = new FormData();
-        formData.append("id", id);
-        formData.append("pid", item.pid);
-        formData.append("amount", item.amount);
-
-        const response = await axios.post(url, formData);
-
-        if (response.product.success) {
-          if (i + 1 === cartItems.length) {
-            // fetchCartItems();
-            toast.success("Sepetiniz güncellendi!");
-          }
-        } else {
-          toast.error("Sepet güncellenirken bir hata oluştu.");
-          return;
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Bir hata oluştu!");
-    }
-  };
-
   async function handleRemoveItem(pid) {
     //!
     const id = localStorage.getItem("id");
@@ -293,12 +260,13 @@ function CartProduct({
             alt="Ürün görseli"
             className="w-auto md:w-36 h-[100px] md:h-40 object-contain bg-red-400" //rounded-lg rounded-br-[80px]
           />
-          <div className="absolute bg-secondary w-14 md:w-16 h-7 lg:h-8 p-0 pt-[1px] md:pt-[2px] bottom-3 left-0 rounded-r-xl">
+          <div className="absolute bg-secondary w-14 md:w-16 h-7 lg:h-8 place-content-center bottom-3 left-0 rounded-r-xl">
             <span className="pl-1.5 text-xs md:text-sm lg:text-base text-white font-bold">
               {product.size} {product.type}
             </span>
           </div>
         </figure>
+
         <div className="flex flex-col justify-between w-full lg:h-full">
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">

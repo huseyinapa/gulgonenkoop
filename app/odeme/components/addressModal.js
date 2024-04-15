@@ -62,6 +62,7 @@ export default function AddressModal({ setAddress }) {
       console.log(JSON.stringify(userInfo));
 
       localStorage.setItem("delivery.address", JSON.stringify(userInfo));
+
       setAddress(userInfo);
       toast.success("Teslimat bilgileri kaydedildi.");
       document.getElementById("address_modal").close();

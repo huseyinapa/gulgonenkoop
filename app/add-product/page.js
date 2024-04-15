@@ -55,13 +55,34 @@ function ProductAdd() {
   };
 
   const handleTypeChange = (event) => {
-    setType(event.target.value);
+    let newType = "";
+
+    switch (event.target.value) {
+      case "Kilogram":
+        newType = "KG";
+        break;
+      case "Gram":
+        newType = "GR";
+        break;
+      case "CC":
+        newType = "CC";
+        break;
+      case "Litre":
+        newType = "L";
+        break;
+
+      default:
+        newType = "X";
+        break;
+    }
+
+    setType(newType);
   };
 
   const handleAddProduct = async (event) => {
     event.preventDefault();
 
-    if (image === "") return alert("Görsel ekleyiniz.");
+    if (image === "") return toast.error("Görsel ekleyiniz.");
     // alert(price);
     const kdv = parseInt(price) * 0.2;
     const pprice = parseInt(price) + kdv;
@@ -75,12 +96,24 @@ function ProductAdd() {
     productFormData.append("description", description);
     productFormData.append("price", pprice);
     productFormData.append("stock", stock);
+    productFormData.append("image", image);
     productFormData.append("size", size);
     productFormData.append("type", type);
-    productFormData.append("image", image);
     productFormData.append("imageName", imageName);
     productFormData.append("date", date);
 
+    // console.log({
+    //   id,
+    //   name,
+    //   description,
+    //   pprice,
+    //   stock,
+    //   image,
+    //   size,
+    //   type,
+    //   imageName,
+    //   date,
+    // });
     try {
       await toast.promise(productManager.add(productFormData), {
         loading: "Ekleniyor...",
@@ -97,7 +130,8 @@ function ProductAdd() {
       setSize("");
       setType("");
     } catch (error) {
-      toast.error("Ürün eklenemedi.", error);
+      // toast.error("Ürün eklenemedi.", error);
+      console.log("Ürün eklenemedi.", error);
     }
   };
 
@@ -182,7 +216,7 @@ function ProductAdd() {
                   htmlFor="price"
                   className="block font-medium text-gray-700"
                 >
-                  Fiyat (kdvsiz fiyat giriniz):
+                  Fiyat (kdvsiz):
                 </label>
                 <input
                   type="number"
@@ -201,7 +235,7 @@ function ProductAdd() {
                   htmlFor="size"
                   className="block font-medium text-gray-700"
                 >
-                  Ürün Gramı/Litresi:
+                  Gramı/Litresi:
                 </label>
                 <input
                   type="number"
@@ -215,16 +249,19 @@ function ProductAdd() {
               </div>
               <div className="w-full max-w-md">
                 <div className="label">
-                  <span className="label-text">Ürünün ölçü türünü seç</span>
+                  <span className="label-text">Ölçü türü:</span>
                 </div>
                 <select
                   className="select select-bordered"
                   onChange={handleTypeChange}
+                  value={type ?? "Seçim Yap"}
                   defaultValue={"Seçim yap"}
                 >
-                  <option disabled>Seçim yap</option>
-                  <option>Gram</option>
+                  <option>Seçim yap</option>
+                  <option>CC</option>
                   <option>Litre</option>
+                  <option>Gram</option>
+                  <option>Kilogram</option>
                 </select>
               </div>
             </div>

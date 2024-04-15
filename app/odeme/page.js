@@ -136,7 +136,7 @@ export default function Payment() {
               <input
                 type="radio"
                 name="my-accordion-2"
-                defaultChecked
+                //! defaultChecked
                 checked={!isCollapseChecked ? "checked" : ""}
                 onChange={(status) => {
                   // console.log(status.target.name);

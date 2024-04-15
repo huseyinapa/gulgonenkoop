@@ -145,6 +145,7 @@ class ProductManager {
                 size: element.size,
                 type: element.type,
                 image: element.image,
+                webpath: element.webpath,
                 index: index,
               });
             }

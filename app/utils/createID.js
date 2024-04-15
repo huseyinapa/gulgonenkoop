@@ -7,7 +7,7 @@ const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 async function fetchAllIds() {
   try {
     const response = await axios.get(
-      "http://51.21.106.119/api_gulgonen/user/getID.php"
+      "http://51.21.106.119/api_gulgonen/user/get_id.php"
     );
     // console.log(response.data);
     return response.data.success ? response.data.userIDS : [];
@@ -35,7 +35,7 @@ async function generateUniqueId() {
 // Kullanıcı kimliği oluştur ve döndür
 async function userIdentifier() {
   const newIdentifier = await generateUniqueId();
-  return newIdentifier;
+  return `U-${newIdentifier}`;
 }
 
 // Ürün kimliği oluştur ve döndür
