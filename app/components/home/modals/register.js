@@ -24,7 +24,7 @@ const RegistrationModal = () => {
     userDataForm.append("email", email);
 
     try {
-      const userData = await userService.getUserData(userDataForm);
+      const userData = await userService.checkUserEmail(userDataForm);
 
       if (userData) {
         alert("Bir sorun oluştu. Girilen e-postaya sahip bir hesap zaten var!");

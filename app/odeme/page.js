@@ -11,14 +11,18 @@ import Functions from "../functions";
 import Product from "./components/items";
 import AddressModal from "./components/addressModal";
 import axios from "axios";
+import PaymentManager from "../utils/payment/payment";
+import UserService from "../utils/services/userService";
 
 export default function Payment() {
   const [isChecked, setChecked] = useState(false);
   const [isCollapseChecked, setCollapseChecked] = useState(false);
 
   const [items, setItems] = useState([]);
-
   const [address, setAddress] = useState({});
+  const [paymentData, setPaymentData] = useState({});
+
+  const [userData, setUserData] = useState({});
 
   const [userIp, setUserIp] = useState("");
 
@@ -31,11 +35,34 @@ export default function Payment() {
     setItems(convertedItems);
 
     checkAddress();
+
     getIP();
+    getUserInfo();
   }, []);
 
   const getIP = async () =>
     setUserIp((await axios.get("https://api.ipify.org/?format=json")).data.ip);
+
+  const getUserInfo = async () => {
+    const email = localStorage.getItem("email");
+
+    try {
+      let userDataForm = new FormData();
+      userDataForm.append("email", email);
+
+      const data = await new UserService().getUserData(userDataForm);
+      console.log(data);
+
+      return {
+        last_login: data.last_login,
+        date: data.date,
+      };
+      //! lastlogin ve date i userData ile pushla
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
 
   function checkAddress() {
     if (Object.keys(address).length !== 0) return;
@@ -52,6 +79,25 @@ export default function Payment() {
     0
   );
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "cardNumber") {
+      setPaymentData({
+        ...paymentData,
+        [name]: value.replace(/\D/g, "").slice(0, 16),
+      });
+    } else if (name === "expiryDate") {
+      let formattedValue = value.replace(/\D/g, "");
+      if (formattedValue.length > 2) {
+        formattedValue = formattedValue.replace(/^(.{2})/, "$1/");
+      }
+      setPaymentData({ ...paymentData, [name]: formattedValue });
+    } else {
+      setPaymentData({ ...paymentData, [name]: value });
+    }
+    // console.log(paymentData);
+  };
   // console.log(address);
 
   return (
@@ -167,8 +213,7 @@ export default function Payment() {
                             id="cardHolderName"
                             name="cardHolderName"
                             className="input input-bordered text-neutral md:w-[190px] lg:w-[210px] max-w-xs md:h-10 lg:h-12"
-
-                            // onChange={handleChange}
+                            onChange={handleChange}
                           />
                         </div>
                         <div className="max-w-xs">
@@ -184,8 +229,8 @@ export default function Payment() {
                             id="cardNumber"
                             name="cardNumber"
                             maxLength="19"
-                            // value={paymentData.cardNumber || ""}
-                            // onChange={handleChange}
+                            value={paymentData.cardNumber || ""}
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -206,8 +251,8 @@ export default function Payment() {
                             id="expiryDate"
                             name="expiryDate"
                             maxLength="5"
-                            // value={paymentData.expiryDate || ""}
-                            // onChange={handleChange}
+                            value={paymentData.expiryDate || ""}
+                            onChange={handleChange}
                             // onFocus={() => setIsCardFlipped(false)}
                           />
                         </div>
@@ -224,9 +269,7 @@ export default function Payment() {
                             name="cvv"
                             maxLength={3}
                             className="input input-bordered text-neutral w-[100px] md:w-[190px] lg:w-[210px] max-w-xs md:h-10 lg:h-12"
-
-                            // onChange={handleChange}
-                            // onFocus={() => setIsCardFlipped(true)}
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -310,22 +353,6 @@ export default function Payment() {
                   <a className="">{totalPrice} TL</a>
                 </div>
               </div>
-              {/* <div className="flex flex-row justify-between">
-                <div className="flex flex-col items-start">
-                  <a className="font-medium lg:font-semibold">Ürünler:</a>
-                  <a className="font-medium lg:font-semibold">Kargo ücreti:</a>
-                  <div className="divider divider-secondary h-0" />
-                  <h1 className="font-medium lg:font-semibold">
-                    Toplam tutar + KDV:
-                  </h1>
-                </div>
-                <div className="flex flex-col items-end">
-                  <a className="">200 TL</a>
-                  <a className="">Alıcı öder</a>
-                  <div className="divider divider-secondary h-0" />
-                  <h1 className="">200 TL</h1>
-                </div>
-              </div> */}
               <div className="form-control">
                 <label className="label cursor-pointer space-x-2">
                   <input
@@ -358,7 +385,7 @@ export default function Payment() {
             <div className="card-actions justify-center p-4">
               <a
                 className="btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white"
-                onClick={() => {
+                onClick={async () => {
                   if (!isChecked) {
                     return toast.error(
                       '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
@@ -366,6 +393,21 @@ export default function Payment() {
                   } else if (Object.keys(address).length === 0) {
                     return toast.error("Teslimat adresini doldurunuz.");
                   }
+                  if (userData.ip === undefined) getIP();
+                  const userInfo = await getUserInfo();
+                  if (userInfo === null)
+                    return toast.error(
+                      "Beklenmedeik bir sorun oluştu. Hata: P-FLN"
+                    );
+                  console.log(userInfo);
+                  setUserData({
+                    ip: userIp,
+                    ...address,
+                    ...userInfo,
+                  });
+
+                  console.log(userData);
+                  // var paymentProcess = await new PaymentManager().request();
                 }} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
               >
                 Siparişi Onayla

@@ -41,7 +41,7 @@ class UserService {
     });
   }
 
-  getUser(data) {
+  getUserData(data) {
     var url = `http://51.21.106.119/api_gulgonen/user/get.php`;
 
     return new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ class UserService {
     });
   }
 
-  getUserData(email) {
+  checkUserEmail(email) {
     var url = `http://51.21.106.119/api_gulgonen/user/check_email.php`;
 
     return new Promise((resolve, reject) => {
