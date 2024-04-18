@@ -21,7 +21,6 @@ export default function Payment() {
   const [items, setItems] = useState([]);
   const [address, setAddress] = useState({});
   const [paymentData, setPaymentData] = useState({});
-
   const [userData, setUserData] = useState({});
 
   const [userIp, setUserIp] = useState("");
@@ -33,6 +32,9 @@ export default function Payment() {
     const convertedItems = JSON.parse(selectedItems) || [];
 
     setItems(convertedItems);
+
+    console.log(convertedItems);
+    console.log(items);
 
     checkAddress();
 
@@ -98,7 +100,8 @@ export default function Payment() {
     }
     // console.log(paymentData);
   };
-  // console.log(address);
+
+  console.log(userData);
 
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
@@ -386,19 +389,54 @@ export default function Payment() {
               <a
                 className="btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white"
                 onClick={async () => {
+                  const userInfo = await getUserInfo();
+
                   if (!isChecked) {
                     return toast.error(
                       '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
                     );
                   } else if (Object.keys(address).length === 0) {
                     return toast.error("Teslimat adresini doldurunuz.");
+                  } else if (
+                    !paymentData.cardHolderName ||
+                    paymentData.cardHolderName.trim() === ""
+                  ) {
+                    // setEffect(true);
+                    return toast.error(
+                      "Kredi kartı sahibi adı boş bırakılamaz."
+                    );
+                  } else if (
+                    !paymentData.cardNumber ||
+                    paymentData.cardNumber.length < 16 ||
+                    paymentData.cardNumber.trim() === ""
+                  ) {
+                    // setEffect(true);
+                    return toast.error(
+                      "Kredi kartı numarası eksik yada boş, kontrol ediniz."
+                    );
+                  } else if (
+                    !paymentData.expiryDate ||
+                    paymentData.expiryDate.trim() === ""
+                  ) {
+                    // setEffect(true);
+                    return toast.error("Son kullanma tarihi boş bırakılamaz.");
+                  } else if (
+                    !paymentData.cvv ||
+                    paymentData.cvv.trim() === ""
+                  ) {
+                    // setEffect(true);
+                    return toast.error("Kredi kartı cvv boş bırakılamaz.");
                   }
+                  // else if (paymentData) {
+                  //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
+                  // }
+
                   if (userData.ip === undefined) getIP();
-                  const userInfo = await getUserInfo();
                   if (userInfo === null)
                     return toast.error(
-                      "Beklenmedeik bir sorun oluştu. Hata: P-FLN"
+                      "Beklenmedik bir sorun oluştu. Hata: P-FLN"
                     );
+
                   console.log(userInfo);
                   setUserData({
                     ip: userIp,
@@ -406,9 +444,19 @@ export default function Payment() {
                     ...userInfo,
                   });
 
-                  console.log(userData);
-                  // var paymentProcess = await new PaymentManager().request();
-                }} //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                  console.log(paymentData);
+
+                  console.log(userData); // Siparis onaylanirken indicator dondur
+
+                  const cartItems = JSON.stringify(items);
+                  console.log(cartItems);
+
+                  var paymentProcess = await new PaymentManager().request(
+                    userData,
+                    cartItems,
+                    paymentData
+                  );
+                }} //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
               >
                 Siparişi Onayla
               </a>

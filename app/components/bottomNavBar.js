@@ -63,10 +63,20 @@ export default function BottomNavBar({ title, agreement, items, address }) {
                 className="btn btn-sm h-10 bg-success text-white"
                 onClick={() => {
                   if (items.length > 0) {
-                    localStorage.setItem(
-                      "selected.items",
-                      JSON.stringify(items)
-                    );
+                    // const updatedSelected = selected.map((item) => {
+                    //   if (item && item.image) {
+                    //     const updatedImage = {
+                    //       ...item.image,
+                    //       image: item.webpath,
+                    //     };
+                    //     return { ...item, image: updatedImage };
+                    //   }
+                    //   return item;
+                    // });
+
+                    const stringItems = JSON.stringify(selected);
+
+                    localStorage.setItem("selected.items", stringItems);
                     // var items = localStorage.getItem("selected.items");
 
                     // console.log(items);

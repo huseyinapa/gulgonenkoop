@@ -222,13 +222,20 @@ function CartProduct({
                 className="btn btn-sm md:h-10 lg:btn-md bg-success text-white"
                 onClick={() => {
                   if (selected.length > 0) {
-                    localStorage.setItem(
-                      "selected.items",
-                      JSON.stringify(selected)
-                    );
-                    // var items = localStorage.getItem("selected.items");
+                    // const updatedSelected = selected.map((item) => {
+                    //   if (item && item.image) {
+                    //     const updatedImage = {
+                    //       ...item.image,
+                    //       image: item.webpath,
+                    //     };
+                    //     return { ...item, image: updatedImage };
+                    //   }
+                    //   return item;
+                    // });
 
-                    // console.log(items);
+                    const stringItems = JSON.stringify(selected);
+
+                    localStorage.setItem("selected.items", stringItems);
 
                     window.location.href = "/odeme";
                   } else
