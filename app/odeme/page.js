@@ -34,7 +34,6 @@ export default function Payment() {
     setItems(convertedItems);
 
     console.log(convertedItems);
-    console.log(items);
 
     checkAddress();
 
@@ -46,24 +45,25 @@ export default function Payment() {
     setUserIp((await axios.get("https://api.ipify.org/?format=json")).data.ip);
 
   const getUserInfo = async () => {
-    const email = localStorage.getItem("email");
+    const userID = localStorage.getItem("id");
+    const userEmail = localStorage.getItem("email");
+    const userLastLogin = localStorage.getItem("last_login");
+    const userDate = localStorage.getItem("date");
 
-    try {
-      let userDataForm = new FormData();
-      userDataForm.append("email", email);
+    const lastLogin = new Functions().DateTime(userLastLogin);
+    const date = new Functions().DateTime(userDate);
 
-      const data = await new UserService().getUserData(userDataForm);
-      console.log(data);
+    console.log(lastLogin);
+    console.log(date);
 
-      return {
-        last_login: data.last_login,
-        date: data.date,
-      };
-      //! lastlogin ve date i userData ile pushla
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
+    setUserData({
+      ip: userIp,
+      ...address,
+      id: userID,
+      email: userEmail,
+      last_login: lastLogin,
+      date: date,
+    });
   };
 
   function checkAddress() {
@@ -431,22 +431,20 @@ export default function Payment() {
                   //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
                   // }
 
+                  console.log(userInfo);
+
                   if (userData.ip === undefined) getIP();
                   if (userInfo === null)
                     return toast.error(
                       "Beklenmedik bir sorun oluştu. Hata: P-FLN"
                     );
 
-                  console.log(userInfo);
-                  setUserData({
-                    ip: userIp,
-                    ...address,
-                    ...userInfo,
-                  });
+                  console.log(address);
 
                   console.log(paymentData);
 
-                  console.log(userData); // Siparis onaylanirken indicator dondur
+                  console.log(userData);
+                  // Siparis onaylanirken indicator dondur
 
                   const cartItems = JSON.stringify(items);
                   console.log(cartItems);
