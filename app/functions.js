@@ -1,6 +1,6 @@
 class Functions {
   DateTime(datee) {
-    const currentDate = new Date(datee) ?? new Date();
+    const currentDate = new Date(parseInt(datee));
 
     const year = currentDate.getFullYear();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");

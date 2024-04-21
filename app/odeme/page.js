@@ -28,42 +28,26 @@ export default function Payment() {
   const handleCheckboxChange = () => setChecked(!isChecked);
 
   useEffect(() => {
+    getIP();
+    checkAddress();
+
     const selectedItems = localStorage.getItem("selected.items");
     const convertedItems = JSON.parse(selectedItems) || [];
 
     setItems(convertedItems);
 
     console.log(convertedItems);
+  }, []);
 
-    checkAddress();
-
-    getIP();
+  useEffect(() => {
     getUserInfo();
   }, []);
 
-  const getIP = async () =>
-    setUserIp((await axios.get("https://api.ipify.org/?format=json")).data.ip);
+  const getIP = async () => {
+    const ip = (await axios.get("https://api.ipify.org/?format=json")).data.ip;
+    setUserIp(ip);
 
-  const getUserInfo = async () => {
-    const userID = localStorage.getItem("id");
-    const userEmail = localStorage.getItem("email");
-    const userLastLogin = localStorage.getItem("last_login");
-    const userDate = localStorage.getItem("date");
-
-    const lastLogin = new Functions().DateTime(userLastLogin);
-    const date = new Functions().DateTime(userDate);
-
-    console.log(lastLogin);
-    console.log(date);
-
-    setUserData({
-      ip: userIp,
-      ...address,
-      id: userID,
-      email: userEmail,
-      last_login: lastLogin,
-      date: date,
-    });
+    return ip;
   };
 
   function checkAddress() {
@@ -74,6 +58,46 @@ export default function Payment() {
     const convertedAddress = JSON.parse(deliveryAddress) || [];
 
     setAddress(convertedAddress);
+    return convertedAddress;
+  }
+
+  async function getUserInfo() {
+    try {
+      const thisIP = await getIP();
+      const thisAddress = checkAddress();
+
+      const email = localStorage.getItem("email");
+      const userID = localStorage.getItem("id");
+      const userLastLogin = localStorage.getItem("last_login");
+      const userDate = localStorage.getItem("date");
+
+      if (!email || !userID || !userLastLogin || !userDate) {
+        console.log("Gerekli veriler eksik!");
+        return;
+      }
+
+      const lastLogin = new Functions().DateTime(userLastLogin);
+      const date = new Functions().DateTime(userDate);
+
+      const userData = {
+        ip: thisIP,
+        ...thisAddress,
+        id: userID,
+        email: email,
+        last_login: lastLogin,
+        date: date,
+      };
+
+      console.log(userData);
+
+      setUserData(userData);
+      console.log(userData);
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        "Bir sorun oluştu! Hata kodu: P-GUI Eğer sorun çözülmez ise Instagram üzerinden bize ulaşınız."
+      );
+    }
   }
 
   const totalPrice = items.reduce(
