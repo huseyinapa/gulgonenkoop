@@ -232,11 +232,11 @@ function OrderCard({ data, setDetails, cancelOrder }) {
         </div>
       </div>
 
-      <div className="card-actions gap-6">
+      <div className="flex flex-row justify-start m-4 gap-6">
         <div
           className={`btn
             ${data.status === "0" ? "" : "hidden"}
-            rounded-md rounded-b-none btn-error`}
+            rounded-md btn-error`}
           onClick={() => {
             cancelOrder(data.orderId);
           }}
@@ -247,7 +247,7 @@ function OrderCard({ data, setDetails, cancelOrder }) {
           İptal Et
         </div>
         <div
-          className={`btn rounded-md rounded-b-none
+          className={`btn rounded-md
           ${
             data.status === "0"
               ? "bg-purple-300"

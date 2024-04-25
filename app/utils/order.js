@@ -22,11 +22,13 @@ class OrderManager {
   }
 
   getOrder(data) {
-    var url = `http://3.124.99.216/api_kleopatra/order/get.php`;
+    var url = `http://51.21.106.119/api_gulgonen/order/get.php`;
 
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(url, data);
+
+        console.log(response.data);
 
         response.data.success
           ? response.data.orders !== null
@@ -34,8 +36,8 @@ class OrderManager {
             : reject(null)
           : reject(null);
       } catch (error) {
-        // console.log(error);
-        reject("Bir hata oluştu.");
+        console.log(error);
+        reject(null);
       }
     });
   }
