@@ -84,42 +84,6 @@ class ProductManager {
     });
   }
 
-  fetchAllProduct() {
-    return new Promise((resolve, reject) => {
-      axios
-        .post(`http://51.21.106.119/api_gulgonen/product/get_all.php`)
-        .then((response) => {
-          // console.log(response.data.success);
-
-          if (response.data.success) {
-            var updatedProducts = [];
-            const data = response.data.data;
-
-            for (let index = 0; index < data.length && index < 4; index++) {
-              const element = data[index];
-
-              updatedProducts.push({
-                id: element.id,
-                name: element.name,
-                description: element.description,
-                price: element.price,
-                stock: element.stock,
-                image: element.image,
-                index: index,
-              });
-            }
-            resolve(updatedProducts);
-          } else {
-            resolve(null);
-          }
-        })
-        .catch((error) => {
-          console.error("Ürün kaldırma hatası:", error);
-          reject(null);
-        });
-    });
-  }
-
   fetchProducts() {
     return new Promise((resolve, reject) => {
       axios

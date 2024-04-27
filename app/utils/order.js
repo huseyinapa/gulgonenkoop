@@ -76,6 +76,7 @@ class OrderManager {
       }
     });
   }
+
   shipIt(data) {
     return new Promise(async (resolve, reject) => {
       try {

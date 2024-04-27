@@ -17,6 +17,9 @@ class PaymentManager {
     const url = "https://api.gulgonenkoop.com/api/payment";
 
     const [expireMonth, expireYear] = paymentData.expiryDate.split("/");
+    if (userData.phone == undefined)
+      return toast.error("Sayfayi yenileyip tekrar deneyiniz.");
+
     console.log(userData.phone);
     const phone = userData.phone?.replace(/[^0-9 ]/g, " ").trim();
     console.log(phone);
@@ -98,12 +101,14 @@ class PaymentManager {
       console.log(pay.data);
       if (pay.data.data.status !== "success") {
         toast.error(pay.data.message);
+        return pay.data;
       } else {
         // _paymentData(payData);
         // fallingOutofCart(payData, pay.data); //stoktan düşme
         toast.success(
           'Ödeme işlemi başarılı, siparişiniz için teşekkür ederiz. Sipariş durumunu "Siparişlerim" kısmından takip edebilirsiniz.'
         );
+        return pay.data;
       }
       // setIsLoading(false);
     } catch (error) {

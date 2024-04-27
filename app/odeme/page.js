@@ -13,8 +13,15 @@ import AddressModal from "./components/addressModal";
 import axios from "axios";
 import PaymentManager from "../utils/payment/payment";
 import UserService from "../utils/services/userService";
+import OrderManager from "../utils/order";
+import CartManager from "../utils/cart";
+import ProductManager from "../utils/product";
+
+import { useRouter } from "next/navigation";
 
 export default function Payment() {
+  const router = useRouter();
+
   const [isChecked, setChecked] = useState(false);
   const [isCollapseChecked, setCollapseChecked] = useState(false);
 
@@ -24,6 +31,11 @@ export default function Payment() {
   const [userData, setUserData] = useState({});
 
   const [userIp, setUserIp] = useState("");
+
+  const cartManager = new CartManager();
+  const orderManager = new OrderManager();
+  const productManager = new ProductManager();
+  const paymentManager = new PaymentManager();
 
   const handleCheckboxChange = () => setChecked(!isChecked);
 
@@ -64,20 +76,22 @@ export default function Payment() {
   async function getUserInfo() {
     try {
       const thisIP = await getIP();
-      const thisAddress = checkAddress();
+      const thisAddress = checkAddress() ?? address;
 
       const email = localStorage.getItem("email");
       const userID = localStorage.getItem("id");
       const userLastLogin = localStorage.getItem("last_login");
       const userDate = localStorage.getItem("date");
 
-      if (!email || !userID || !userLastLogin || !userDate) {
+      if (!email || !userID || !userLastLogin || !thisAddress || !userDate) {
         console.log("Gerekli veriler eksik!");
-        return;
+        return toast.error("Gerekli veriler eksik. Yeniden giriş yapınız!");
       }
 
       const lastLogin = new Functions().DateTime(userLastLogin);
       const date = new Functions().DateTime(userDate);
+
+      console.log(thisAddress);
 
       const userData = {
         ip: thisIP,
@@ -470,6 +484,11 @@ export default function Payment() {
                   console.log(userData);
                   // Siparis onaylanirken indicator dondur
 
+                  const stockControl = await checkStock(items);
+                  // router.push(`/home?userid=test&orderid=testt`);
+
+                  if (!stockControl) return;
+
                   const cartItems = JSON.stringify(items);
                   console.log(cartItems);
 
@@ -478,7 +497,15 @@ export default function Payment() {
                     cartItems,
                     paymentData
                   );
-                }} //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
+
+                  console.log(paymentProcess.data.status);
+                  if (paymentProcess.data.status === "success") {
+                    // await cartManager.
+                    fallingOutofCart(paymentProcess);
+                    //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
+                  }
+                }}
+                //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
               >
                 Siparişi Onayla
               </a>
@@ -530,5 +557,100 @@ export default function Payment() {
         />
       </div>
     );
+  }
+
+  async function checkStock(items) {
+    for (let index = 0; index < items.length; index++) {
+      const element = items[index];
+      // console.log("element:", element);
+
+      let checkProductForm = new FormData();
+      checkProductForm.append("id", element.pid);
+      var checkProduct = await productManager.getProduct(checkProductForm);
+
+      if (checkProduct.stock < element.amount) {
+        toast.error(
+          "Sepetinizdeki ürünlerden bir kısmı stoklarımızda kalmamış, lütfen tekrar kontrol ediniz.",
+          { duration: 5000 }
+        );
+        return false;
+      }
+      return true;
+    }
+  }
+
+  async function fallingOutofCart(payData) {
+    const id = localStorage.getItem("id");
+
+    const customer = {
+      id: id,
+      email: address.email,
+      phone: address.phone,
+      address: `${address.address} ${address.district}/${address.city} ${address.zipCode}`,
+      contactName: `${address.name} ${address.surname}`,
+    };
+
+    const payment = {
+      paymentId: payData.data.paymentId,
+      conversationId: payData.data.conversationId,
+      cardType: payData.data.cardType,
+      cardFamily: payData.data.cardFamily,
+      cardAssociation: payData.data.cardAssociation,
+    };
+
+    const customerify = JSON.stringify(customer);
+    const paymentify = JSON.stringify(payment);
+    const itemsify = JSON.stringify(cartItems);
+
+    // console.log(itemsify);
+    // console.log(JSON.parse(items));
+    const generateOrderID = await new OrderID().orderIdentifier();
+
+    try {
+      let addOrderForm = new FormData();
+      addOrderForm.append("orderId", generateOrderID);
+      addOrderForm.append("status", "0"); // 0: Onay Bekleniyor
+      addOrderForm.append("totalPrice", payData.price);
+      addOrderForm.append("customer", customerify);
+      addOrderForm.append("payment", paymentify);
+      addOrderForm.append("items", itemsify);
+      addOrderForm.append("total", payData.basketItems.length);
+      addOrderForm.append("date", Date.now().toString());
+
+      const orderResult = await orderManager.add(addOrderForm);
+
+      if (orderResult) {
+        //! Custom toast yapılıp siparişlerim sayfasına yönlendiricez
+        let cartProductForm = new FormData();
+        cartProductForm.append("id", id);
+        cartProductForm.append("pid", element.pid);
+        var cartProduct = await cartManager.removeCart(cartProductForm);
+        console.log(cartProduct);
+
+        const newStock = checkProduct.stock - element.amount;
+
+        let productStockForm = new FormData();
+        productStockForm.append("id", element.pid);
+        productStockForm.append("stock", newStock);
+        var productStock = await productManager.fallingOutofStock(
+          productStockForm
+        );
+        console.log(productStock);
+
+        toast.success(
+          "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
+          { duration: 5000 }
+        );
+      } else {
+        toast.error("Sipariş verilemedi");
+        // console.log(orderResult);
+        return;
+      }
+    } catch (error) {
+      toast.error(`Bilinmeyen hata: Hata kodu: P-323`);
+      // console.log(error);
+      //! Mongoya hata eklenebilir.
+      //? ---Her Manager için ayrı model açılacak.---
+    }
   }
 }

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import ProductManager from "../utils/product";
-import create from "../utils/createID";
+import create from "../utils/id/createID";
 import Footer from "../components/home/footer";
 import Header from "../components/home/header";
 import toast, { Toaster } from "react-hot-toast";
