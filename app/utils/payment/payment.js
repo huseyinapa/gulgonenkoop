@@ -108,7 +108,7 @@ class PaymentManager {
         toast.success(
           'Ödeme işlemi başarılı, siparişiniz için teşekkür ederiz. Sipariş durumunu "Siparişlerim" kısmından takip edebilirsiniz.'
         );
-        return pay.data;
+        return { pay: pay.data, data: payData };
       }
       // setIsLoading(false);
     } catch (error) {

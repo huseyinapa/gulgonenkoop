@@ -18,6 +18,7 @@ import CartManager from "../utils/cart";
 import ProductManager from "../utils/product";
 
 import { useRouter } from "next/navigation";
+import OrderID from "../utils/id/createOrderID";
 
 export default function Payment() {
   const router = useRouter();
@@ -498,10 +499,11 @@ export default function Payment() {
                     paymentData
                   );
 
-                  console.log(paymentProcess.data.status);
-                  if (paymentProcess.data.status === "success") {
+                  console.log(paymentProcess.pay.data.status);
+                  if (paymentProcess.pay.data.status === "success") {
                     // await cartManager.
-                    fallingOutofCart(paymentProcess);
+                    console.log(paymentProcess);
+                    fallingOutofCart(paymentProcess, items);
                     //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
                   }
                 }}
@@ -582,6 +584,8 @@ export default function Payment() {
   async function fallingOutofCart(payData) {
     const id = localStorage.getItem("id");
 
+    console.log(payData);
+
     const customer = {
       id: id,
       email: address.email,
@@ -600,47 +604,52 @@ export default function Payment() {
 
     const customerify = JSON.stringify(customer);
     const paymentify = JSON.stringify(payment);
-    const itemsify = JSON.stringify(cartItems);
+    const itemsify = JSON.stringify(items);
 
-    // console.log(itemsify);
+    // console.log(itemsify);items
     // console.log(JSON.parse(items));
-    const generateOrderID = await new OrderID().orderIdentifier();
 
     try {
+      const generateOrderID = await new OrderID().orderIdentifier();
+
       let addOrderForm = new FormData();
       addOrderForm.append("orderId", generateOrderID);
       addOrderForm.append("status", "0"); // 0: Onay Bekleniyor
-      addOrderForm.append("totalPrice", payData.price);
+      addOrderForm.append("totalPrice", payData.data.price);
       addOrderForm.append("customer", customerify);
       addOrderForm.append("payment", paymentify);
       addOrderForm.append("items", itemsify);
-      addOrderForm.append("total", payData.basketItems.length);
+      addOrderForm.append("total", payData.data.basketItems.length);
       addOrderForm.append("date", Date.now().toString());
 
       const orderResult = await orderManager.add(addOrderForm);
 
       if (orderResult) {
         //! Custom toast yapılıp siparişlerim sayfasına yönlendiricez
-        let cartProductForm = new FormData();
-        cartProductForm.append("id", id);
-        cartProductForm.append("pid", element.pid);
-        var cartProduct = await cartManager.removeCart(cartProductForm);
-        console.log(cartProduct);
-
-        const newStock = checkProduct.stock - element.amount;
-
-        let productStockForm = new FormData();
-        productStockForm.append("id", element.pid);
-        productStockForm.append("stock", newStock);
-        var productStock = await productManager.fallingOutofStock(
-          productStockForm
-        );
-        console.log(productStock);
-
         toast.success(
           "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
           { duration: 5000 }
         );
+
+        for (let index = 0; index < items.length; index++) {
+          const element = items[index];
+
+          let cartProductForm = new FormData();
+          cartProductForm.append("id", id);
+          cartProductForm.append("pid", element.pid);
+          var cartProduct = await cartManager.remove(cartProductForm);
+          console.log(cartProduct);
+
+          const newStock = checkProduct.stock - element.amount;
+
+          let productStockForm = new FormData();
+          productStockForm.append("id", element.pid);
+          productStockForm.append("stock", newStock);
+          var productStock = await productManager.fallingOutofStock(
+            productStockForm
+          );
+          console.log(productStock);
+        }
       } else {
         toast.error("Sipariş verilemedi");
         // console.log(orderResult);
@@ -648,7 +657,7 @@ export default function Payment() {
       }
     } catch (error) {
       toast.error(`Bilinmeyen hata: Hata kodu: P-323`);
-      // console.log(error);
+      console.log(error);
       //! Mongoya hata eklenebilir.
       //? ---Her Manager için ayrı model açılacak.---
     }
