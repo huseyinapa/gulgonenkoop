@@ -1,23 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 import PayHeader from "./components/header";
 import Footer from "../components/home/footer";
 import BottomNavBar from "../components/bottomNavBar";
 
-import Functions from "../functions";
 import Product from "./components/items";
 import AddressModal from "./components/addressModal";
-import axios from "axios";
 import PaymentManager from "../utils/payment/payment";
-import UserService from "../utils/services/userService";
+import Functions from "../functions";
+
 import OrderManager from "../utils/order";
 import CartManager from "../utils/cart";
 import ProductManager from "../utils/product";
+import UserService from "../utils/services/userService";
 
-import { useRouter } from "next/navigation";
 import OrderID from "../utils/id/createOrderID";
 
 export default function Payment() {
@@ -486,7 +487,6 @@ export default function Payment() {
                   // Siparis onaylanirken indicator dondur
 
                   const stockControl = await checkStock(items);
-                  // router.push(`/home?userid=test&orderid=testt`);
 
                   if (!stockControl) return;
 
@@ -503,8 +503,12 @@ export default function Payment() {
                   if (paymentProcess.pay.data.status === "success") {
                     // await cartManager.
                     console.log(paymentProcess);
-                    fallingOutofCart(paymentProcess, items);
+                    await fallingOutofCart(paymentProcess, items);
                     //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
+
+                    router.push(`/home?userid=test&orderid=testt`);
+                  } else {
+                    toast.error("Hmm");
                   }
                 }}
                 //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
@@ -594,13 +598,16 @@ export default function Payment() {
       contactName: `${address.name} ${address.surname}`,
     };
 
+    const pay = payData.data.data;
     const payment = {
-      paymentId: payData.data.paymentId,
-      conversationId: payData.data.conversationId,
-      cardType: payData.data.cardType,
-      cardFamily: payData.data.cardFamily,
-      cardAssociation: payData.data.cardAssociation,
+      paymentId: pay.paymentId,
+      conversationId: pay.conversationId,
+      cardType: pay.cardType,
+      cardFamily: pay.cardFamily,
+      cardAssociation: pay.cardAssociation,
     };
+
+    console.log(payment);
 
     const customerify = JSON.stringify(customer);
     const paymentify = JSON.stringify(payment);
@@ -626,10 +633,6 @@ export default function Payment() {
 
       if (orderResult) {
         //! Custom toast yapılıp siparişlerim sayfasına yönlendiricez
-        toast.success(
-          "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
-          { duration: 5000 }
-        );
 
         for (let index = 0; index < items.length; index++) {
           const element = items[index];
@@ -650,8 +653,13 @@ export default function Payment() {
           );
           console.log(productStock);
         }
+        // ?indicator eklenecek
+        toast.success(
+          "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
+          { duration: 5000 }
+        );
       } else {
-        toast.error("Sipariş verilemedi");
+        toast.error("Sipariş verilemedi.");
         // console.log(orderResult);
         return;
       }
