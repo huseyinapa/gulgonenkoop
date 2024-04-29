@@ -42,10 +42,10 @@ export default function Product({ params }) {
     </div>
   );
 }
-
 // Dynamic routes; create a page for each ticket ID
 export async function generateStaticParams() {
   return products.map((product) => ({
     id: `${product.id}`,
+    denem: `${product.id}`,
   }));
 }
