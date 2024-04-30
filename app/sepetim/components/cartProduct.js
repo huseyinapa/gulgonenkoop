@@ -313,7 +313,7 @@ function CartProduct({
                 className="checkbox checkbox-md md:checkbox-lg checkbox-secondary"
                 onChange={() => {
                   // setCheck(!check); // sepet listesine  ekleme işlemi burada
-                  // console.log(selected);
+                  console.log(selected);
 
                   if (selected.map((item) => item.pid).includes(product.pid)) {
                     setSelect(

@@ -499,6 +499,7 @@ export default function Payment() {
                     paymentData
                   );
 
+                  console.log(paymentProcess.pay);
                   console.log(paymentProcess.pay.data.status);
                   if (paymentProcess.pay.data.status === "success") {
                     // await cartManager.
@@ -506,7 +507,7 @@ export default function Payment() {
                     await fallingOutofCart(paymentProcess, items);
                     //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
 
-                    router.push(`/home?userid=test&orderid=testt`);
+                    // ! router.push(`/home?userid=test&orderid=testt`);
                   } else {
                     toast.error("Hmm");
                   }
@@ -589,16 +590,18 @@ export default function Payment() {
     const id = localStorage.getItem("id");
 
     console.log(payData);
+    console.log(address);
+    console.log(userData);
 
     const customer = {
       id: id,
-      email: address.email,
+      email: userData.email,
       phone: address.phone,
       address: `${address.address} ${address.district}/${address.city} ${address.zipCode}`,
       contactName: `${address.name} ${address.surname}`,
     };
 
-    const pay = payData.data.data;
+    const pay = payData.pay.data;
     const payment = {
       paymentId: pay.paymentId,
       conversationId: pay.conversationId,
@@ -617,10 +620,10 @@ export default function Payment() {
     // console.log(JSON.parse(items));
 
     try {
-      const generateOrderID = await new OrderID().orderIdentifier();
+      const orderID = await new OrderID().orderIdentifier();
 
       let addOrderForm = new FormData();
-      addOrderForm.append("orderId", generateOrderID);
+      addOrderForm.append("orderId", orderID);
       addOrderForm.append("status", "0"); // 0: Onay Bekleniyor
       addOrderForm.append("totalPrice", payData.data.price);
       addOrderForm.append("customer", customerify);
@@ -643,6 +646,10 @@ export default function Payment() {
           var cartProduct = await cartManager.remove(cartProductForm);
           console.log(cartProduct);
 
+          let checkProductForm = new FormData();
+          checkProductForm.append("id", element.pid);
+          var checkProduct = await productManager.getProduct(checkProductForm);
+
           const newStock = checkProduct.stock - element.amount;
 
           let productStockForm = new FormData();
@@ -658,6 +665,7 @@ export default function Payment() {
           "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
           { duration: 5000 }
         );
+        router.push(`/order/${orderID}`);
       } else {
         toast.error("Sipariş verilemedi.");
         // console.log(orderResult);

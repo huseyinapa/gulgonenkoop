@@ -42,6 +42,27 @@ class OrderManager {
     });
   }
 
+  getOrderwithID(data) {
+    var url = `http://51.21.106.119/api_gulgonen/order/getwithid.php`;
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.post(url, data);
+
+        console.log(response);
+
+        response.data.success
+          ? response.data.data !== null
+            ? resolve(response.data.data)
+            : reject(null)
+          : reject(null);
+      } catch (error) {
+        console.log(error);
+        reject(null);
+      }
+    });
+  }
+
   fetchOrders() {
     return new Promise(async (resolve, reject) => {
       try {
