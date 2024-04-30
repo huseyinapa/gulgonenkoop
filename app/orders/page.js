@@ -7,8 +7,11 @@ import Header from "../components/home/header";
 import Footer from "../components/home/footer";
 
 import OrderManager from "../utils/order";
+import { useRouter } from "next/navigation";
 
 export default function Order() {
+  const router = useRouter();
+
   const [orders, setOrders] = useState([]);
   const [details, setDetails] = useState([]);
 
@@ -31,6 +34,7 @@ export default function Order() {
       let getOrderForm = new FormData();
       getOrderForm.append("customerId", id);
       const orderData = await orderManager.getOrder(getOrderForm);
+      console.log(orderData);
 
       if (orderData === null) return;
 
@@ -134,102 +138,103 @@ export default function Order() {
       <ModalDetails details={details} />
     </main>
   );
-}
 
-function padZero(number) {
-  return number < 10 ? `0${number}` : number;
-}
+  function padZero(number) {
+    return number < 10 ? `0${number}` : number;
+  }
 
-function OrderCard({ data, setDetails, cancelOrder }) {
-  const date = new Date(parseInt(data.date));
+  function OrderCard({ data, setDetails, cancelOrder }) {
+    const date = new Date(parseInt(data.date));
 
-  const day = padZero(date.getDate());
-  const month = padZero(date.getMonth() + 1); // Months are zero-based
-  const year = date.getFullYear();
-  const hours = padZero(date.getHours());
-  const minutes = padZero(date.getMinutes());
+    const day = padZero(date.getDate());
+    const month = padZero(date.getMonth() + 1); // Months are zero-based
+    const year = date.getFullYear();
+    const hours = padZero(date.getHours());
+    const minutes = padZero(date.getMinutes());
 
-  const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
 
-  return (
-    <div
-      key={data.orderId}
-      className="relative mx-auto items-center lg:items-start mb-4 w-72 md:w-2/4 lg:w-5/6 flex flex-col lg:flex-row p-4 space-x-4 shadow-neutral shadow-[0_0_10px] rounded-lg"
-    >
-      <figure className="relative">
-        <img
-          src="/images/icons/shopping-bag.svg"
-          alt="Ürün görseli"
-          className="md:w-40 h-36 object-cover" //rounded-lg rounded-br-[80px]
-        />
-      </figure>
-      {/* <div className="flex flex-col w-52">
-        <div className="space-y-5">
-          <h2 className="font-bold text-xl">Gül Reçeli</h2>
-          <a className="font-normal">Gül Reçeli için uzun bir açıklama</a>
-        </div>
-      </div> */}
-      <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row">
-          <div className="flex flex-col justify-between">
-            <div className="">
+    return (
+      <div
+        key={data.orderId}
+        className="card relative mx-auto items-center mb-4 w-[450px] flex flex-col p-4 space-x-4 shadow-neutral shadow-[0_0_10px] rounded-lg"
+      >
+        <figure className="relative my-2">
+          <img
+            src="/images/icons/shopping-bag.svg"
+            alt="Ürün görseli"
+            className="w-[370px] h-40 object-contain bg-slate-400" //rounded-lg rounded-br-[80px]
+          />
+        </figure>
+        {/* <div className="flex flex-col w-52">
+          <div className="space-y-5">
+            <h2 className="font-bold text-xl">Gül Reçeli</h2>
+            <a className="font-normal">Gül Reçeli için uzun bir açıklama</a>
+          </div>
+        </div> */}
+        <div className="card-body p-0 px-6 gap-0 flex flex-col">
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col">
               <h2 className="font-bold text-md">Sipariş Tarihi</h2>
               <a className="font-normal">{formattedDate}</a>
             </div>
-          </div>
-          <div className="divider w-40 md:w-auto md:divider-horizontal h-0 md:h-14"></div>
-          <div className="flex flex-col justify-between">
-            <div className="">
+            <div className="divider md:w-auto divider-horizontal h-14"></div>
+
+            <div className="flex flex-col">
               <h2 className="font-bold text-md">Sipariş Detayları</h2>
               <a
                 className="btn-link font-normal cursor-pointer"
                 onClick={() => {
                   setDetails(data.items);
 
-                  document.getElementById("my_modal_5").showModal();
+                  router.push(`/orders/${data.orderId}`);
+                  // document.getElementById("my_modal_5").showModal();
                 }}
               >
                 Görmek için tıklayın
               </a>
             </div>
           </div>
-          <div className="divider w-40 md:w-auto md:divider-horizontal h-0 md:h-14"></div>
-          <div className="flex flex-col justify-between">
-            <div className="">
-              <h2 className="font-bold text-md">Kargo Detayları</h2>
+
+          <div className="divider md:w-auto divider-vertical h-0" />
+
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col">
+              <h2 className="font-bold text-md">Kargo Firması</h2>
               <a className="font-normal">PTT Kargo</a>
             </div>
-          </div>
-          <div className="divider w-40 md:w-auto md:divider-horizontal h-0 md:h-14"></div>
-          <div className="flex flex-col justify-between">
-            <div className="">
+
+            <div className="divider md:w-auto divider-horizontal h-14"></div>
+
+            <div className="flex flex-col">
               <h2 className="font-bold text-md">Tutar</h2>
               <a className="font-normal">{data.totalPrice}₺ (KDV Dahil)</a>
             </div>
           </div>
+
+          <div className="divider md:w-auto h-0 divider-vertical" />
+
+          <div className="mb-0">
+            <h2 className="font-bold text-md">Teslimat Adresi</h2>
+            <a className="font-normal">{data.customer.address}</a>
+          </div>
         </div>
-        <div className="divider w-40 md:w-auto h-0 md:h-14 md:divider-vertical"></div>
-        <div className="mb-3 md:mb-0">
-          <h2 className="font-bold text-md">Teslimat Adresi</h2>
-          <a className="font-normal">{data.customer.address}</a>
-        </div>
-      </div>
-      <div className="md:absolute md:bottom-0 right-4 space-x-3">
-        <div
-          className={`btn
+        <div className="card-actions flex flex-row justify-start mt-4 gap-6">
+          <div
+            className={`btn
             ${data.status === "0" ? "" : "hidden"}
-            rounded-md md:rounded-t-md md:rounded-b-none btn-error`}
-          onClick={() => {
-            cancelOrder(data.orderId);
-          }}
-          //! Modal açılacak emin misiniz falan filan (bu işlem geri alınamaz falan)
-          //! Daha sonra bildirim gidecek işte
-          //! Satıcıya da bildirmeyi unutma
-        >
-          İptal Et
-        </div>
-        <div
-          className={`btn rounded-md md:rounded-t-md md:rounded-b-none
+            rounded-md btn-error`}
+            onClick={() => {
+              cancelOrder(data.orderId);
+            }}
+            //! Modal açılacak emin misiniz falan filan (bu işlem geri alınamaz falan)
+            //! Daha sonra bildirim gidecek işte
+            //! Satıcıya da bildirmeyi unutma
+          >
+            İptal Et
+          </div>
+          <div
+            className={`btn rounded-md
           ${
             data.status === "0"
               ? "bg-purple-300"
@@ -242,13 +247,14 @@ function OrderCard({ data, setDetails, cancelOrder }) {
               : "bg-error"
           }
           pointer-events-none`}
-          onClick={() => {}}
-        >
-          {data.statusText}
+            onClick={() => {}}
+          >
+            {data.statusText}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 function ModalDetails({ details }) {

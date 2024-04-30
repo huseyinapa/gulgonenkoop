@@ -57,7 +57,7 @@ export default async function Product({ params }) {
       <h1>{product.orderId}</h1>
       <p>{product.totalPrice}</p>
       <p>{product.status}</p>
-      
+
       <img src={product.image} alt={product.name} />
     </div>
   );
