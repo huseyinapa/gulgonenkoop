@@ -234,10 +234,9 @@ function CartProduct({
                     // });
 
                     const stringItems = JSON.stringify(selected);
-
                     localStorage.setItem("selected.items", stringItems);
 
-                    window.location.href = "/odeme";
+                    window.location.href = "/payment";
                   } else
                     return toast.error(
                       "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin."

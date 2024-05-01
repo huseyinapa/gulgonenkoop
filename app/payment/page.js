@@ -47,7 +47,10 @@ export default function Payment() {
 
     const selectedItems = localStorage.getItem("selected.items");
     const convertedItems = JSON.parse(selectedItems) || [];
-
+    console.log(convertedItems);
+    if (convertedItems === "[]") {
+      console.log(convertedItems);
+    }
     setItems(convertedItems);
 
     console.log(convertedItems);
@@ -508,8 +511,6 @@ export default function Payment() {
                     //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
 
                     // ! router.push(`/home?userid=test&orderid=testt`);
-                  } else {
-                    toast.error("Hmm");
                   }
                 }}
                 //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
@@ -665,7 +666,10 @@ export default function Payment() {
           "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
           { duration: 5000 }
         );
-        router.push(`/order/${orderID}`);
+        localStorage.removeItem("delivery.address");
+        localStorage.removeItem("selected.items");
+
+        router.push(`/orders/${orderID}`);
       } else {
         toast.error("Sipariş verilemedi.");
         // console.log(orderResult);
@@ -675,7 +679,7 @@ export default function Payment() {
       toast.error(`Bilinmeyen hata: Hata kodu: P-323`);
       console.log(error);
       //! Mongoya hata eklenebilir.
-      //? ---Her Manager için ayrı model açılacak.---
+      // ---Her Manager için ayrı model açılacak.---
     }
   }
 }

@@ -81,7 +81,7 @@ export default function BottomNavBar({ title, agreement, items, address }) {
 
                     // console.log(items);
 
-                    window.location.href = "/odeme";
+                    window.location.href = "/payment";
                   } else
                     return toast.error(
                       "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin.a"

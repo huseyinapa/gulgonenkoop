@@ -6,7 +6,7 @@ class OrderID {
   static async fetchAllOrderIds() {
     try {
       const response = await axios.get(
-        "http://51.21.106.119/api_gulgonen/order/getID.php"
+        "http://51.21.106.119/api_gulgonen/order/getid.php"
       );
       return response.data.success ? response.data.orderIDS : [];
     } catch (error) {
@@ -35,7 +35,7 @@ class OrderID {
   // Sipariş kimliği oluştur ve döndür
   async orderIdentifier() {
     const newIdentifier = await OrderID.generateUniqueId();
-    return `KLEO-${newIdentifier}`;
+    return `gulgonen-${newIdentifier}`;
   }
 }
 

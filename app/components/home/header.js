@@ -60,7 +60,7 @@ export default function Header({ onClick, cartItems }) {
         </div> */}
         {isLoggedIn ? (
           <div className="flex flex-row gap-2">
-            <a className="btn md:w-[150px] bg-secondary" href="/sepetim">
+            <a className="btn md:w-[150px] bg-secondary" href="/cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
