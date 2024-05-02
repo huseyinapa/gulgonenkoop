@@ -4,8 +4,11 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 
 import func from "../.././functions";
+import { useRouter } from "next/navigation";
 
 export default function CartHeader() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -16,7 +19,7 @@ export default function CartHeader() {
       // toast("giriş yapıldı");
       setEmail(storedEmail);
       setIsLoggedIn(true);
-    } else return (window.location.href = "/");
+    } else return router.push("/");
   }, []);
 
   return (
@@ -94,7 +97,7 @@ export default function CartHeader() {
                     );
 
                     setTimeout(() => {
-                      window.location.href = "/";
+                      router.push("/");
                     }, 1200);
                   } catch (error) {
                     toast.error(`Çıkış yapılamadı! Hata kodu: H-HH`);

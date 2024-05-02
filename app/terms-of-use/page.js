@@ -4,16 +4,10 @@ import Footer from "../components/home/footer";
 import Header from "../components/home/header";
 
 export default function TermsofUse() {
-  const onClick = (params) => {
-    console.log(params);
-    if (params === "home") {
-      window.location.href = "/";
-    }
-  };
   return (
     <div data-theme="garden">
       <title>S.S. GülGönen | Kullanım Koşulları</title>
-      <Header onClick={onClick} />
+      <Header />
       <h1 className="mt-3 text-center font-semibold text-2xl">
         Kullanım Koşulları
       </h1>
@@ -24,15 +18,14 @@ export default function TermsofUse() {
         </div>
         <p className="my-4">Son güncellenme: 17 Ekim 2023</p>
         <p>
-          Sevgili ziyaretçimiz, lütfen http://51.21.106.119/ web
-          sitemizi ziyaret etmeden önce işbu kullanım koşulları sözleşmesini
-          dikkatlice okuyunuz. Siteye erişiminiz tamamen bu sözleşmeyi
-          kabulünüze ve bu sözleşme ile belirlenen şartlara uymanıza bağlıdır.
-          Şayet bu sözleşmede yazan herhangi bir koşulu kabul etmiyorsanız,
-          lütfen siteye erişiminizi sonlandırınız. Siteye erişiminizi
-          sürdürdüğünüz takdirde, koşulsuz ve kısıtlamasız olarak, işbu sözleşme
-          metninin tamamını kabul ettiğinizin, tarafımızca varsayılacağını
-          lütfen unutmayınız.
+          Sevgili ziyaretçimiz, lütfen http://51.21.106.119/ web sitemizi
+          ziyaret etmeden önce işbu kullanım koşulları sözleşmesini dikkatlice
+          okuyunuz. Siteye erişiminiz tamamen bu sözleşmeyi kabulünüze ve bu
+          sözleşme ile belirlenen şartlara uymanıza bağlıdır. Şayet bu
+          sözleşmede yazan herhangi bir koşulu kabul etmiyorsanız, lütfen siteye
+          erişiminizi sonlandırınız. Siteye erişiminizi sürdürdüğünüz takdirde,
+          koşulsuz ve kısıtlamasız olarak, işbu sözleşme metninin tamamını kabul
+          ettiğinizin, tarafımızca varsayılacağını lütfen unutmayınız.
         </p>
         <p>
           http://51.21.106.119/ web sitesi GülGönen Kooperatifi tarafından

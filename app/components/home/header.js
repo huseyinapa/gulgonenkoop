@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import func from "../../functions";
 
-export default function Header({ onClick, cartItems }) {
+export default function Header() {
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 

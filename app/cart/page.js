@@ -9,11 +9,14 @@ import Footer from "../components/home/footer";
 import BottomNavBar from "../components/bottomNavBar";
 import CartManager from "../utils/cart";
 import ProductManager from "../utils/product";
+import { useRouter } from "next/navigation";
 
 // import CartManager from "../utils/cart";
 // import ProductManager from "../utils/product";
 
 export default function Cart() {
+  const router = useRouter();
+
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -28,7 +31,7 @@ export default function Cart() {
 
     fetchCart();
     if (storedEmail) setIsLoggedIn(true);
-    else window.location.href = "/";
+    else router.push("/");
   }, []);
 
   function isStockAvailable() {
@@ -54,11 +57,13 @@ export default function Cart() {
 
     return false; // true false değiştirilme sebebi miktar stoktan fazla mı diyor cevap belirli zaten
   }
-  console.log(length);
+  // console.log(length);
 
   if (length === 1999)
     return (
       <div data-theme="garden" className="mx-auto w-screen h-screen">
+        <CartHeader />
+
         <div className="flex h-60 flex-col justify-center items-center space-y-2">
           <span className="loading loading-spinner loading-lg"></span>
           <span className="text-center">Yükleniyor..</span>
@@ -67,7 +72,9 @@ export default function Cart() {
     );
   else if (length === 9991)
     return (
-      <main data-theme="garden" className="flex w-screen h-screen">
+      <div data-theme="garden" className="w-screen h-screen">
+        <CartHeader />
+
         <div className="mx-auto">
           <div className="flex flex-col h-80 justify-center items-center space-y-4">
             <svg
@@ -103,7 +110,7 @@ export default function Cart() {
             </a>
           </div>
         </div>
-      </main>
+      </div>
     );
   else
     return (

@@ -47,9 +47,9 @@ export default function Payment() {
 
     const selectedItems = localStorage.getItem("selected.items");
     const convertedItems = JSON.parse(selectedItems) || [];
-    console.log(convertedItems);
-    if (convertedItems === "[]") {
-      console.log(convertedItems);
+    // console.log(typeof convertedItems);
+    if (convertedItems.length === 0) {
+      return router.push("/cart");
     }
     setItems(convertedItems);
 

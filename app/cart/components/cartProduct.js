@@ -5,6 +5,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
+import { useRouter } from "next/navigation";
 
 function CartProduct({
   setLength,
@@ -12,6 +13,8 @@ function CartProduct({
   selectedItems,
   setSelectedItems,
 }) {
+  const router = useRouter();
+
   const [selected, setSelect] = useState(selectedItems);
   const [cartItems, setCartItems] = useState(cartProducts);
 
@@ -236,7 +239,7 @@ function CartProduct({
                     const stringItems = JSON.stringify(selected);
                     localStorage.setItem("selected.items", stringItems);
 
-                    window.location.href = "/payment";
+                    router.push("/payment");
                   } else
                     return toast.error(
                       "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin."

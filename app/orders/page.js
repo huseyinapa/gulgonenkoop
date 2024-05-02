@@ -119,10 +119,20 @@ export default function Order() {
 
       <Header />
       <div className="min-h-96">
-        <h1 className="ml-10 mb-4 text-start font-bold text-2xl">
-          Siparişlerim
-        </h1>
-        <div>
+        <div className="mx-auto w-[95%] h-20 m-4 bg-slate-200">
+          <div className="text-lg breadcrumbs">
+            <ul>
+              <li>
+                <a href="/">Ana Sayfa</a>
+              </li>
+              <li>
+                <a className="font-semibold">Siparişlerim</a>
+              </li>
+            </ul>
+          </div>
+          <h1 className="text-start font-bold text-2xl">Siparişlerim</h1>
+        </div>
+        <div className="flex flex-wrap mx-auto justify-center sm:items-center md:grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-10 bg-slate-400">
           {orders.map((order) => (
             <OrderCard
               key={order.orderId}
@@ -157,7 +167,7 @@ export default function Order() {
     return (
       <div
         key={data.orderId}
-        className="card relative mx-auto items-center mb-4 w-[450px] flex flex-col p-4 space-x-4 shadow-neutral shadow-[0_0_10px] rounded-lg"
+        className="card flex flex-col mx-auto p-4 md:px-2 lg:px-0 justify-center items-center md:w-[400px] lg:w-[400px] md:h-[530px] lg:h-[530px] space-x-4 shadow-neutral shadow-[0_0_10px] rounded-lg"
       >
         <figure className="relative my-2">
           <img
@@ -187,8 +197,8 @@ export default function Order() {
                 onClick={() => {
                   setDetails(data.items);
 
-                  router.push(`/orders/${data.orderId}`);
-                  // document.getElementById("my_modal_5").showModal();
+                  // router.push(`/orders/${data.orderId}`);
+                  document.getElementById("my_modal_5").showModal();
                 }}
               >
                 Görmek için tıklayın

@@ -4,15 +4,10 @@ import Footer from "../components/home/footer";
 import Header from "../components/home/header";
 
 export default function PrivacyPolicy() {
-  const onClick = (params) => {
-    if (params === "home") {
-      window.location.href = "/";
-    }
-  };
   return (
     <div data-theme="garden">
       <title>S.S. GülGönen | Gizlilik Politikası</title>
-      <Header onClick={onClick} />
+      <Header />
       <h1 className="mt-3 text-center font-semibold text-2xl">
         Gizlilik Politikası
       </h1>

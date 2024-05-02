@@ -1,7 +1,10 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function BottomNavBar({ title, agreement, items, address }) {
+  const router = useRouter();
+
   console.log(items);
 
   const [isChecked, setChecked] = useState(false);
@@ -80,8 +83,7 @@ export default function BottomNavBar({ title, agreement, items, address }) {
                     // var items = localStorage.getItem("selected.items");
 
                     // console.log(items);
-
-                    window.location.href = "/payment";
+                    router.push("/payment");
                   } else
                     return toast.error(
                       "Alışverişini tamamlamak için sepetindeki satın almak istediğin ürünleri seçebilirsin.a"

@@ -1,9 +1,12 @@
 import Functions from "@/app/functions";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PayHeader() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -14,7 +17,7 @@ export default function PayHeader() {
       // toast("giriş yapıldı");
       setEmail(storedEmail);
       setIsLoggedIn(true);
-    } else return (window.location.href = "/");
+    } else return router.push("/");
   }, []);
 
   return (
@@ -110,7 +113,7 @@ export default function PayHeader() {
                       );
 
                       setTimeout(() => {
-                        window.location.href = "/";
+                        router.push("/");
                       }, 1200);
                     } catch (error) {
                       toast.error(`Çıkış yapılamadı! Hata kodu: H-HH`);
