@@ -1,5 +1,4 @@
-export const products = [
-  //productData
+export const _products = [
   {
     id: 1,
     categoryId: 11,
@@ -23,29 +22,30 @@ export const products = [
   },
 ];
 
-export default function Product({ params }) {
-  console.log(params);
-  const productId = parseInt(params.productId);
-  console.log(productId);
-
-  const product = products.find((product) => product.id === productId);
-  console.log(product);
+async function getProductData(productId) {
+  const product = _products.find(
+    (product) => product.id.toString() === productId
+  );
   if (!product) {
-    return <p>Ürün bulunamadı.</p>;
+    throw new Error("Product not found");
   }
+  return product;
+}
+
+export async function generateStaticParams() {
+  return _products.map((product) => ({
+    productId: product.id.toString(),
+  }));
+}
+
+export default async function ProductPage({ params }) {
+  const product = await getProductData(params.productId);
 
   return (
     <div>
       <h1>{product.name}</h1>
-      <p>{product.price}</p>
+      <p>Price: {product.price}</p>
       <img src={product.image} alt={product.name} />
     </div>
   );
-}
-
-// Dynamic routes; create a page for each ticket ID
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    id: `${product.id}`,
-  }));
 }

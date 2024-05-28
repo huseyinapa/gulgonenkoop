@@ -12,7 +12,7 @@ class OrderManager {
             },
           }
         );
-        // console.log("addOrder:", response.data);
+        console.log("addOrder:", response.data);
         resolve(response.data.success);
       } catch (error) {
         console.error(error);

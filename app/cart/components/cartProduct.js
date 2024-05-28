@@ -138,7 +138,7 @@ function CartProduct({
   return (
     <div className="mx-auto min-w-fit md:min-w-full h-auto">
       <div className="mx-auto min-h-[550px] justify-center px-0 md:px-4">
-        <div className="flex flex-row justify-center md:justify-between items-center space-x-6">
+        <div className="flex flex-row justify-center md:justify-between items-center space-x-6 mt-6">
           {/* // ? Sepetteki ürün listesi */}
           <div>
             <div className="flex flex-row h-20 items-center justify-between">
@@ -196,7 +196,7 @@ function CartProduct({
             </div>
           </div>
           {/* //? Ödeme Detay kartı */}
-          <div className="card hidden md:flex w-72 md:w-[200px] lg:w-[300px] md:h-[250px] lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
+          <div className="card hidden md:flex w-72 md:w-[250px] lg:w-[300px] md:h-[250px] lg:h-80 bg-white shadow-secondary shadow-[0_0_0_2px]">
             <div className="card-title text-lg md:text-lg lg:text-2xl py-5 justify-center">
               Seçilen Ürünler ({selectedItems.length})
             </div>

@@ -20,11 +20,13 @@ import ProductManager from "../utils/product";
 import UserService from "../utils/services/userService";
 
 import OrderID from "../utils/id/createOrderID";
+import { AddressComp } from "./components/addressComp";
 
 export default function Payment() {
   const router = useRouter();
 
   const [isChecked, setChecked] = useState(false);
+  const [orderProgress, setOrderProgress] = useState(false);
   const [isCollapseChecked, setCollapseChecked] = useState(false);
 
   const [items, setItems] = useState([]);
@@ -158,66 +160,7 @@ export default function Payment() {
         </div> */}
         <div className="flex flex-row items-start justify-center md:justify-between py-4 px-3 md:p-3 lg:p-8">
           <div className="flex flex-col items-center justify-center gap-5 w-[350px] md:w-[470px] lg:w-[610px] xl:w-[700px] p-4">
-            <div className="card p-2 w-[320px] md:w-[450px] lg:w-[550px] xl:w-[620px] h-[180px] md:h-48 lg:h-44 xl:h-44 shadow-secondary shadow-[0_0_10px]">
-              <div className="card-title justify-center md:justify-start text-lg lg:text-xl text-secondary p-0 md:pl-2">
-                Teslimat Adresim
-              </div>
-              <div className="card-body p-0 pt-1 md:pt-2 pl-3">
-                {Object.keys(address).length === 0 ? (
-                  <div className="text-sm lg:text-base">Adres girilmemiş.</div>
-                ) : (
-                  <>
-                    <div className="flex flex-row gap-4">
-                      <div className="text-sm lg:text-base">
-                        Müşteri Adı:{" "}
-                        {shortenText(
-                          `${address["name"]} ${address["surname"]}`
-                        )}
-                      </div>
-                      <div className="text-sm lg:text-base">
-                        {shortenText(`${address["identityNumber"]}`)}
-                      </div>
-                    </div>
-                    <div className="text-sm lg:text-base">
-                      {shortenText(
-                        address["address"] ?? "Adres bilgileri bulunmuyor"
-                      )}
-                    </div>
-                    <div className="text-sm lg:text-base">
-                      {shortenText(`${address["district"]}/${address["city"]}`)}
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="card-actions justify-end pr-2 pb-2">
-                {Object.keys(address).length !== 0 && (
-                  <a
-                    className={`btn btn-sm btn-error text-secondary-content`}
-                    onClick={() => {
-                      setAddress({});
-                      localStorage.removeItem("delivery.address");
-                    }}
-                  >
-                    Adresi temizle
-                  </a>
-                )}
-                <a
-                  className={`btn btn-sm 
-                    transition ease-out delay-150 duration-200
-                    ${
-                      Object.keys(address).length === 0
-                        ? "bg-secondary text-secondary-content"
-                        : ""
-                    }
-                    `}
-                  onClick={() => {
-                    document.getElementById("address_modal").showModal();
-                  }}
-                >
-                  Adres ekle/değiştir
-                </a>
-              </div>
-            </div>
+            <AddressComp address={address} setAddress={setAddress} />
 
             <div
               className={`collapse collapse-arrow
@@ -240,7 +183,7 @@ export default function Payment() {
                 Kartla Öde
               </div>
               <div className="collapse-content">
-                <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-[380px] md:h-[240px] lg:h-[260px] xl:h-[250px] shadow-secondary shadow-[0_0_10px]">
+                <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-[410px] md:h-[290px] lg:h-[300px] xl:h-[300px] shadow-secondary shadow-[0_0_10px]">
                   <div className="card-title px-3 text-secondary md:text-start text-base md:text-lg lg:text-xl">
                     Kredi veya Banka kartı (Taksit desteklenmiyor)
                   </div>
@@ -320,6 +263,23 @@ export default function Payment() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className="flex flex-row items-center justify-center gap-3 md:gap-6">
+                    <img
+                      src="images/icons/iyzico.svg"
+                      alt="iyzico"
+                      className="h-auto w-32 object-contain rounded-md"
+                    />
+                    <img
+                      src="images/icons/mastercard.svg"
+                      alt="mastercard"
+                      className="h-auto w-14 object-contain rounded-md"
+                    />
+                    <img
+                      src="images/icons/visa.svg"
+                      alt="visa"
+                      className="h-auto w-14 object-contain rounded-md"
+                    />
                   </div>
                 </div>
               </div>
@@ -430,7 +390,9 @@ export default function Payment() {
             </div>
             <div className="card-actions justify-center p-4">
               <a
-                className="btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white"
+                className={`btn btn-sm ${
+                  orderProgress && "btn-disabled"
+                }  md:h-10 lg:btn-md bg-purple-600 text-white`}
                 onClick={async () => {
                   const userInfo = await getUserInfo();
 
@@ -475,47 +437,58 @@ export default function Payment() {
                   // }
 
                   console.log(userInfo);
+                  try {
+                    if (userData.ip === undefined) getIP();
+                    if (userInfo === null)
+                      return toast.error(
+                        "Beklenmedik bir sorun oluştu. Hata: P-FLN"
+                      );
 
-                  if (userData.ip === undefined) getIP();
-                  if (userInfo === null)
-                    return toast.error(
-                      "Beklenmedik bir sorun oluştu. Hata: P-FLN"
+                    console.log(address);
+
+                    console.log(paymentData);
+
+                    console.log(userData);
+                    // Siparis onaylanirken indicator dondur
+
+                    const stockControl = await checkStock(items);
+
+                    if (!stockControl) return;
+
+                    const cartItems = JSON.stringify(items);
+                    console.log(cartItems);
+
+                    setOrderProgress(true);
+
+                    var paymentProcess = await new PaymentManager().request(
+                      userData,
+                      cartItems,
+                      paymentData
                     );
 
-                  console.log(address);
+                    console.log(paymentProcess.pay);
+                    console.log(paymentProcess.pay.data.status);
+                    if (paymentProcess.pay.data.status === "success") {
+                      // await cartManager.
+                      console.log(paymentProcess);
+                      await fallingOutofCart(paymentProcess, items);
+                      //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
 
-                  console.log(paymentData);
-
-                  console.log(userData);
-                  // Siparis onaylanirken indicator dondur
-
-                  const stockControl = await checkStock(items);
-
-                  if (!stockControl) return;
-
-                  const cartItems = JSON.stringify(items);
-                  console.log(cartItems);
-
-                  var paymentProcess = await new PaymentManager().request(
-                    userData,
-                    cartItems,
-                    paymentData
-                  );
-
-                  console.log(paymentProcess.pay);
-                  console.log(paymentProcess.pay.data.status);
-                  if (paymentProcess.pay.data.status === "success") {
-                    // await cartManager.
-                    console.log(paymentProcess);
-                    await fallingOutofCart(paymentProcess, items);
-                    //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
-
-                    // ! router.push(`/home?userid=test&orderid=testt`);
+                      // ! router.push(`/home?userid=test&orderid=testt`);
+                    }
+                  } catch (error) {
+                    console.log(error);
+                    toast.error(error);
                   }
+                  setOrderProgress(false);
                 }}
                 //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
               >
-                Siparişi Onayla
+                {orderProgress ? (
+                  <div className="animate-spin"></div>
+                ) : (
+                  "Siparişi Onayla"
+                )}
               </a>
             </div>
           </div>
@@ -534,11 +507,11 @@ export default function Payment() {
     </div>
   );
 
-  function shortenText(input) {
-    var output = new Functions().shortenText(input, 75);
+  // function shortenText(input) {
+  //   var output = new Functions().shortenText(input, 75);
 
-    return output;
-  }
+  //   return output;
+  // }
 
   function transfer(text, copyData) {
     return (
