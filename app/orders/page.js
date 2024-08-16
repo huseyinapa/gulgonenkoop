@@ -118,8 +118,8 @@ export default function Order() {
       <Toaster position="bottom-right" reverseOrder={false} />
 
       <Header />
-      <div className="min-h-96">
-        <div className="mx-auto w-[95%] h-20 m-4 bg-slate-200">
+      <div className="min-h-screen">
+        <div className="mx-auto w-[95%] h-20 m-4">
           <div className="text-lg breadcrumbs">
             <ul>
               <li>
@@ -132,7 +132,8 @@ export default function Order() {
           </div>
           <h1 className="text-start font-bold text-2xl">Siparişlerim</h1>
         </div>
-        <div className="flex flex-wrap mx-auto px-8 justify-center sm:items-center md:grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-6 lg:gap-8 bg-slate-400">
+
+        <div className="flex flex-wrap mx-auto px-8 justify-center sm:items-center md:grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-6 lg:gap-8">
           {orders.map((order) => (
             <OrderCard
               key={order.orderId}
@@ -173,8 +174,14 @@ export default function Order() {
           <img
             src="/images/icons/shopping-bag.svg"
             alt="Ürün görseli"
-            className="w-[370px] h-40 object-contain bg-slate-400" //rounded-lg rounded-br-[80px]
+            className="w-[370px] h-40 object-contain" //rounded-lg rounded-br-[80px]
           />
+          <a
+            className="absolute top-0 right-0 btn btn-glass"
+            href={`/orders/${data.orderId}`}
+          >
+            Sipariş Detayları
+          </a>
         </figure>
         {/* <div className="flex flex-col w-52">
           <div className="space-y-5">
@@ -185,15 +192,15 @@ export default function Order() {
         <div className="card-body p-0 px-6 gap-0 flex flex-col">
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-col">
-              <h2 className="font-bold text-md">Sipariş Tarihi</h2>
-              <a className="font-normal">{formattedDate}</a>
+              <h2 className="font-bold text-sm md:text-base">Sipariş Tarihi</h2>
+              <a className="text-sm md:text-base">{formattedDate}</a>
             </div>
             <div className="divider md:w-auto divider-horizontal h-14"></div>
 
             <div className="flex flex-col">
-              <h2 className="font-bold text-md">Sipariş Detayları</h2>
+              <h2 className="font-bold text-sm md:text-base">Ürün Detayları</h2>
               <a
-                className="btn-link font-normal cursor-pointer"
+                className="btn-link font-normal cursor-pointer text-sm md:text-base"
                 onClick={() => {
                   setDetails(data.items);
 
@@ -210,26 +217,30 @@ export default function Order() {
 
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-col">
-              <h2 className="font-bold text-md">Kargo Firması</h2>
-              <a className="font-normal">PTT Kargo</a>
+              <h2 className="font-bold text-sm md:text-base">Kargo Firması</h2>
+              <a className="font-normal text-sm md:text-base">PTT Kargo</a>
             </div>
 
             <div className="divider md:w-auto divider-horizontal h-14"></div>
 
             <div className="flex flex-col">
-              <h2 className="font-bold text-md">Tutar</h2>
-              <a className="font-normal">{data.totalPrice}₺ (KDV Dahil)</a>
+              <h2 className="font-bold text-sm md:text-base">Tutar</h2>
+              <a className="font-normal text-sm md:text-base">
+                {data.totalPrice}₺ (KDV Dahil)
+              </a>
             </div>
           </div>
 
           <div className="divider md:w-auto h-0 divider-vertical" />
 
           <div className="mb-0">
-            <h2 className="font-bold text-md">Teslimat Adresi</h2>
-            <a className="font-normal">{data.customer.address}</a>
+            <h2 className="font-bold text-sm md:text-base">Teslimat Adresi</h2>
+            <a className="font-normal text-sm md:text-base">
+              {data.customer.address}
+            </a>
           </div>
         </div>
-        <div className="card-actions flex flex-row justify-start mt-4 gap-6">
+        <div className="card-actions flex flex-row w-full justify-around">
           <div
             className={`btn
             ${data.status === "0" ? "" : "hidden"}
@@ -247,14 +258,14 @@ export default function Order() {
             className={`btn rounded-md
           ${
             data.status === "0"
-              ? "bg-purple-300"
+              ? "bg-gray-300"
               : data.status === "1"
               ? "bg-purple-400"
               : data.status === "2"
               ? "bg-button-rose"
               : data.status === "3"
-              ? "bg-neutral"
-              : "bg-error"
+              ? "bg-green-500 text-white"
+              : "bg-red-600"
           }
           pointer-events-none`}
             onClick={() => {}}

@@ -104,7 +104,7 @@ export default function Cart() {
             </a>
             <a
               className="btn btn-primary btn-sm h-10 md:btn-md"
-              href="/all-products"
+              href="/products"
             >
               Hemen Göz Atın!
             </a>

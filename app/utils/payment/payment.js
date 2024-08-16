@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 class PaymentManager {
   async request(userData, cartItems, paymentData) {
     console.log(userData);
-    // console.log(paymentData);
-    // console.log(cartItems);
+    console.log(paymentData);
+    console.log(cartItems);
 
     const convertedItems = JSON.parse(cartItems) || [];
     // console.log(convertedItems);

@@ -5,26 +5,32 @@ export default async function Product({ params }) {
   const orderId = params.orderId;
   console.log(orderId);
 
-  let orderForm = new FormData();
-  orderForm.append("orderId", orderId);
-  const order = await new OrderManager().getOrderwithID(orderForm);
+  let product = {};
 
-  console.log(order);
-  const _order = {
-    orderId: order.orderId,
-    status: order.status,
-    totalPrice: order.totalPrice,
-    customer: JSON.parse(order.customer),
-    payment: JSON.parse(order.payment),
-    items: JSON.parse(order.items),
-    total: order.total,
-    date: order.date,
-  };
+  try {
+    let orderForm = new FormData();
+    orderForm.append("orderId", orderId);
+    const order = await new OrderManager().getOrderwithID(orderForm);
 
-  const product = _order;
+    console.log(order);
+    const _order = {
+      orderId: order.orderId,
+      status: order.status,
+      totalPrice: order.totalPrice,
+      customer: JSON.parse(order.customer),
+      payment: JSON.parse(order.payment),
+      items: JSON.parse(order.items),
+      total: order.total,
+      date: order.date,
+    };
+    console.log(order);
+    product = _order;
+  } catch (error) {
+    console.log(error);
+  }
   console.log(product);
 
-  if (!product) {
+  if (Object.keys(product).length === 0) {
     return <p>Ürün bulunamadı.</p>;
   }
 

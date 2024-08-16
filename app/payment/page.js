@@ -113,11 +113,13 @@ export default function Payment() {
 
       setUserData(userData);
       console.log(userData);
+      return userData;
     } catch (error) {
       console.log(error);
       toast.error(
-        "Bir sorun oluştu! Hata kodu: P-GUI Eğer sorun çözülmez ise Instagram üzerinden bize ulaşınız."
+        "Bir sorun oluştu! Hata kodu: P-GUI. Eğer sorun çözülmez ise Instagram üzerinden bize ulaşınız."
       );
+      return null;
     }
   }
 
@@ -390,10 +392,11 @@ export default function Payment() {
             </div>
             <div className="card-actions justify-center p-4">
               <a
-                className={`btn btn-sm ${
-                  orderProgress && "btn-disabled"
-                }  md:h-10 lg:btn-md bg-purple-600 text-white`}
+                className={`btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white`}
+                // ${orderProgress && "btn-disabled"}
                 onClick={async () => {
+                  if (orderProgress) return;
+
                   const userInfo = await getUserInfo();
 
                   if (!isChecked) {
@@ -437,6 +440,8 @@ export default function Payment() {
                   // }
 
                   console.log(userInfo);
+                  console.log(userData);
+
                   try {
                     if (userData.ip === undefined) getIP();
                     if (userInfo === null)
@@ -461,13 +466,15 @@ export default function Payment() {
                     setOrderProgress(true);
 
                     var paymentProcess = await new PaymentManager().request(
-                      userData,
+                      userInfo,
                       cartItems,
                       paymentData
                     );
 
+                    console.log(paymentProcess);
                     console.log(paymentProcess.pay);
                     console.log(paymentProcess.pay.data.status);
+
                     if (paymentProcess.pay.data.status === "success") {
                       // await cartManager.
                       console.log(paymentProcess);
@@ -485,7 +492,10 @@ export default function Payment() {
                 //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
               >
                 {orderProgress ? (
-                  <div className="animate-spin"></div>
+                  <svg
+                    className="animate-spin h-5 w-5 mr-3"
+                    viewBox="0 0 24 24"
+                  ></svg>
                 ) : (
                   "Siparişi Onayla"
                 )}
@@ -592,9 +602,11 @@ export default function Payment() {
 
     // console.log(itemsify);items
     // console.log(JSON.parse(items));
+    console.log("1");
 
     try {
       const orderID = await new OrderID().orderIdentifier();
+      console.log("2");
 
       let addOrderForm = new FormData();
       addOrderForm.append("orderId", orderID);
@@ -607,9 +619,11 @@ export default function Payment() {
       addOrderForm.append("date", Date.now().toString());
 
       const orderResult = await orderManager.add(addOrderForm);
+      console.log("3");
 
       if (orderResult) {
         //! Custom toast yapılıp siparişlerim sayfasına yönlendiricez
+        console.log("4");
 
         for (let index = 0; index < items.length; index++) {
           const element = items[index];
@@ -619,10 +633,12 @@ export default function Payment() {
           cartProductForm.append("pid", element.pid);
           var cartProduct = await cartManager.remove(cartProductForm);
           console.log(cartProduct);
+          console.log("5");
 
           let checkProductForm = new FormData();
           checkProductForm.append("id", element.pid);
           var checkProduct = await productManager.getProduct(checkProductForm);
+          console.log("6");
 
           const newStock = checkProduct.stock - element.amount;
 
@@ -633,16 +649,20 @@ export default function Payment() {
             productStockForm
           );
           console.log(productStock);
+          console.log("7");
         }
         // ?indicator eklenecek
+        console.log("8");
+
         toast.success(
           "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
           { duration: 5000 }
         );
         localStorage.removeItem("delivery.address");
         localStorage.removeItem("selected.items");
+        console.log("9");
 
-        router.push(`/orders/${orderID}`);
+        router.push(`/orders/${orderID}`); // işlem tamamlandı sayfasına yönlendir ve eğer tıklarsa gidebilir
       } else {
         toast.error("Sipariş verilemedi.");
         // console.log(orderResult);
