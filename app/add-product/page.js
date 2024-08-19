@@ -55,6 +55,8 @@ function ProductAdd() {
   };
 
   const handleTypeChange = (event) => {
+    console.log(event.target.value);
+
     let newType = "";
 
     switch (event.target.value) {
@@ -62,6 +64,7 @@ function ProductAdd() {
         newType = "KG";
         break;
       case "Gram":
+        console.log("GR");
         newType = "GR";
         break;
       case "CC":
@@ -75,6 +78,8 @@ function ProductAdd() {
         newType = "X";
         break;
     }
+
+    console.log(newType);
 
     setType(newType);
   };
@@ -117,8 +122,8 @@ function ProductAdd() {
     try {
       await toast.promise(productManager.add(productFormData), {
         loading: "Ekleniyor...",
-        success: "Ürün başarıyla eklendi!",
-        error: "Ürün sepete eklenemedi.",
+        success: "Ürün başarıyla yüklendi!",
+        error: "Ürün yüklenemedi.",
       });
 
       setName("");
@@ -131,9 +136,11 @@ function ProductAdd() {
       setType("");
     } catch (error) {
       // toast.error("Ürün eklenemedi.", error);
-      console.log("Ürün eklenemedi.", error);
+      return console.log("Ürün eklenemedi.", error);
     }
   };
+
+  console.log(type);
 
   return (
     <div data-theme="garden">
@@ -254,8 +261,8 @@ function ProductAdd() {
                 <select
                   className="select select-bordered"
                   onChange={handleTypeChange}
-                  value={type ?? "Seçim Yap"}
-                  defaultValue={"Seçim yap"}
+                  value={type}
+                  // defaultValue={"Seçim yap"}
                 >
                   <option>Seçim yap</option>
                   <option>CC</option>

@@ -15,16 +15,23 @@ export default function Order() {
   const [orders, setOrders] = useState([]);
   const [details, setDetails] = useState([]);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const orderManager = new OrderManager();
 
   useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+
     getOrders();
+    if (storedEmail) setIsLoggedIn(true);
+    else router.push("/");
   }, []);
 
-  useEffect(() => {
-    // orders değiştiğinde yapılacak işlemler
-    // toast(orders.length);
-  }, [orders]);
+  // useEffect(() => {
+  // orders değiştiğinde yapılacak işlemler
+
+  // toast(typeof orders.length);
+  // }, [orders]);
 
   async function getOrders() {
     try {
@@ -104,51 +111,89 @@ export default function Order() {
 
   // if (orders.toString().includes("[]")) console.log("asd");
 
-  if (!orders && orders.length === 0)
+  if (orders.length === 0)
     return (
-      <div className="mx-auto w-96 text-center h-32">
-        Siparişiniz bulunmamaktadır.
+      <div data-theme="garden" className="h-screen">
+        <Header />
+
+        <div className="mx-auto">
+          <div className="flex flex-col h-80 justify-center items-center space-y-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl">
+              Sepetiniz şuan boş
+            </h1>
+            <a className="pt-2 text-center text-sm md:text-base">
+              <span>
+                Doğal ürünlerimizden dilediğini sepetine ekleyebilir dilediğin
+                zaman
+              </span>
+              <br />
+              <span>ödemeni gerçekleştirebilirsin.</span>
+            </a>
+            <a
+              className="btn btn-primary btn-sm h-10 md:btn-md"
+              href="/products"
+            >
+              Hemen Göz Atın!
+            </a>
+          </div>
+        </div>
+
+        <Footer />
       </div>
     );
+  else
+    return (
+      <main data-theme="garden" className="min-w-fit">
+        <title>Kleopatra - Siparişlerim</title>
 
-  return (
-    <main data-theme="garden" className="min-w-fit">
-      <title>Kleopatra - Siparişlerim</title>
+        <Toaster position="bottom-right" reverseOrder={false} />
 
-      <Toaster position="bottom-right" reverseOrder={false} />
-
-      <Header />
-      <div className="min-h-screen">
-        <div className="mx-auto w-[95%] h-20 m-4">
-          <div className="text-lg breadcrumbs">
-            <ul>
-              <li>
-                <a href="/">Ana Sayfa</a>
-              </li>
-              <li>
-                <a className="font-semibold">Siparişlerim</a>
-              </li>
-            </ul>
+        <Header />
+        <div className="min-h-screen">
+          <div className="mx-auto w-[95%] h-20 m-4">
+            <div className="text-lg breadcrumbs">
+              <ul>
+                <li>
+                  <a href="/">Ana Sayfa</a>
+                </li>
+                <li>
+                  <a className="font-semibold">Siparişlerim</a>
+                </li>
+              </ul>
+            </div>
+            <h1 className="text-start font-bold text-2xl">Siparişlerim</h1>
           </div>
-          <h1 className="text-start font-bold text-2xl">Siparişlerim</h1>
-        </div>
 
-        <div className="flex flex-wrap mx-auto px-8 justify-center sm:items-center md:grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-6 lg:gap-8">
-          {orders.map((order) => (
-            <OrderCard
-              key={order.orderId}
-              data={order}
-              setDetails={setDetails}
-              cancelOrder={cancelOrder}
-            />
-          ))}
+          <div className="flex flex-wrap mx-auto px-8 justify-center sm:items-center md:grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-6 lg:gap-8">
+            {orders.map((order) => (
+              <OrderCard
+                key={order.orderId}
+                data={order}
+                setDetails={setDetails}
+                cancelOrder={cancelOrder}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <Footer />
+        <Footer />
 
-      <ModalDetails details={details} />
-    </main>
-  );
+        <ModalDetails details={details} />
+      </main>
+    );
 
   function padZero(number) {
     return number < 10 ? `0${number}` : number;

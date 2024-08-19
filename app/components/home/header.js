@@ -9,6 +9,8 @@ export default function Header() {
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
 
@@ -17,7 +19,15 @@ export default function Header() {
       setEmail(storedEmail);
       setIsLoggedIn(true);
     }
+    checkIsAdmin();
   }, []);
+
+  function checkIsAdmin() {
+    var getPermission = parseInt(localStorage.getItem("permission")) ?? 0;
+
+    if (getPermission === 1) setIsAdmin(true);
+    else setIsAdmin(false);
+  }
 
   return (
     <div className="navbar justify-between h-36 px-2 md:px-8 shadow-[0_0_5px]">
@@ -106,6 +116,13 @@ export default function Header() {
                 <li>
                   <a href="/orders">Siparişlerim</a>
                 </li>
+                {isAdmin && (
+                  <li>
+                    <Link href="/add-product" className="">
+                      Ürün Ekle
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <a
                     className="text-red-500"
@@ -118,6 +135,7 @@ export default function Header() {
 
                         localStorage.removeItem("email");
                         localStorage.removeItem("password");
+                        localStorage.removeItem("permission");
 
                         //   trackGAEvent("Kullanıcı girişi", "Kayıt Butonu", "Kayıt yapıldı");
 
