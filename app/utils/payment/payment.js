@@ -100,8 +100,9 @@ class PaymentManager {
       console.log(pay);
       console.log(pay.data);
       if (pay.data.data.status !== "success") {
+        console.log(pay.data);
         toast.error(pay.data.message);
-        return pay.data;
+        return { pay: pay.data, data: payData };
       } else {
         // _paymentData(payData);
         // fallingOutofCart(payData, pay.data); //stoktan düşme

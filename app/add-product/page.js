@@ -17,6 +17,18 @@ function ProductAdd() {
   const [size, setSize] = useState("");
   const [type, setType] = useState("");
 
+  // const [data, setData] = useState({
+  //   name: "",
+  //   description: "",
+  //   price: "",
+  //   stock: "",
+  //   image: "",
+  //   size: "",
+  //   type: "",
+  //   imageName: "",
+  //   date: "",
+  // });
+
   const productManager = new ProductManager();
 
   const handleImageChange = (event) => {
@@ -52,36 +64,6 @@ function ProductAdd() {
 
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
-  };
-
-  const handleTypeChange = (event) => {
-    console.log(event.target.value);
-
-    let newType = "";
-
-    switch (event.target.value) {
-      case "Kilogram":
-        newType = "KG";
-        break;
-      case "Gram":
-        console.log("GR");
-        newType = "GR";
-        break;
-      case "CC":
-        newType = "CC";
-        break;
-      case "Litre":
-        newType = "L";
-        break;
-
-      default:
-        newType = "X";
-        break;
-    }
-
-    console.log(newType);
-
-    setType(newType);
   };
 
   const handleAddProduct = async (event) => {
@@ -260,15 +242,16 @@ function ProductAdd() {
                 </div>
                 <select
                   className="select select-bordered"
-                  onChange={handleTypeChange}
-                  value={type}
-                  // defaultValue={"Seçim yap"}
+                  onChange={(event) => setType(event.target.value)}
+                  value={type || "Seçim Yap"}
                 >
-                  <option>Seçim yap</option>
-                  <option>CC</option>
-                  <option>Litre</option>
-                  <option>Gram</option>
-                  <option>Kilogram</option>
+                  <option selected disabled hidden>
+                    Seçim Yap
+                  </option>
+                  <option value={"CC"}>CC</option>
+                  <option value={"L"}>Litre</option>
+                  <option value={"Gr"}>Gram</option>
+                  <option value={"Kg"}>Kilogram</option>
                 </select>
               </div>
             </div>

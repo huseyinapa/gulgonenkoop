@@ -1,51 +1,43 @@
-export const _products = [
-  {
-    id: 1,
-    categoryId: 11,
-    name: "Ürün 1",
-    price: 100,
-    image: "/product1.jpg",
-  },
-  {
-    id: 2,
-    categoryId: 12,
-    name: "Ürün 2",
-    price: 200,
-    image: "/product2.jpg",
-  },
-  {
-    id: 3,
-    categoryId: 13,
-    name: "Ürün 3",
-    price: 300,
-    image: "/product3.jpg",
-  },
-];
+import axios from "axios";
 
 async function getProductData(productId) {
-  const product = _products.find(
-    (product) => product.id.toString() === productId
-  );
-  if (!product) {
-    throw new Error("Product not found");
+  try {
+    const { data: product } = await axios.get(
+      "https://www.gulgonenkoop.com/api_gulgonen/product/get.php" + //TODO: burayı gözden kaçırma....
+        "?id=" +
+        productId
+    );
+
+    // console.log(product);
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  } catch (error) {
+    console.log(Error);
+    return null;
   }
-  return product;
 }
 
-export async function generateStaticParams() {
-  return _products.map((product) => ({
-    productId: product.id.toString(),
-  }));
-}
+export default async function ProductPage({ params: { productId } }) {
+  const { data: product } = await getProductData(productId);
 
-export default async function ProductPage({ params }) {
-  const product = await getProductData(params.productId);
+  console.log(product);
+  console.log(product);
 
   return (
-    <div>
-      <h1>{product.name}</h1>
-      <p>Price: {product.price}</p>
-      <img src={product.image} alt={product.name} />
+    <div className="">
+      <div key={product.id}>
+        <h1>{product.name}</h1>
+        <p>{product.description}</p>
+        <p>{product.price}</p>
+        <p>{product.stock}</p>
+        <p>{product.webpath}</p>
+        <p>{product.size}</p>
+        <p>{product.type}</p>
+        <p>{product.date}</p>
+      </div>
     </div>
   );
 }

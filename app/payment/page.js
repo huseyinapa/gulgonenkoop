@@ -150,6 +150,97 @@ export default function Payment() {
 
   console.log(userData);
 
+  const paymentProgress = async () => {
+    {
+      if (orderProgress) return;
+
+      const userInfo = await getUserInfo();
+
+      if (!isChecked) {
+        return toast.error(
+          '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
+        );
+      } else if (Object.keys(address).length === 0) {
+        return toast.error("Teslimat adresini doldurunuz.");
+      } else if (
+        !paymentData.cardHolderName ||
+        paymentData.cardHolderName.trim() === ""
+      ) {
+        // setEffect(true);
+        return toast.error("Kredi kartı sahibi adı boş bırakılamaz.");
+      } else if (
+        !paymentData.cardNumber ||
+        paymentData.cardNumber.length < 16 ||
+        paymentData.cardNumber.trim() === ""
+      ) {
+        // setEffect(true);
+        return toast.error(
+          "Kredi kartı numarası eksik yada boş, kontrol ediniz."
+        );
+      } else if (
+        !paymentData.expiryDate ||
+        paymentData.expiryDate.trim() === ""
+      ) {
+        // setEffect(true);
+        return toast.error("Son kullanma tarihi boş bırakılamaz.");
+      } else if (!paymentData.cvv || paymentData.cvv.trim() === "") {
+        // setEffect(true);
+        return toast.error("Kredi kartı cvv boş bırakılamaz.");
+      }
+      // else if (paymentData) {
+      //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
+      // }
+
+      console.log(userInfo);
+      console.log(userData);
+
+      try {
+        if (userData.ip === undefined) getIP();
+        if (userInfo === null)
+          return toast.error("Beklenmedik bir sorun oluştu. Hata: P-FLN");
+
+        console.log(address);
+
+        console.log(paymentData);
+
+        console.log(userData);
+        // Siparis onaylanirken indicator dondur
+
+        const stockControl = await checkStock(items);
+
+        if (!stockControl) return;
+
+        const cartItems = JSON.stringify(items);
+        console.log(cartItems);
+
+        setOrderProgress(true);
+
+        var paymentProcess = await new PaymentManager().request(
+          userInfo,
+          cartItems,
+          paymentData
+        );
+
+        // console.log(paymentProcess);
+        // console.log(paymentProcess.pay);
+        // console.log(paymentProcess.pay.data.status);
+
+        if (paymentProcess.pay.data.status === "success") {
+          // await cartManager.
+          console.log(paymentProcess);
+          await fallingOutofCart(paymentProcess, items);
+          //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
+
+          // ! router.push(`/home?userid=test&orderid=testt`);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error);
+      }
+      setOrderProgress(false);
+    }
+  };
+
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
       <Toaster position="top-center" reverseOrder={false} />
@@ -394,108 +485,40 @@ export default function Payment() {
               <a
                 className={`btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white`}
                 // ${orderProgress && "btn-disabled"}
-                onClick={async () => {
-                  if (orderProgress) return;
-
-                  const userInfo = await getUserInfo();
-
-                  if (!isChecked) {
-                    return toast.error(
-                      '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
-                    );
-                  } else if (Object.keys(address).length === 0) {
-                    return toast.error("Teslimat adresini doldurunuz.");
-                  } else if (
-                    !paymentData.cardHolderName ||
-                    paymentData.cardHolderName.trim() === ""
-                  ) {
-                    // setEffect(true);
-                    return toast.error(
-                      "Kredi kartı sahibi adı boş bırakılamaz."
-                    );
-                  } else if (
-                    !paymentData.cardNumber ||
-                    paymentData.cardNumber.length < 16 ||
-                    paymentData.cardNumber.trim() === ""
-                  ) {
-                    // setEffect(true);
-                    return toast.error(
-                      "Kredi kartı numarası eksik yada boş, kontrol ediniz."
-                    );
-                  } else if (
-                    !paymentData.expiryDate ||
-                    paymentData.expiryDate.trim() === ""
-                  ) {
-                    // setEffect(true);
-                    return toast.error("Son kullanma tarihi boş bırakılamaz.");
-                  } else if (
-                    !paymentData.cvv ||
-                    paymentData.cvv.trim() === ""
-                  ) {
-                    // setEffect(true);
-                    return toast.error("Kredi kartı cvv boş bırakılamaz.");
-                  }
-                  // else if (paymentData) {
-                  //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
-                  // }
-
-                  console.log(userInfo);
-                  console.log(userData);
-
-                  try {
-                    if (userData.ip === undefined) getIP();
-                    if (userInfo === null)
-                      return toast.error(
-                        "Beklenmedik bir sorun oluştu. Hata: P-FLN"
-                      );
-
-                    console.log(address);
-
-                    console.log(paymentData);
-
-                    console.log(userData);
-                    // Siparis onaylanirken indicator dondur
-
-                    const stockControl = await checkStock(items);
-
-                    if (!stockControl) return;
-
-                    const cartItems = JSON.stringify(items);
-                    console.log(cartItems);
-
-                    setOrderProgress(true);
-
-                    var paymentProcess = await new PaymentManager().request(
-                      userInfo,
-                      cartItems,
-                      paymentData
-                    );
-
-                    console.log(paymentProcess);
-                    console.log(paymentProcess.pay);
-                    console.log(paymentProcess.pay.data.status);
-
-                    if (paymentProcess.pay.data.status === "success") {
-                      // await cartManager.
-                      console.log(paymentProcess);
-                      await fallingOutofCart(paymentProcess, items);
-                      //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
-
-                      // ! router.push(`/home?userid=test&orderid=testt`);
-                    }
-                  } catch (error) {
-                    console.log(error);
-                    toast.error(error);
-                  }
-                  setOrderProgress(false);
-                }}
+                onClick={paymentProgress}
                 //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
               >
                 {orderProgress ? (
                   <svg
-                    className="animate-spin h-5 w-5 mr-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="2em"
+                    height="2em"
                     viewBox="0 0 24 24"
-                  ></svg>
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-dasharray="15"
+                      stroke-dashoffset="15"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                      d="M12 3C16.9706 3 21 7.02944 21 12"
+                    >
+                      <animate
+                        fill="freeze"
+                        attributeName="stroke-dashoffset"
+                        dur="0.3s"
+                        values="15;0"
+                      />
+                      <animateTransform
+                        attributeName="transform"
+                        dur="1.5s"
+                        repeatCount="indefinite"
+                        type="rotate"
+                        values="0 12 12;360 12 12"
+                      />
+                    </path>
+                  </svg>
                 ) : (
                   "Siparişi Onayla"
                 )}

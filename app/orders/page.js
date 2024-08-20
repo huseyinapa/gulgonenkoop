@@ -158,7 +158,7 @@ export default function Order() {
   else
     return (
       <main data-theme="garden" className="min-w-fit">
-        <title>Kleopatra - Siparişlerim</title>
+        <title>GülGönen - Siparişlerim</title>
 
         <Toaster position="bottom-right" reverseOrder={false} />
 
