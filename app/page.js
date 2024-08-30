@@ -6,19 +6,14 @@ import Header from "./components/home/header";
 import Store from "./components/home/store";
 import Footer from "./components/home/footer";
 import Product from "./components/home/product";
-import RegistrationModal from "./components/home/modals/register";
-import LoginModal from "./components/home/modals/login";
+import RegistrationModal from "./components/modals/register";
+import LoginModal from "./components/modals/login";
 import toast, { Toaster } from "react-hot-toast";
 import CartManager from "./utils/cart";
 import ProductManager from "./utils/product";
 
 export default function Home() {
   const scrollRef = useRef(null);
-
-  const [cartItems, setCartItems] = useState([]);
-
-  const cartManager = new CartManager();
-  const productManager = new ProductManager();
 
   const handleScrollToSection = (sectionId) => {
     if (typeof document !== "undefined") {
@@ -65,7 +60,7 @@ export default function Home() {
         }}
       />
 
-      <Header onClick={handleScrollToSection} cartItems={cartItems} />
+      <Header onClick={handleScrollToSection} />
       {/* Bölüm 1 */}
       <section id="home">
         <Store />
@@ -76,9 +71,6 @@ export default function Home() {
       </section>
 
       <Footer />
-
-      <RegistrationModal />
-      <LoginModal />
     </main>
   );
 }

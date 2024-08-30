@@ -9,7 +9,13 @@ export default function Page() {
   console.log(data);
   console.log(data2);
 
-  return data ? <div>{data}</div> : <div>Parametre girilmemiş.</div>;
+  return data ? (
+    <div>
+      {data} {data2}
+    </div>
+  ) : (
+    <div>Parametre girilmemiş.</div>
+  );
 }
 
 // export const generateStaticParams = () => [{ slug: "page" }];

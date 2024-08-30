@@ -578,9 +578,7 @@ export default function Payment() {
       const element = items[index];
       // console.log("element:", element);
 
-      let checkProductForm = new FormData();
-      checkProductForm.append("id", element.pid);
-      var checkProduct = await productManager.getProduct(checkProductForm);
+      var checkProduct = await productManager.getProduct(element.pid);
 
       if (checkProduct.stock < element.amount) {
         toast.error(
@@ -658,9 +656,9 @@ export default function Payment() {
           console.log(cartProduct);
           console.log("5");
 
-          let checkProductForm = new FormData();
-          checkProductForm.append("id", element.pid);
-          var checkProduct = await productManager.getProduct(checkProductForm);
+          // let checkProductForm = new FormData();
+          // checkProductForm.append("id", element.pid);
+          var checkProduct = await productManager.getProduct(element.pid);
           console.log("6");
 
           const newStock = checkProduct.stock - element.amount;

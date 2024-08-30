@@ -57,7 +57,7 @@ export default function Cart() {
 
     return false; // true false değiştirilme sebebi miktar stoktan fazla mı diyor cevap belirli zaten
   }
-  // console.log(length);
+  console.log(length);
 
   if (length === 1999)
     return (
@@ -183,10 +183,10 @@ export default function Cart() {
       console.log(productInCart);
 
       for (let i = 0; i < productInCart.length; i++) {
-        const productForm = new FormData();
-        productForm.append("id", productInCart[i].pid);
+        // const productForm = new FormData();
+        // productForm.append("id", productInCart[i].pid);
 
-        const product = await productManager.getProduct(productForm);
+        const product = await productManager.getProduct(productInCart[i].pid);
 
         products.push({
           ...product,

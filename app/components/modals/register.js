@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-import UserService from "../../../utils/services/userService";
-import create from "../../../utils/id/createID";
+import UserService from "../../utils/services/userService";
+import create from "../../utils/id/createID";
 
 const RegistrationModal = () => {
   const [email, setEmail] = useState("");

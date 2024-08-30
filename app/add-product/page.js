@@ -122,8 +122,6 @@ function ProductAdd() {
     }
   };
 
-  console.log(type);
-
   return (
     <div data-theme="garden">
       <Toaster position="top-center" reverseOrder={false} />
@@ -188,7 +186,7 @@ function ProductAdd() {
                   htmlFor="amount"
                   className="block font-medium text-gray-700"
                 >
-                  Stok:
+                  Stok Miktarı:
                 </label>
                 <input
                   type="number"
@@ -197,6 +195,45 @@ function ProductAdd() {
                   onChange={handleStockChange}
                   className="w-40 px-4 py-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                   placeholder="Ürün Stok Miktari"
+                  required
+                />
+              </div>
+              <div className="w-full">
+                <div className="label">
+                  <span className="block font-medium text-gray-700">
+                    Stok Birimi:
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered w-40 select-sm"
+                  onChange={(event) => setType(event.target.value)}
+                  value={type || "Seçim Yap"}
+                >
+                  <option selected disabled hidden>
+                    Seçim Yap
+                  </option>
+                  <option value={"Ad"}>Adet</option>
+                  <option value={"L"}>Litre</option>
+                  <option value={"Gr"}>Gram</option>
+                  <option value={"Kg"}>Kilogram</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-row items-center gap-4">
+              <div>
+                <label
+                  htmlFor="size"
+                  className="block font-medium text-gray-700"
+                >
+                  Gönderim Birimi:
+                </label>
+                <input
+                  type="number"
+                  id="size"
+                  value={size}
+                  onChange={handleSizeChange}
+                  className="w-[160px] px-2 py-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                  placeholder="Sadece sayı giriniz"
                   required
                 />
               </div>
@@ -212,47 +249,10 @@ function ProductAdd() {
                   id="price"
                   value={price}
                   onChange={handlePriceChange}
-                  className="w-52 px-4 py-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                  className="w-[160px] px-4 py-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
                   placeholder="Ürün Fiyatı"
                   required
                 />
-              </div>
-            </div>
-            <div className="flex flex-row items-center gap-4">
-              <div>
-                <label
-                  htmlFor="size"
-                  className="block font-medium text-gray-700"
-                >
-                  Gramı/Litresi:
-                </label>
-                <input
-                  type="number"
-                  id="size"
-                  value={size}
-                  onChange={handleSizeChange}
-                  className="w-[160px] px-2 py-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-                  placeholder="Sadece sayı giriniz"
-                  required
-                />
-              </div>
-              <div className="w-full max-w-md">
-                <div className="label">
-                  <span className="label-text">Ölçü türü:</span>
-                </div>
-                <select
-                  className="select select-bordered"
-                  onChange={(event) => setType(event.target.value)}
-                  value={type || "Seçim Yap"}
-                >
-                  <option selected disabled hidden>
-                    Seçim Yap
-                  </option>
-                  <option value={"CC"}>CC</option>
-                  <option value={"L"}>Litre</option>
-                  <option value={"Gr"}>Gram</option>
-                  <option value={"Kg"}>Kilogram</option>
-                </select>
               </div>
             </div>
 

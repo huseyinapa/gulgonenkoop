@@ -31,6 +31,8 @@ class ProductManager {
           productData
         )
         .then((response) => {
+          console.log("test data" + response.data);
+
           if (response.data.success) resolve(true);
           else reject(false);
         })
@@ -60,26 +62,30 @@ class ProductManager {
     });
   }
 
-  getProduct(body) {
-    var url = `http://51.21.106.119/api_gulgonen/product/get.php`;
+  getProduct(id) {
+    // var url = `http://51.21.106.119/api_gulgonen/product/get.php`;
 
     return new Promise((resolve, reject) => {
       axios
-        .post(url, body)
+        .get(`http://51.21.106.119/api_gulgonen/product/get.php?id=${id}`)
         .then((response) => {
           if (response.data.success) {
             if (response.data.data !== null) {
               resolve(response.data.data);
             } else {
               resolve(null);
+              console.log("error");
             }
+            console.log("error");
           } else {
             reject(null);
+            console.log(`error`);
           }
         })
         .catch((error) => {
-          // console.log(error);
-          reject("Bir hata oluştu.");
+          console.log(error);
+
+          reject(null);
         });
     });
   }

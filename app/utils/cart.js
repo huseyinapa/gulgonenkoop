@@ -62,6 +62,31 @@ class CartManager {
     });
   }
 
+  getAllCartsWithProduct(pid, path) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const formData = new FormData();
+        formData.append("pid", pid);
+        formData.append("path", path);
+
+        const response = await axios.post(
+          "http://51.21.106.119/api_gulgonen/cart/getallcartswithproduct.php",
+          formData
+        );
+
+        console.log("DATA?" + response.data);
+        if (response.data) {
+          return resolve(response.data.message); // PHP dosyasından gelen sepet bilgileri
+        } else {
+          return reject(null); // Hiçbir sepet bulunamadı
+        }
+      } catch (error) {
+        console.log("Sepet bilgisi alınamadı:", error);
+        return reject(null); // Hiçbir sepet bulunamadı
+      }
+    });
+  }
+
   // getProductsInCart(productData) {
   //   var url = `http://51.21.106.119/api_gulgonen/cart/all_get.php`;
 

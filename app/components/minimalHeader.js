@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import func from "../../functions";
+import func from "../functions";
 
-export default function Header() {
+export default function MinimalHeader() {
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -30,7 +30,7 @@ export default function Header() {
   }
 
   return (
-    <div className="navbar justify-between h-36 px-2 md:px-8 shadow-[0_0_5px]">
+    <div className="navbar justify-between h-28 px-2 md:px-8 shadow-[0_0_5px]">
       {/* Büyük Ekran */}
       <div className="navbar-start flex">
         <div className="flex flex-row gap-4">
@@ -38,7 +38,7 @@ export default function Header() {
             <Image
               src="/images/gulgonen-logo.png"
               alt="GülGönen Logo"
-              className="size-28 object-cover"
+              className="size-20 object-cover"
               width={20}
               height={20}
               priority
@@ -51,7 +51,7 @@ export default function Header() {
       </div>
       <div className="navbar-center flex justify-center items-center display">
         <div className="flex flex-row gap-5">
-          <a href="/products" className="link link-hover font-semibold">Ürünlerimiz</a>
+          <span className="link link-hover font-semibold">Ürünlerimiz</span>
           <span className="link link-hover font-semibold">Haber Bülteni</span>
           <span className="link link-hover font-semibold">Mağazalarımız</span>
         </div>

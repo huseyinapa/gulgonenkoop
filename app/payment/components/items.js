@@ -13,10 +13,10 @@ export default function Product({ products }) {
         </div>
         <a
           className="btn btn-ghost font-semibold text-lg md:text-xl m-2 text-purple-600 cursor-pointer"
-          // href="/cart"
-          onClick={() => {
-            localStorage.removeItem("selected.items");
-          }}
+          href="/cart"
+          // onClick={() => {
+          //   localStorage.removeItem("selected.items");
+          // }}
         >
           Düzenle
         </a>

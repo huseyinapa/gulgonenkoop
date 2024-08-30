@@ -1,5 +1,6 @@
 import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -24,7 +25,7 @@ export default function Product() {
         // alert("else");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }
 
@@ -37,20 +38,22 @@ export default function Product() {
   );
 
   function ProductCard({ product }) {
-    const [image, setImage] = useState(product.image);
-
     return (
       <div
         key={product.id}
         className="card bg-white text-neutral-content w-[180px] md:w-[260px] lg:w-72 h-[330px] md:h-[400px] lg:h-[450px] shadow-[#FFA4D5] shadow-[0_0_40px_3px]"
       >
         <figure className="relative">
-          <img
-            src={image}
-            alt={product.name}
+          <Image
+            src={product?.image}
+            alt={product?.name}
+            width={"20"}
+            height={"20"}
             className="h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
-            onError={() => {
-              setImage(product.webpath);
+            onError={(e) => {
+              // e.target.src = product?.webpath;
+              console.log(product.webpath.replace(" ", "%20"));
+              
             }}
           />
           {/* <button
@@ -111,18 +114,17 @@ export default function Product() {
     }
 
     try {
-      const productForm = new FormData();
-      productForm.append("id", data.id);
+      const productData = await productManager.getProduct(data.id);
+      console.log("test");
 
       const productInCartForm = new FormData();
       productInCartForm.append("id", id);
       productInCartForm.append("pid", data.id);
 
-      const productData = await productManager.getProduct(productForm);
-
       const cartProductData = await cartManager.getProductInCart(
         productInCartForm
       );
+      console.log("test");
 
       if (productData !== null && productData.stock < 1) {
         // product !== null &&
@@ -133,12 +135,14 @@ export default function Product() {
       ) {
         return toast.error(`Stoktaki tutardan fazlası sepete eklenemez.`); // sepette bulunan miktarda eklenebilir.
       }
+      console.log("test");
 
       const formData = new FormData();
       formData.append("id", id); // Müşteri kimliği
       formData.append("pid", data.id);
       formData.append("amount", "1");
       formData.append("date", Date.now().toString());
+      console.log(formData.get("pid"));
 
       await toast.promise(cartManager.add(formData), {
         loading: "Ekleniyor...",
@@ -147,7 +151,7 @@ export default function Product() {
       });
     } catch (error) {
       toast.error("Bilinmeyen hata. Kod: PC-HAC");
-      // console.log(error);
+      console.log(error);
     }
   }
 }

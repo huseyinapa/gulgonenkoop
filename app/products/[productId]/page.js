@@ -3,7 +3,7 @@ import axios from "axios";
 async function getProductData(productId) {
   try {
     const { data: product } = await axios.get(
-      "https://www.gulgonenkoop.com/api_gulgonen/product/get.php" + //TODO: burayı gözden kaçırma....
+      "https://www.gulgonenkoop.com/api_gulgonen/product/get.php" +
         "?id=" +
         productId
     );

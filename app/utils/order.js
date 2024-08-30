@@ -42,14 +42,12 @@ class OrderManager {
     });
   }
 
-  getOrderwithID(data) {
-    var url = `http://51.21.106.119/api_gulgonen/order/getwithid.php`;
-
+  getOrderWithID(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await axios.post(url, data);
-
-        console.log(response);
+        const response = await axios.get(
+          `http://51.21.106.119/api_gulgonen/order/getid.php?orderId=${id}`
+        );
 
         response.data.success
           ? response.data.data !== null

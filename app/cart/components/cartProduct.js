@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import CartManager from "@/app/utils/cart";
@@ -22,6 +22,8 @@ function CartProduct({
   const productManager = new ProductManager();
 
   useEffect(() => {
+    console.log(cartItems);
+
     // fetchCartItems();
     // console.log(cartItems.map((e) => e).join(", "));
   }, []);
@@ -53,10 +55,7 @@ function CartProduct({
   };
 
   const handleIncreaseAmount = async (itemId) => {
-    const form = new FormData();
-    form.append("id", itemId);
-
-    const product = await productManager.getProduct(form);
+    const product = await productManager.getProduct(itemId);
 
     console.log(selected);
 
@@ -98,33 +97,39 @@ function CartProduct({
       )
     );
   };
+  console.log(cartItems);
 
   async function handleRemoveItem(pid) {
-    //!
     const id = localStorage.getItem("id");
 
     const formData = new FormData();
     formData.append("id", id);
     formData.append("pid", pid);
 
-    setCartItems(cartItems.filter((x) => x.pid !== pid));
-    setSelectedItems(selectedItems.filter((x) => x.pid !== pid));
-    setSelect(selected.filter((x) => x.pid !== pid));
-
-    console.log(Object.keys(cartItems).length);
-
-    Object.keys(cartItems).length <= 1 ? setLength(9991) : null;
-
     try {
+      // Ürünü sepetten kaldır
+      const updatedCartItems = cartItems.filter((x) => x.pid !== pid);
+      const updatedSelectedItems = selectedItems.filter((x) => x.pid !== pid);
+      const updatedSelect = selected.filter((x) => x.pid !== pid);
+
+      setCartItems(updatedCartItems);
+      setSelectedItems(updatedSelectedItems);
+      setSelect(updatedSelect);
+
+      // Sepet uzunluğu kontrolü
+      if (cartItems.length <= 1) setLength(9991);
+
+      // Sunucudan kaldırma işlemi
       const response = await cartManager.remove(formData);
-      // alert(response);
-      console.log(response);
 
       if (response) {
         toast.success("Ürün sepetinizden kaldırıldı!");
-      } else toast.error("Ürün sepetinizden kaldırılamadı.");
+      } else {
+        toast.error("Ürün sepetinizden kaldırılamadı.");
+      }
     } catch (error) {
       toast.error("Beklenmedik bir sorun oluştu. Kod: C-CP");
+      console.log(error);
     }
   }
 
@@ -186,13 +191,12 @@ function CartProduct({
               </div>
             </div>
             <div className="flex-wrap justify-center items-end gap-4 grid grid-cols-1">
-              {cartItems.map((item) =>
-                ProductCard({
-                  key: item.pid,
+              {cartItems.map((item) => {
+                return ProductCard({
                   product: item,
-                  selected: selected,
-                })
-              )}
+                  // selected: selected,
+                });
+              })}
             </div>
           </div>
           {/* //? Ödeme Detay kartı */}
@@ -255,19 +259,23 @@ function CartProduct({
     </div>
   );
 
-  function ProductCard({ key, product }) {
+  function ProductCard({ product }) {
     console.log(product);
+    // const [image, setImage] = useState(product?.image || "");
 
     return (
       <div
-        key={key}
+        key={product.pid}
         className="relative mx-auto bg-white items-stretch lg:items-start w-[350px] md:w-[450px] lg:w-[500px] xl:w-[700px] h-[140px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="relative">
           <img
-            src="/images/icons/shopping-bag.svg"
+            src={product?.image}
             alt="Ürün görseli"
-            className="w-auto md:w-36 h-[100px] md:h-40 object-contain bg-red-400" //rounded-lg rounded-br-[80px]
+            className={`w-auto md:w-36 h-[100px] md:h-40 object-contain rounded-lg`} //rounded-lg rounded-br-[80px]
+            onError={(e) => {
+              e.target.src = "/images/icons/shopping-bag.svg";
+            }}
           />
           <div className="absolute bg-secondary w-14 md:w-16 h-7 lg:h-8 place-content-center bottom-3 left-0 rounded-r-xl">
             <span className="pl-1.5 text-xs md:text-sm lg:text-base text-white font-bold">
@@ -289,7 +297,6 @@ function CartProduct({
                 <a className="font-normal text-xs md:text-sm">
                   Kargo firması: PTT Kargo
                 </a>
-                {/* <a className="font-normal">Kargo ücreti: Alıcı öder</a> */}
               </div>
             </div>
             <div className="flex flex-row justify-between space-x-2">
@@ -314,9 +321,6 @@ function CartProduct({
                 checked={selected.map((item) => item.pid).includes(product.pid)}
                 className="checkbox checkbox-md md:checkbox-lg checkbox-secondary"
                 onChange={() => {
-                  // setCheck(!check); // sepet listesine  ekleme işlemi burada
-                  console.log(selected);
-
                   if (selected.map((item) => item.pid).includes(product.pid)) {
                     setSelect(
                       selected.filter((item) => item.pid !== product.pid)
@@ -328,12 +332,10 @@ function CartProduct({
                     setSelect([...selected, product]);
                     setSelectedItems([...selected, product]);
                   }
-                  // console.log(selected);
                 }}
               />
             </div>
           </div>
-          {/* <div className="divider w-0 md:w-auto h-0 md:h-5 md:divider-vertical"></div> */}
           <div className="flex flex-row items-center justify-between">
             <div className="btn-group shadow-lg bg-secondary rounded-2xl space-x-1">
               <button
@@ -342,26 +344,135 @@ function CartProduct({
               >
                 &minus;
               </button>
-              <span className="text-xs text-white justify-center">
-                {product.amount}
-              </span>
+              <span className="text-white font-bold">{product.amount}</span>
               <button
                 className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
-                onClick={() => handleIncreaseAmount(product.id)}
+                onClick={() => handleIncreaseAmount(product.pid)}
               >
                 +
               </button>
             </div>
-            <div className="">
-              <a className="text-sm md:text-base font-semibold text-secondary">
-                Toplam: {product.price} TL
-              </a>
-            </div>
+            <span className="font-bold text-md lg:text-xl text-secondary">
+              {product.price.toLocaleString("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+              })}
+            </span>
           </div>
         </div>
       </div>
     );
   }
+
+  // function ProductCard({ product }) {
+  //   console.log(product);
+
+  //   const handleRemove = useCallback(() => {
+  //     handleRemoveItem(product.pid);
+  //   }, [product.pid, handleRemoveItem]);
+
+  //   const handleCheckboxChange = useCallback(() => {
+  //     if (selected.map((item) => item.pid).includes(product.pid)) {
+  //       setSelect(selected.filter((item) => item.pid !== product.pid));
+  //       setSelectedItems(selected.filter((item) => item.pid !== product.pid));
+  //     } else {
+  //       setSelect([...selected, product]);
+  //       setSelectedItems([...selected, product]);
+  //     }
+  //   }, [selected, product, setSelect, setSelectedItems]);
+
+  //   if (!product) return null;
+
+  //   return (
+  //     <div
+  //       key={product.id}
+  //       className="relative mx-auto bg-white items-stretch lg:items-start w-[350px] md:w-[450px] lg:w-[500px] xl:w-[700px] h-[140px] md:h-48 lg:h-48 xl:h-48 flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
+  //     >
+  //       <figure className="relative">
+  //         <img
+  //           src={product?.image}
+  //           alt="Ürün görseli"
+  //           className={`w-auto md:w-36 h-[100px] md:h-40 object-contain rounded-lg`}
+  //           onError={(e) => {
+  //             e.target.src = "/images/icons/shopping-bag.svg";
+  //           }}
+  //         />
+  //         <div className="absolute bg-secondary w-14 md:w-16 h-7 lg:h-8 place-content-center bottom-3 left-0 rounded-r-xl">
+  //           <span className="pl-1.5 text-xs md:text-sm lg:text-base text-white font-bold">
+  //             {product.size} {product.type}
+  //           </span>
+  //         </div>
+  //       </figure>
+
+  //       <div className="flex flex-col justify-between w-full lg:h-full">
+  //         <div className="flex flex-row justify-between">
+  //           <div className="flex flex-col">
+  //             <h2 className="font-bold text-md lg:text-xl text-secondary">
+  //               {product.name}
+  //             </h2>
+  //             <div className="flex flex-col mt-1 md:mt-2 lg:mt-3 space-y-1">
+  //               <a className="font-normal text-xs md:text-sm">
+  //                 {product.description}
+  //               </a>
+  //               <a className="font-normal text-xs md:text-sm">
+  //                 Kargo firması: Yurtiçi Kargo
+  //               </a>
+  //             </div>
+  //           </div>
+  //           <div className="flex flex-row justify-between space-x-2">
+  //             <div className="btn btn-white btn-sm w-11" onClick={handleRemove}>
+  //               <svg
+  //                 xmlns="http://www.w3.org/2000/svg"
+  //                 x="0px"
+  //                 y="0px"
+  //                 width="24"
+  //                 height="24"
+  //                 viewBox="0 0 48 48"
+  //                 className="stroke-secondary fill-current"
+  //               >
+  //                 <path d="M 24 4 C 20.491685 4 17.570396 6.6214322 17.080078 10 L 10.238281 10 A 1.50015 1.50015 0 0 0 9.9804688 9.9785156 A 1.50015 1.50015 0 0 0 9.7578125 10 L 6.5 10 A 1.50015 1.50015 0 1 0 6.5 13 L 8.6386719 13 L 11.15625 39.029297 C 11.427329 41.835926 13.811782 44 16.630859 44 L 31.367188 44 C 34.186411 44 36.570826 41.836168 36.841797 39.029297 L 39.361328 13 L 41.5 13 A 1.50015 1.50015 0 1 0 41.5 10 L 38.244141 10 A 1.50015 1.50015 0 0 0 37.763672 10 L 30.919922 10 C 30.429604 6.6214322 27.508315 4 24 4 z M 24 7 C 25.879156 7 27.420767 8.2681608 27.861328 10 L 20.138672 10 C 20.579233 8.2681608 22.120844 7 24 7 z M 11.650391 13 L 36.347656 13 L 33.855469 38.740234 C 33.730439 40.035363 32.667963 41 31.367188 41 L 16.630859 41 C 15.331937 41 14.267499 40.033606 14.142578 38.740234 L 11.650391 13 z M 20.476562 17.978516 A 1.50015 1.50015 0 0 0 19 19.5 L 19 34.5 A 1.50015 1.50015 0 1 0 22 34.5 L 22 19.5 A 1.50015 1.50015 0 0 0 20.476562 17.978516 z M 27.476562 17.978516 A 1.50015 1.50015 0 0 0 26 19.5 L 26 34.5 A 1.50015 1.50015 0 1 0 29 34.5 L 29 19.5 A 1.50015 1.50015 0 0 0 27.476562 17.978516 z" />
+  //               </svg>
+  //             </div>
+  //             <input
+  //               type="checkbox"
+  //               checked={selected.map((item) => item.pid).includes(product.pid)}
+  //               className="checkbox checkbox-md md:checkbox-lg checkbox-secondary"
+  //               onChange={handleCheckboxChange}
+  //             />
+  //           </div>
+  //         </div>
+  //         <div className="flex flex-row items-center justify-between">
+  //           <div className="btn-group shadow-lg bg-secondary rounded-2xl space-x-1">
+  //             <button
+  //               className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
+  //               onClick={() => handleDecreaseAmount(product.pid)}
+  //             >
+  //               &minus;
+  //             </button>
+  //             <span className="text-xs text-white justify-center">
+  //               {product.amount}
+  //             </span>
+  //             <button
+  //               className="btn btn-xs lg:btn-sm btn-ghost btn-circle bg-secondary text-white transition hover:opacity-75"
+  //               onClick={() => handleIncreaseAmount(product.id)}
+  //             >
+  //               +
+  //             </button>
+  //           </div>
+  //           <div className="">
+  //             <a className="text-sm md:text-base font-semibold text-secondary">
+  //               Toplam:{" "}
+  //               {product.price.toLocaleString("tr-TR", {
+  //                 style: "currency",
+  //                 currency: "TRY",
+  //               })}
+  //             </a>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 }
 
 export default CartProduct;
