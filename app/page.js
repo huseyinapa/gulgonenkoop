@@ -6,11 +6,7 @@ import Header from "./components/home/header";
 import Store from "./components/home/store";
 import Footer from "./components/home/footer";
 import Product from "./components/home/product";
-import RegistrationModal from "./components/modals/register";
-import LoginModal from "./components/modals/login";
 import toast, { Toaster } from "react-hot-toast";
-import CartManager from "./utils/cart";
-import ProductManager from "./utils/product";
 
 export default function Home() {
   const scrollRef = useRef(null);

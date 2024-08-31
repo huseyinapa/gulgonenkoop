@@ -31,14 +31,14 @@ export default function TermsofUse() {
           http://51.21.106.119/ web sitesi GülGönen Kooperatifi tarafından
           yönetilmekte olup, bundan sonra SİTE olarak anılacaktır. İşbu siteye
           ilişkin Kullanım Koşulları, yayınlanmakla yürürlüğe girer. Değişiklik
-          yapma hakkı, tek taraflı olarak SİTE'ye aittir ve SİTE üzerinden
+          yapma hakkı, tek taraflı olarak SİTE&apos;ye aittir ve SİTE üzerinden
           güncel olarak paylaşılacak olan bu değişiklikleri, tüm
           kullanıcılarımız baştan kabul etmiş sayılır.
         </p>
         <h2 className="font-semibold">Gizlilik</h2>
         <p>
           Gizlilik, ayrı bir sayfada, kişisel verilerinizin tarafımızca
-          işlenmesinin esaslarını düzenlemek üzere mevcuttur. SİTE'yi
+          işlenmesinin esaslarını düzenlemek üzere mevcuttur. SİTE&apos;yi
           kullandığınız takdirde, bu verilerin işlenmesinin gizlilik
           politikasına uygun olarak gerçekleştiğini kabul edersiniz.
         </p>
@@ -46,31 +46,31 @@ export default function TermsofUse() {
         <p>
           GülGönen Kooperatifi olarak, sunacağımız hizmetlerin kapsamını ve
           niteliğini, yasalar çerçevesinde belirlemekte tamamen serbest olup;
-          hizmetlere ilişkin yapacağımız değişiklikler, SİTE'de yayınlanmakla
+          hizmetlere ilişkin yapacağımız değişiklikler, SİTE&apos;de yayınlanmakla
           yürürlüğe girmiş sayılacaktır.
         </p>
         <h2 className="font-semibold">Telif Hakları</h2>
         <p>
-          SİTE'de yayınlanan tüm metin, kod, grafikler, logolar, resimler, ses
+          SİTE&apos;de yayınlanan tüm metin, kod, grafikler, logolar, resimler, ses
           dosyaları ve kullanılan yazılımın sahibi (bundan böyle ve daha sonra
-          "içerik" olarak anılacaktır) GülGönen Kooperatifi olup, tüm hakları
+            &quot;içerik&quot; olarak anılacaktır) GülGönen Kooperatifi olup, tüm hakları
           saklıdır. Yazılı izin olmaksızın site içeriğinin çoğaltılması veya
           kopyalanması kesinlikle yasaktır.
         </p>
         <h2 className="font-semibold">Genel Hükümler</h2>
         <ul>
           <li>
-            Kullanıcıların tamamı, SİTE'yi yalnızca hukuka uygun ve şahsi
+            Kullanıcıların tamamı, SİTE&apos;yi yalnızca hukuka uygun ve şahsi
             amaçlarla kullanacaklarını ve üçüncü kişinin haklarına tecavüz
             teşkil edecek nitelikteki herhangi bir faaliyette bulunmayacağını
             taahhüt eder. SİTE dâhilinde yaptıkları işlem ve eylemlerindeki,
             hukuki ve cezai sorumlulukları kendilerine aittir. İşbu iş ve
             eylemler sebebiyle, üçüncü kişilerin uğradıkları veya
-            uğrayabilecekleri zararlardan dolayı SİTE'nin doğrudan ve/veya
+            uğrayabilecekleri zararlardan dolayı SİTE&apos;nin doğrudan ve/veya
             dolaylı hiçbir sorumluluğu yoktur.
           </li>
           <li>
-            SİTE'de mevcut bilgilerin doğruluk ve güncelliğini sağlamak için
+            SİTE&apos;de mevcut bilgilerin doğruluk ve güncelliğini sağlamak için
             elimizden geleni yapmaktayız. Lakin gösterdiğimiz çabaya rağmen, bu
             bilgiler, fiili değişikliklerin gerisinde kalabilir, birtakım
             farklılıklar olabilir. Bu sebeple, site içerisinde yer alan
@@ -79,14 +79,14 @@ export default function TermsofUse() {
             bulunulmamaktadır.
           </li>
           <li>
-            SİTE'de üçüncü şahıslar tarafından işletilen ve içerikleri
+            SİTE&apos;de üçüncü şahıslar tarafından işletilen ve içerikleri
             tarafımızca bilinmeyen diğer web sitelerine, uygulamalara ve
             platformlara köprüler (hyperlink) bulunabilir. SİTE, işlevsellik
             yalnızca bu sitelere ulaşımı sağlamakta olup, içerikleri ile ilgili
             hiçbir sorumluluk kabul etmemekteyiz.
           </li>
           <li>
-            SİTE'yi virüslerden temizlenmiş tutmak konusunda elimizden geleni
+            SİTE&apos;yi virüslerden temizlenmiş tutmak konusunda elimizden geleni
             yapsak da, virüslerin tamamen bulunmadığı garantisini vermemekteyiz.
             Bu nedenle veri indirirken, virüslere karşı gerekli önlemi almak,
             kullanıcıların sorumluluğundadır. Virüs vb. kötü amaçlı programlar,
@@ -94,15 +94,15 @@ export default function TermsofUse() {
             sorumluluk kabul etmemekteyiz.
           </li>
           <li>
-            SİTE'de sunulan hizmetlerde, kusur veya hata olmayacağına ya da
-            kesintisiz hizmet verileceğine dair garanti vermemekteyiz. SİTE'ye
+            SİTE&apos;de sunulan hizmetlerde, kusur veya hata olmayacağına ya da
+            kesintisiz hizmet verileceğine dair garanti vermemekteyiz. SİTE&apos;ye
             ve sitenin hizmetlerine veya herhangi bir bölümüne olan erişiminizi
             önceden bildirmeksizin herhangi bir zamanda sonlandırabiliriz.
           </li>
         </ul>
         <h2 className="font-semibold">Sorumluluğun Sınırlandırılması</h2>
         <p>
-          SİTE'nin kullanımından doğan zararlara ilişkin sorumluluğumuz, kast ve
+          SİTE&apos;nin kullanımından doğan zararlara ilişkin sorumluluğumuz, kast ve
           ağır ihmal ile sınırlıdır. Sözleşmenin ihlalinden doğan zararlarda,
           talep edilebilecek toplam tazminat, öngörülebilir hasarlar ile
           sınırlıdır. Yukarıda bahsedilen sorumluluk sınırlamaları aynı zamanda
@@ -112,7 +112,7 @@ export default function TermsofUse() {
           herhangi bir tazminat yükümlülüğümüz doğmayacaktır.
         </p>
         <p>
-          Uyuşmazlık Çözümü: İşbu Sözleşme'nin uygulanmasından veya
+          Uyuşmazlık Çözümü: İşbu Sözleşme&apos;nin uygulanmasından veya
           yorumlanmasından doğacak her türlü uyuşmazlığın çözümünde, Türkiye
           Cumhuriyeti yasaları uygulanır; Isparta Adliyesi Mahkemeleri ve İcra
           Daireleri yetkilidir.

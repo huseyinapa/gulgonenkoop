@@ -43,7 +43,7 @@ export const removeProduct = async (pid, path) => {
     toast.success(cartUsersResponse);
     toast.success("Ürün kaldırıldı ve sepetlerden çıkarıldı.");
   } catch (error) {
-    toast.error("Bilinmeyen hata!");
+    toast.error("Konsolu kontrol ediniz!");
     console.log(error);
   }
 };

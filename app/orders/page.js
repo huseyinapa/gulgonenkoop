@@ -288,8 +288,8 @@ function ModalDetails({ details }) {
         <h3 className="font-bold text-lg">Ürünler</h3>
 
         <div className="py-4 h-auto space-y-4">
-          {details.map((detail) => (
-            <div className="flex flex-row space-x-4">
+          {details.map((detail, index) => (
+            <div key={index} className="flex flex-row space-x-4">
               <figure>
                 <img src={detail.image} className="w-28 h-auto" />
               </figure>
