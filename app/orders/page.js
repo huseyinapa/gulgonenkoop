@@ -216,7 +216,7 @@ export default function Order() {
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-col">
               <h2 className="font-bold text-sm md:text-base">Kargo Firması</h2>
-              <a className="font-normal text-sm md:text-base">PTT Kargo</a>
+              <a className="font-normal text-sm md:text-base">Yurtiçi Kargo</a>
             </div>
 
             <div className="divider md:w-auto divider-horizontal h-14"></div>
