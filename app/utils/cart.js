@@ -6,6 +6,8 @@ class CartManager {
       try {
         const response = await axios.post(
           `http://51.21.106.119/api_gulgonen/cart/add.php`,
+          // `http://51.21.106.119/api_gulgonen/cart/add.php`,
+
           productData,
           {
             headers: {

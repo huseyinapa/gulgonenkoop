@@ -23,7 +23,7 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <main data-theme="garden" className="min-w-fit">
