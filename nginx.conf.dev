@@ -8,7 +8,7 @@ http {
         server_name gulgonenkoop.com www.gulgonenkoop.com;
 
         location / {
-            proxy_pass http://18.118.53.1:3202;
+            proxy_pass http://gulgonen_web:3202;
         }
     }
     server {
@@ -22,17 +22,8 @@ http {
        ssl_ciphers HIGH:!aNULL:!MD5;
 
        location / {
-           proxy_pass http://18.118.53.1:3202;  # Docker'daki backend servisine yönlendir
+           proxy_pass http://service:3202;  # Docker'daki backend servisine yönlendir
        }
-}
-
-
-    server {
-        listen 80;
-        server_name huseyinapa.com www.huseyinapa.com;
-
-        location / {
-            proxy_pass http://18.118.53.1:3200;
-        }
     }
+
 }
