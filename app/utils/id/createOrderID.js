@@ -6,7 +6,7 @@ class OrderID {
   static async fetchAllOrderIds() {
     try {
       const response = await axios.get(
-        "http://51.21.106.119/api_gulgonen/order/get_orders_id.php"
+        "https://backend.gulgonenkoop.com/api_gulgonen/order/get_orders_id.php"
       );
       return response.data.success ? response.data.orderIDS : [];
     } catch (error) {

@@ -4,7 +4,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `http://51.21.106.119/api_gulgonen/order/add.php`,
+          `https://backend.gulgonenkoop.com/api_gulgonen/order/add.php`,
           data,
           {
             headers: {
@@ -22,7 +22,7 @@ class OrderManager {
   }
 
   getOrder(data) {
-    var url = `http://51.21.106.119/api_gulgonen/order/get.php`;
+    var url = `https://backend.gulgonenkoop.com/api_gulgonen/order/get.php`;
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -46,7 +46,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.get(
-          `http://51.21.106.119/api_gulgonen/order/getid.php?orderId=${id}`
+          `https://backend.gulgonenkoop.com/api_gulgonen/order/getid.php?orderId=${id}`
         );
 
         response.data.success
@@ -65,7 +65,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.get(
-          `http://51.21.106.119/api_gulgonen/order/all_get.php`
+          `https://backend.gulgonenkoop.com/api_gulgonen/order/all_get.php`
         );
 
         response.data.success
@@ -84,7 +84,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `http://51.21.106.119/api_gulgonen/order/confirm.php`,
+          `https://backend.gulgonenkoop.com/api_gulgonen/order/confirm.php`,
           data
         );
         // console.log(response.data);
@@ -100,7 +100,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `http://51.21.106.119/api_gulgonen/order/ship.php`,
+          `https://backend.gulgonenkoop.com/api_gulgonen/order/ship.php`,
           data
         );
         // console.log(response.data);
@@ -116,7 +116,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `http://51.21.106.119/api_gulgonen/order/cancel.php`,
+          `https://backend.gulgonenkoop.com/api_gulgonen/order/cancel.php`,
           data
         );
         // console.log(response.data);

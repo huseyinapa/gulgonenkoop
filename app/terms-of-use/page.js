@@ -18,7 +18,7 @@ export default function TermsofUse() {
         </div>
         <p className="my-4">Son güncellenme: 17 Ekim 2023</p>
         <p>
-          Sevgili ziyaretçimiz, lütfen http://51.21.106.119/ web sitemizi
+          Sevgili ziyaretçimiz, lütfen https://backend.gulgonenkoop.com/ web sitemizi
           ziyaret etmeden önce işbu kullanım koşulları sözleşmesini dikkatlice
           okuyunuz. Siteye erişiminiz tamamen bu sözleşmeyi kabulünüze ve bu
           sözleşme ile belirlenen şartlara uymanıza bağlıdır. Şayet bu
@@ -28,7 +28,7 @@ export default function TermsofUse() {
           ettiğinizin, tarafımızca varsayılacağını lütfen unutmayınız.
         </p>
         <p>
-          http://51.21.106.119/ web sitesi GülGönen Kooperatifi tarafından
+          https://backend.gulgonenkoop.com/ web sitesi GülGönen Kooperatifi tarafından
           yönetilmekte olup, bundan sonra SİTE olarak anılacaktır. İşbu siteye
           ilişkin Kullanım Koşulları, yayınlanmakla yürürlüğe girer. Değişiklik
           yapma hakkı, tek taraflı olarak SİTE&apos;ye aittir ve SİTE üzerinden

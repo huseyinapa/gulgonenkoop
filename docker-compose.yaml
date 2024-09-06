@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   nginx:
@@ -12,6 +12,10 @@ services:
       - gulgonen_net
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf.dev:/etc/nginx/nginx.conf.dev
+      - ./ssl:/etc/nginx/ssl/gulgonen
     command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.dev > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
     depends_on:
       - service

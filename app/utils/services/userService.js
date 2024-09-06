@@ -5,7 +5,7 @@ class UserService {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `http://51.21.106.119/api_gulgonen/user/register.php`,
+          `https://backend.gulgonenkoop.com/api_gulgonen/user/register.php`,
           userData
         );
 
@@ -24,7 +24,7 @@ class UserService {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `http://51.21.106.119/api_gulgonen/user/login.php`,
+          `https://backend.gulgonenkoop.com/api_gulgonen/user/login.php`,
           userData
         );
 
@@ -42,7 +42,7 @@ class UserService {
   }
 
   getUserData(data) {
-    var url = `http://51.21.106.119/api_gulgonen/user/get.php`;
+    var url = `https://backend.gulgonenkoop.com/api_gulgonen/user/get.php`;
 
     return new Promise((resolve, reject) => {
       axios
@@ -71,7 +71,7 @@ class UserService {
   }
 
   checkUserEmail(email) {
-    var url = `http://51.21.106.119/api_gulgonen/user/check_email.php`;
+    var url = `https://backend.gulgonenkoop.com/api_gulgonen/user/check_email.php`;
 
     return new Promise((resolve, reject) => {
       axios
