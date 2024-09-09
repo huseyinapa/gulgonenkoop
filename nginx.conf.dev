@@ -1,5 +1,5 @@
 events {
-    worker_connections 1024;
+worker_connections 1024;
 }
 
 http {
@@ -9,21 +9,35 @@ http {
 
         location / {
             proxy_pass http://gulgonen_web:3202;
+    }
+}
+    server {
+        listen 443 ssl;
+        server_name gulgonenkoop.com  www.gulgonenkoop.com;
+
+        ssl_certificate /etc/nginx/ssl/gulgonen/server.crt;
+        ssl_certificate_key /etc/nginx/ssl/gulgonen/server.key;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+
+        location / {
+            proxy_pass http://service:3202;  # Docker'daki backend servisine yönlendir
         }
     }
+
     server {
-       listen 443 ssl;
-       server_name gulgonenkoop.com  www.gulgonenkoop.com;
+        listen 443 ssl;
+        server_name backend.gulgonenkoop.com;
 
-       ssl_certificate /etc/nginx/ssl/gulgonen/server.crt;
-       ssl_certificate_key /etc/nginx/ssl/gulgonen/server.key;
+        ssl_certificate /etc/nginx/ssl/gulgonen/server.crt;
+        ssl_certificate_key /etc/nginx/ssl/gulgonen/server.key;
 
-       ssl_protocols TLSv1.2 TLSv1.3;
-       ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
 
-       location / {
-           proxy_pass http://service:3202;  # Docker'daki backend servisine yönlendir
-       }
+        location / {
+           proxy_pass http://51.21.106.119;
+        }
     }
-
 }
