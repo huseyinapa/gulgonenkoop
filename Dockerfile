@@ -21,4 +21,3 @@ RUN npm run build
 CMD ["npm", "start"]
 
 # Uygulamanın çalışacağı portu belirt
-EXPOSE 3202
