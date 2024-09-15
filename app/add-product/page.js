@@ -5,7 +5,7 @@ import ProductManager from "../utils/product";
 import create from "../utils/id/createID";
 import Footer from "../components/home/footer";
 import Header from "../components/home/header";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function ProductAdd() {
   const [image, setImage] = useState("");
@@ -124,7 +124,6 @@ function ProductAdd() {
 
   return (
     <div data-theme="garden">
-      <Toaster position="top-center" reverseOrder={false} />
 
       <Header />
       <div className="flex flex-row mx-auto">

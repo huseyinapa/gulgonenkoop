@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 import PayHeader from "./components/header";
@@ -17,7 +17,6 @@ import Functions from "../functions";
 import OrderManager from "../utils/order";
 import CartManager from "../utils/cart";
 import ProductManager from "../utils/product";
-import UserService from "../utils/services/userService";
 
 import OrderID from "../utils/id/createOrderID";
 import { AddressComp } from "./components/addressComp";
@@ -243,7 +242,6 @@ export default function Payment() {
 
   return (
     <div data-theme="garden" className="min-w-fit min-h-[500px]">
-      <Toaster position="top-center" reverseOrder={false} />
 
       <PayHeader />
       <div className="mx-auto">
@@ -335,7 +333,7 @@ export default function Payment() {
                             maxLength="5"
                             value={paymentData.expiryDate || ""}
                             onChange={handleChange}
-                            // onFocus={() => setIsCardFlipped(false)}
+                          // onFocus={() => setIsCardFlipped(false)}
                           />
                         </div>
                         <div className="max-w-xs">
@@ -464,7 +462,7 @@ export default function Payment() {
                   />
                   <a
                     className={`label-text flex flex-col`}
-                    // ${effect && "text-red-400"}
+                  // ${effect && "text-red-400"}
                   >
                     <span
                       className="text-secondary"
@@ -486,7 +484,7 @@ export default function Payment() {
                 className={`btn btn-sm md:h-10 lg:btn-md bg-purple-600 text-white`}
                 // ${orderProgress && "btn-disabled"}
                 onClick={paymentProgress}
-                //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
+              //! -kontrol işlemi ve belirlenen- sayfaya veri gönderimi
               >
                 {orderProgress ? (
                   <svg

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
 import { useRouter } from "next/navigation";

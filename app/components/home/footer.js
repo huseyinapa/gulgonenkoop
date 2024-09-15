@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="flex flex-row w-[300px] md:w-auto items-center gap-3">
             {/* web site eklenebilir. */}
             <Image
-              src="/images/apadigial.png"
+              src="/images/apadigital.png"
               alt="APA Digital"
               className="size-[70px] w-[80px] md:w-24 md:h-24 object-cover rounded-md"
               width={"20"}
@@ -40,7 +40,7 @@ export default function Footer() {
             <div className="flex flex-col items-start gap-1">
               <h1>
                 <span className="font-semibold text-base md:text-md">
-                  APA Dijital Ajans
+                  APA Dijital
                 </span>
               </h1>
               <h1>

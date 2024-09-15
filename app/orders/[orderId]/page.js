@@ -105,10 +105,10 @@ export default async function Product({ params: { orderId } }) {
           </div>
           <div className="flex flex-col w-[80%] lg:w-[70%] max-w-[1000px] min-h-[550px] md:h-96 lg:h-96 justify-start items-center bg-white border-2 border-rose-800 rounded-lg">
             {/* Sipariş Bilgi Bölümü */}
-            <div className="w-[100%] lg:w-[100%] h-20 md:h-20 lg:h-20 border-b-2 border-rose-800">
-              <div className="flex">
+            <div className="w-[100%] lg:w-[100%] h-44 md:h-20 border-b-2 border-rose-800">
+              <div className="flex flex-col md:flex-row items-center md:items-start">
                 {/* Sipariş Bilgi Bölümü */}
-                <div className="flex w-[70%] lg:w-[65%] h-20 lg:h-20 justify-around items-center border-r-2 border-rose-800">
+                <div className="flex w-[90%] lg:w-[65%] p-2 mt-2 md:mt-0 md:h-20 justify-around items-center">{/* border-r-2 border-rose-800 */}
                   <div className="flex flex-col items-center">
                     <span className="font-semibold md:text-base lg:text-md">
                       Sipariş Tarihi
@@ -134,9 +134,9 @@ export default async function Product({ params: { orderId } }) {
                     </span>
                   </div>
                 </div>
-
+                <div className="divider divider-vertical md:divider-horizontal w-[100%] md:w-[1.5px] h-[1.5px] md:h-20 bg-rose-800" />
                 {/* Kargo Bölümü */}
-                <div className="flex w-[30%] lg:w-[35%] md: lg:h-20 justify-around items-center">
+                <div className="flex w-[30%] lg:w-[35%] md:h-20 justify-around items-center">
                   {/* <div className="flex flex-col items-center">
                       <span className="font-semibold">Tahmini Teslimat</span>
                       <span className="font-normal">{order.date}</span>

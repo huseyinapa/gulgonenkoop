@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import CartHeader from "./components/header";
 import CartProduct from "./components/cartProduct";
@@ -116,35 +116,6 @@ export default function Cart() {
     return (
       //bg-[#f0a2f041]
       <main data-theme="garden" className="min-w-fit">
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{
-            success: {
-              style: {
-                border: "1px solid #713200",
-                padding: "16px",
-                color: "#8e4162",
-              },
-              iconTheme: {
-                primary: "#8e4162",
-                secondary: "#FFFAEE",
-              },
-            },
-            error: {
-              style: {
-                border: "1px solid #cc060f",
-                padding: "16px",
-                color: "#000000",
-              },
-              iconTheme: {
-                primary: "#cc060f",
-                secondary: "#FFFAEE",
-              },
-            },
-          }}
-        />
-
         <CartHeader />
 
         <div className="px-4">
@@ -153,7 +124,7 @@ export default function Cart() {
             cartProducts={cartItems}
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
-            //   setCompleted={setCompleted}
+          //   setCompleted={setCompleted}
           />
         </div>
 

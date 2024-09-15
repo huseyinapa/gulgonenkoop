@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import Header from "../components/home/header";
 import Footer from "../components/home/footer";
@@ -246,27 +246,26 @@ export default function Order() {
             onClick={() => {
               cancelOrder(data.orderId);
             }}
-            //! Modal açılacak emin misiniz falan filan (bu işlem geri alınamaz falan)
-            //! Daha sonra bildirim gidecek işte
-            //! Satıcıya da bildirmeyi unutma
+          //! Modal açılacak emin misiniz falan filan (bu işlem geri alınamaz falan)
+          //! Daha sonra bildirim gidecek işte
+          //! Satıcıya da bildirmeyi unutma
           >
             İptal Et
           </div>
           <div
             className={`btn rounded-md
-          ${
-            data.status === "0"
-              ? "bg-gray-300"
-              : data.status === "1"
-              ? "bg-purple-400"
-              : data.status === "2"
-              ? "bg-button-rose"
-              : data.status === "3"
-              ? "bg-green-500 text-white"
-              : "bg-red-600"
-          }
+          ${data.status === "0"
+                ? "bg-gray-300"
+                : data.status === "1"
+                  ? "bg-purple-400"
+                  : data.status === "2"
+                    ? "bg-button-rose"
+                    : data.status === "3"
+                      ? "bg-green-500 text-white"
+                      : "bg-red-600"
+              }
           pointer-events-none`}
-            onClick={() => {}}
+            onClick={() => { }}
           >
             {data.statusText}
           </div>
