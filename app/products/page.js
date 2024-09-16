@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Header from "../components/home/header";
 import { removeProduct } from "@/actions/product/remove";
+import Footer from "../components/home/footer";
+import Link from "next/link";
 
 export default function Products() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -30,9 +32,13 @@ export default function Products() {
       const products = await productManager.fetchProducts();
       if (products !== null) {
         setProducts(products);
+      } else {
+        setProducts(null);
+        toast.error("Stoğumuzda ürün bulunmuyor.");
       }
     } catch (error) {
       console.log(error);
+      toast.error("Ürünler getirilirken bir hata oluştu.");
     }
   }
 
@@ -60,9 +66,9 @@ export default function Products() {
         </div>
       )}
       <div
-        className={`flex flex-wrap mx-auto my-8 p-4 justify-center sm:items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10 ${
-          loading ? "opacity-50" : ""
-        }`}
+        className={`flex flex-wrap mx-auto my-8 p-4 justify-center sm:items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10
+          ${loading ? "opacity-50" : ""}
+          `}
       >
         {products.length === 0 ? (
           <div></div>
@@ -72,8 +78,29 @@ export default function Products() {
           ))
         )}
       </div>
+      <Footer />
     </div>
   );
+
+  function slugify(text) {
+    const turkishMap = {
+      'ç': 'c', 'Ç': 'C',
+      'ğ': 'g', 'Ğ': 'G',
+      'ı': 'i', 'İ': 'I',
+      'ö': 'o', 'Ö': 'O',
+      'ş': 's', 'Ş': 'S',
+      'ü': 'u', 'Ü': 'U'
+    };
+
+    return text
+      .toLowerCase()
+      .replace(/[çÇğĞıİöÖşŞüÜ]/g, function (match) {
+        return turkishMap[match];
+      })
+      .replace(/[^a-z0-9\-]/g, '-')  // Alfanümerik olmayan karakterleri - ile değiştir
+      .replace(/-+/g, '-')           // Birden fazla "-" varsa tek "-"e indir
+      .replace(/^-|-$/g, '');
+  }
 
   function ProductCard({ product }) {
     const [image, setImage] = useState(product.image);
@@ -84,14 +111,19 @@ export default function Products() {
         className="card bg-white text-neutral-content w-[170px] sm:w-[180px] md:w-[260px] lg:w-72 h-[330px] md:h-[400px] lg:h-[450px] shadow-[#FFA4D5] shadow-[0_0_40px_3px]"
       >
         <figure className="relative">
-          <img
-            src={image || product.webpath}
-            alt={product.name}
-            className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
-            onError={() => {
-              setImage(product.webpath);
-            }}
-          />
+          <Link href={`/products/${slugify(product.name)}-${product.id.toLowerCase()}`}>
+            <img
+              src={image || product.webpath}
+              alt={product.name}
+              className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
+              onError={() => {
+                setImage(product.webpath);
+              }}
+              onClick={() => {
+
+              }}
+            />
+          </Link>
           {isAdmin && (
             <button
               className="absolute top-3 right-3 btn btn-sm btn-circle lg:btn-md shadow-sm"

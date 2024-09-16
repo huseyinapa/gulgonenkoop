@@ -52,27 +52,27 @@ export default function Footer() {
       </aside>
       <div className="flex flex-row items-center justify-center gap-3 md:gap-16 p-x4">
         <img
-          src="images/icons/iyzico.svg"
+          src="/images/icons/iyzico.svg"
           alt="iyzico"
           className="h-auto w-32 object-contain rounded-md"
         />
         <img
-          src="images/icons/mastercard.svg"
+          src="/images/icons/mastercard.svg"
           alt="mastercard"
           className="h-auto w-14 object-contain rounded-md"
         />
         <img
-          src="images/icons/visa.svg"
+          src="/images/icons/visa.svg"
           alt="visa"
           className="h-auto w-14 object-contain rounded-md"
         />
         <img
-          src="images/icons/troy.svg"
+          src="/images/icons/troy.svg"
           alt="a-express"
           className="h-auto w-14 object-contain rounded-md"
         />
         <img
-          src="images/icons/american-express.svg"
+          src="/images/icons/american-express.svg"
           alt="a-express"
           className="h-auto w-14 object-contain rounded-md"
         />

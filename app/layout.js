@@ -13,8 +13,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr">
-      <body data-theme="garden" className={inter.className}>
+    <html lang="tr" className={inter.className}>
+      <body data-theme="garden">
         <Toaster
           position="top-center"
           reverseOrder={false}

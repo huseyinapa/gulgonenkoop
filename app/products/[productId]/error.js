@@ -18,16 +18,16 @@ export default function Error({ error, reset }) {
                 404
               </h2>
               <h4 class="mb-3 text-[22px] font-semibold leading-tight text-white">
-                Oops! That page can’t be found
+                Oops! Ürün bulunamadı.
               </h4>
               <p class="mb-8 text-lg text-white">
-                The page you are looking for it maybe deleted
+                Aradığınız ürün belki kaldırılmış olabilir. Sayfayı yenilemeyi deneyin.
               </p>
               <a
-                href="javascript:void(0)"
+                href="/products"
                 class="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-primary"
               >
-                Go To Home
+                Diğer ürünlere dön
               </a>
             </div>
           </div>

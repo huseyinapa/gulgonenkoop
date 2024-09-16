@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -38,7 +40,7 @@ export default function Header() {
             <Image
               src="/images/gulgonen-logo.png"
               alt="Isparta S.S. Gülgönen Tarımsal Kalkınma Kooperatifi"
-              className="size-24 md:size-28 object-cover"
+              className="size-24 md:size-28 object-contain"
               width={20}
               height={20}
               priority
