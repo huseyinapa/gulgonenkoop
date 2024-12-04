@@ -83,7 +83,7 @@ export default async function Product({ params: { orderId } }) {
 
   return (
     <div className="min-h-screen">
-      <title>GülGönen - Sipariş Detayı</title>
+      <title>Gülgönen - Sipariş Detayı</title>
 
       <div className="mx-auto w-[96%] pt-5 text-lg breadcrumbs">
         <ul>

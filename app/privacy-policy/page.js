@@ -5,8 +5,8 @@ import Header from "../components/home/header";
 
 export default function PrivacyPolicy() {
   return (
-    <div data-theme="garden">
-      <title>S.S. GülGönen | Gizlilik Politikası</title>
+    <main data-theme="garden">
+      <title>S.S. Gülgönen | Gizlilik Politikası</title>
       <Header />
       <h1 className="mt-3 text-center font-semibold text-2xl">
         Gizlilik Politikası
@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
           kişisel veriler, titizlikle korunmaktadır.
         </p>
         <p>
-          Biz, S.S. GülGönen Kooperatifi Olarak olarak veri sorumlusu sıfatıyla,
+          Biz, S.S. Gülgönen Kooperatifi Olarak olarak veri sorumlusu sıfatıyla,
           bu gizlilik ve kişisel verilerin korunması politikası ile, hangi
           kişisel verilerinizin hangi amaçla işleneceği, işlenen verilerin
           kimlerle ve neden paylaşılabileceği, veri işleme yöntemimiz ve hukuki
@@ -131,6 +131,6 @@ export default function PrivacyPolicy() {
       </div>
 
       <Footer />
-    </div>
+    </main>
   );
 }

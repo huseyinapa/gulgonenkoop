@@ -7,8 +7,8 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "S.S. GülGönen Koop.",
-  description: "S.S. GülGönen Tarımsal Kalkınma Kooperatifi.",
+  title: "S.S. Gülgönen Koop.",
+  description: "S.S. Gülgönen Tarımsal Kalkınma Kooperatifi.",
 };
 
 export default function RootLayout({ children }) {

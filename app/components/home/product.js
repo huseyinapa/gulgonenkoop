@@ -74,6 +74,8 @@ export default function Product() {
 
   function ProductCard({ product }) {
     const [image, setImage] = useState(product.image);
+    console.log("Image not found");
+    console.log(product.image);
 
     return (
       <div
@@ -82,10 +84,11 @@ export default function Product() {
       >
         <figure className="relative">
           <img
-            src={image || product.webpath}
+            src={product.webpath}
             alt={product.name}
             className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
             onError={() => {
+              console.log("Image not found");
               setImage(product.webpath);
             }}
           />

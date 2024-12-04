@@ -9,7 +9,7 @@ export default function Footer() {
           <Link href={"/"}>
             <Image
               src="/images/gulgonen-logo.png"
-              alt="GülGönen"
+              alt="Gülgönen"
               className="size-20 md:size-28 object-cover"
               width={"20"}
               height={"20"}
@@ -18,7 +18,7 @@ export default function Footer() {
           <div className="flex flex-col items-start gap-1">
             <h1>
               <span className="font-semibold text-base md:text-md">
-                S.S. GülGönen
+                S.S. Gülgönen
               </span>
             </h1>
             <h1>

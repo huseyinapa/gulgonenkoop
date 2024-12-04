@@ -113,7 +113,7 @@ export default function Order() {
 
   return (
     <main data-theme="garden" className="min-w-fit">
-      <title>GülGönen - Siparişlerim</title>
+      <title>Gülgönen - Siparişlerim</title>
 
       <Header />
       <div className="min-h-screen">

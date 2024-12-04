@@ -47,7 +47,7 @@ export default function Header() {
             />
           </Link>
           <div className="card-title text-secondary hidden lg:flex">
-            S.S. GülGönen Tarımsal Kalkınma Kooperatifi
+            S.S. Gülgönen Tarımsal Kalkınma Kooperatifi
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ export default function PayHeader() {
           <Link href={"/"}>
             <Image
               src="/images/gulgonen-logo.png"
-              alt="GülGönen Logo"
+              alt="Gülgönen Logo"
               className="size-28 object-cover"
               width={20}
               height={20}
@@ -36,7 +36,7 @@ export default function PayHeader() {
             />
           </Link>
           <div className="card-title text-secondary hidden lg:flex">
-            S.S. GülGönen Tarımsal Kalkınma Kooperatifi
+            S.S. Gülgönen Tarımsal Kalkınma Kooperatifi
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ export default function Header({ onClick }) {
         </div>
         <Image
           src="/images/gulgonen.svg"
-          alt="GülGönen"
+          alt="Gülgönen"
           className="w-48 h-48 object-cover"
           width={20}
           height={20}
@@ -78,7 +78,7 @@ export default function Header({ onClick }) {
       <div className="navbar-center flex lg:hidden mx-auto justify-center items-center">
         <Image
           src="/images/gulgonen.svg"
-          alt="GülGönen"
+          alt="Gülgönen"
           className="w-44 lg:w-48 h-auto object-cover"
           width={20}
           height={20}

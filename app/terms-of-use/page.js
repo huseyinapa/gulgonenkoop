@@ -6,7 +6,7 @@ import Header from "../components/home/header";
 export default function TermsofUse() {
   return (
     <div data-theme="garden">
-      <title>S.S. GülGönen | Kullanım Koşulları</title>
+      <title>S.S. Gülgönen | Kullanım Koşulları</title>
       <Header />
       <h1 className="mt-3 text-center font-semibold text-2xl">
         Kullanım Koşulları
@@ -28,7 +28,7 @@ export default function TermsofUse() {
           ettiğinizin, tarafımızca varsayılacağını lütfen unutmayınız.
         </p>
         <p>
-          https://backend.gulgonenkoop.com/ web sitesi GülGönen Kooperatifi tarafından
+          https://backend.gulgonenkoop.com/ web sitesi Gülgönen Kooperatifi tarafından
           yönetilmekte olup, bundan sonra SİTE olarak anılacaktır. İşbu siteye
           ilişkin Kullanım Koşulları, yayınlanmakla yürürlüğe girer. Değişiklik
           yapma hakkı, tek taraflı olarak SİTE&apos;ye aittir ve SİTE üzerinden
@@ -44,7 +44,7 @@ export default function TermsofUse() {
         </p>
         <h2 className="font-semibold">Hizmet Kapsamı</h2>
         <p>
-          GülGönen Kooperatifi olarak, sunacağımız hizmetlerin kapsamını ve
+          Gülgönen Kooperatifi olarak, sunacağımız hizmetlerin kapsamını ve
           niteliğini, yasalar çerçevesinde belirlemekte tamamen serbest olup;
           hizmetlere ilişkin yapacağımız değişiklikler, SİTE&apos;de yayınlanmakla
           yürürlüğe girmiş sayılacaktır.
@@ -53,7 +53,7 @@ export default function TermsofUse() {
         <p>
           SİTE&apos;de yayınlanan tüm metin, kod, grafikler, logolar, resimler, ses
           dosyaları ve kullanılan yazılımın sahibi (bundan böyle ve daha sonra
-            &quot;içerik&quot; olarak anılacaktır) GülGönen Kooperatifi olup, tüm hakları
+            &quot;içerik&quot; olarak anılacaktır) Gülgönen Kooperatifi olup, tüm hakları
           saklıdır. Yazılı izin olmaksızın site içeriğinin çoğaltılması veya
           kopyalanması kesinlikle yasaktır.
         </p>

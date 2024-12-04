@@ -62,10 +62,10 @@ function CartProduct({
       prevCartItems.map((item) =>
         item.pid === itemId
           ? {
-              ...item,
-              amount:
-                item.amount < product.stock ? item.amount + 1 : item.amount,
-            }
+            ...item,
+            amount:
+              item.amount < product.stock ? item.amount + 1 : item.amount,
+          }
           : item
       )
     );
@@ -74,10 +74,10 @@ function CartProduct({
       prevCartItems.map((item) =>
         item.pid === itemId
           ? {
-              ...item,
-              amount:
-                item.amount < product.stock ? item.amount + 1 : item.amount,
-            }
+            ...item,
+            amount:
+              item.amount < product.stock ? item.amount + 1 : item.amount,
+          }
           : item
       )
     );
@@ -88,10 +88,10 @@ function CartProduct({
       prevCartItems.map((item) =>
         item.pid === itemId
           ? {
-              ...item,
-              amount:
-                item.amount < product.stock ? item.amount + 1 : item.amount,
-            }
+            ...item,
+            amount:
+              item.amount < product.stock ? item.amount + 1 : item.amount,
+          }
           : item
       )
     );

@@ -16,7 +16,7 @@ export default function Store() {
       <div className="mx-auto py-5 max-w-4xl px-2 md:px-12 xl:px-6">
         <h1 className="mt-5 text-5xl text-center tracking-wide">
           <span className="animate-text bg-gradient-to-r from-[#220615] via-[#220615c2] to-[#22061565] bg-clip-text text-transparent font-bold">
-            S.S. GülGönen Tarımsal Kalkınma
+            S.S. Gülgönen Tarımsal Kalkınma
           </span>
         </h1>
         <h1 className="mt-4 mb-10 text-4xl text-center text-[#220615] font-semibold">

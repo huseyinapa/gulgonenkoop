@@ -5,12 +5,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-import PayHeader from "./components/header";
+import PayHeader from "./_components/header";
 import Footer from "../components/home/footer";
 import BottomNavBar from "../components/bottomNavBar";
 
-import Product from "./components/items";
-import AddressModal from "./components/addressModal";
+import Product from "./_components/items";
+import AddressModal from "./_components/modal/addressModal";
 import PaymentManager from "../utils/payment/payment";
 import Functions from "../functions";
 
@@ -19,7 +19,7 @@ import CartManager from "../utils/cart";
 import ProductManager from "../utils/product";
 
 import OrderID from "../utils/id/createOrderID";
-import { AddressComp } from "./components/addressComp";
+import { AddressComp } from "./_components/addressComp";
 
 export default function Payment() {
   const router = useRouter();
@@ -81,15 +81,15 @@ export default function Payment() {
 
   async function getUserInfo() {
     try {
-      const thisIP = await getIP();
-      const thisAddress = checkAddress() ?? address;
+      const userIp = await getIP();
+      const userAddress = checkAddress() ?? address;
 
       const email = localStorage.getItem("email");
       const userID = localStorage.getItem("id");
       const userLastLogin = localStorage.getItem("last_login");
       const userDate = localStorage.getItem("date");
 
-      if (!email || !userID || !userLastLogin || !thisAddress || !userDate) {
+      if (!email || !userID || !userLastLogin || !userAddress || !userDate) {
         console.log("Gerekli veriler eksik!");
         return toast.error("Gerekli veriler eksik. Yeniden giriş yapınız!");
       }
@@ -97,11 +97,11 @@ export default function Payment() {
       const lastLogin = new Functions().DateTime(userLastLogin);
       const date = new Functions().DateTime(userDate);
 
-      console.log(thisAddress);
+      console.log(userAddress);
 
       const userData = {
-        ip: thisIP,
-        ...thisAddress,
+        ip: userIp,
+        ...userAddress,
         id: userID,
         email: email,
         last_login: lastLogin,
@@ -401,15 +401,15 @@ export default function Payment() {
                   <div className="card-body pl-5 p-0 pt-3">
                     <div className="flex flex-col">
                       {transfer(
-                        "Alıcı İsim/Soyisim: Merve Pektaş",
-                        "Merve Pektaş"
+                        "Alıcı İsim/Soyisim: Nazire Özsu",
+                        "Nazire Özsu"
                       )}
                       {transfer(
-                        "Iban: TR3746 9884 3673 44378",
-                        "TR3746 9884 3673 44378"
+                        "Iban: TR**** **** **** *****",
+                        "TR**** **** **** *****"
                       )}
                       {/* {transfer("Banka: QNB Finansbank", "QNB Finansbank")} */}
-                      <span> Banka: QNB Finansbank </span>
+                      <span>Banka: QNB Finansbank</span>
                       {transfer("Açıklama: XUW", "XUW")}
                     </div>
                   </div>
