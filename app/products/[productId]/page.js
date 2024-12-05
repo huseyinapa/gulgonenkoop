@@ -7,16 +7,14 @@ import { ArrowLeft } from "lucide-react";
 import Footer from "@/app/components/home/footer";
 import Header from "@/app/components/home/header";
 
-import AddToCartButton from "@/components/products/addToCartComp";
-import ProductList from "@/components/products/productList";
+import AddToCartButton from "@/app/products/_components/addToCartComp";
+import ProductList from "@/app/products/_components/productList";
+import { api_url } from "@/app/utils/api";
 
 async function getProductData(productId) {
   try {
     const { data: product } = await axios.get(
-      "https://backend.gulgonenkoop.com/api_gulgonen/product/get.php" +
-      "?id=" +
-      productId
-    );
+      `${api_url}/api_gulgonen/product/get.php?id=${productId}`);
 
     // console.log(product);
     if (!product) {
@@ -78,6 +76,7 @@ export default async function ProductPage({ params: { productId } }) {
           <figure className="relative">
             <Image
               src={product.webpath}
+              alt={product.name}
               className="w-96 py-4 object-contain rounded-lg"
               width={20}
               height={20}

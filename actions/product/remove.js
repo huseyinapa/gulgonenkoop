@@ -7,16 +7,13 @@ export const removeProduct = async (pid, path) => {
   const cartManager = new CartManager();
   const productManager = new ProductManager();
 
-  const removeForm = new FormData();
-  removeForm.append("id", pid);
-  removeForm.append("path", path);
 
   try {
-    console.log("test");
+    const removeForm = new FormData();
+    removeForm.append("id", pid);
+    removeForm.append("path", path);
     const response = await productManager.remove(removeForm);
-    console.log("test");
 
-    console.log(response);
     if (!response) return toast.error("Bilinmeyen hata!");
 
     // Ürünü tüm kullanıcı sepetlerinden kaldır
@@ -24,7 +21,6 @@ export const removeProduct = async (pid, path) => {
       pid,
       path
     );
-    console.log(cartUsersResponse);
 
     if (cartUsersResponse && cartUsersResponse.length > 0) {
       // Ürünü içeren her bir kullanıcı sepetinde işlem yap
@@ -34,7 +30,7 @@ export const removeProduct = async (pid, path) => {
         removeCartForm.append("pid", pid);
 
         await cartManager.remove(removeCartForm);
-
+        // TODO: Bu proje için olmasa da diğer projelerde mail üzerinden bildirim gönderme işlemi yapılacak
         // İsteğe bağlı olarak kullanıcıya bildirim gönderebilirsiniz
         // Örneğin: sendNotification(cart.userId, "Sepetinizdeki bir ürün, yönetici tarafından kaldırıldı.");
       }

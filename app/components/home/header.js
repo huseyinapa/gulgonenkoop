@@ -56,8 +56,8 @@ export default function Header() {
           <a href="/products" className="link link-hover font-semibold">
             Ürünlerimiz
           </a>
-          <span className="link link-hover font-semibold">Haber Bülteni</span>
-          <span className="link link-hover font-semibold">Mağazalarımız</span>
+          <a href="/iletisim" className="link link-hover font-semibold">İletişim</a>
+          <a href="/magaza" className="link link-hover font-semibold">Mağazalarımız</a>
         </div>
       </div>
       <div className="navbar-end flex">

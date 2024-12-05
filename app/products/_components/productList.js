@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
+import Image from "next/image";
 
 export default function ProductList({ excludingProductId }) {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -94,16 +95,15 @@ export default function ProductList({ excludingProductId }) {
             >
                 <figure className="relative">
                     <Link href={`/products/${slugify(product.name)}-${product.id.toLowerCase()}`}>
-                        <img
+                        <Image
                             src={image || product.webpath}
                             alt={product.name}
                             className="h-[160px] sm:h-[180px] md:h-[200px] w-72 object-cover rounded-t-lg"
                             onError={() => {
                                 setImage(product.webpath);
                             }}
-                            onClick={() => {
-
-                            }}
+                            width={20}
+                            height={20}
                         />
                     </Link>
 

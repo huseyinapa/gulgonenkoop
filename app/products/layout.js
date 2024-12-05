@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Header from "../components/home/header";
-import Footer from "../components/home/footer";
 
 const MainLayout = ({ children }) => {
   const [load, setLoad] = useState(true);

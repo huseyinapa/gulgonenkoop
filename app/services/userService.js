@@ -1,11 +1,12 @@
 import axios from "axios";
+import { api_url } from "../utils/api";
 
 class UserService {
   registerUser(userData) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/user/register.php`,
+          `${api_url}/api_gulgonen/user/register.php`,
           userData
         );
 
@@ -24,7 +25,7 @@ class UserService {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/user/login.php`,
+          `${api_url}/api_gulgonen/user/login.php`,
           userData
         );
 
@@ -42,7 +43,7 @@ class UserService {
   }
 
   getUserData(data) {
-    var url = `https://backend.gulgonenkoop.com/api_gulgonen/user/get.php`;
+    var url = `${api_url}/api_gulgonen/user/get.php`;
 
     return new Promise((resolve, reject) => {
       axios
@@ -71,7 +72,7 @@ class UserService {
   }
 
   checkUserEmail(email) {
-    var url = `https://backend.gulgonenkoop.com/api_gulgonen/user/check_email.php`;
+    var url = `${api_url}/api_gulgonen/user/check_email.php`;
 
     return new Promise((resolve, reject) => {
       axios

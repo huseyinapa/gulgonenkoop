@@ -1,10 +1,12 @@
 import axios from "axios";
+import { api_url } from "./api";
+
 class OrderManager {
   add(data) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/order/add.php`,
+          `${api_url}/api_gulgonen/order/add.php`,
           data,
           {
             headers: {
@@ -22,7 +24,7 @@ class OrderManager {
   }
 
   getOrder(data) {
-    var url = `https://backend.gulgonenkoop.com/api_gulgonen/order/get.php`;
+    var url = `${api_url}/api_gulgonen/order/get.php`;
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -46,7 +48,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.get(
-          `https://backend.gulgonenkoop.com/api_gulgonen/order/getid.php?orderId=${id}`
+          `${api_url}/api_gulgonen/order/getid.php?orderId=${id}`
         );
 
         response.data.success
@@ -65,7 +67,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.get(
-          `https://backend.gulgonenkoop.com/api_gulgonen/order/all_get.php`
+          `${api_url}/api_gulgonen/order/all_get.php`
         );
 
         response.data.success
@@ -84,7 +86,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/order/confirm.php`,
+          `${api_url}/api_gulgonen/order/confirm.php`,
           data
         );
         // console.log(response.data);
@@ -100,7 +102,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/order/ship.php`,
+          `${api_url}/api_gulgonen/order/ship.php`,
           data
         );
         // console.log(response.data);
@@ -116,7 +118,7 @@ class OrderManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/order/cancel.php`,
+          `${api_url}/api_gulgonen/order/cancel.php`,
           data
         );
         // console.log(response.data);

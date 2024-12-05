@@ -1,11 +1,12 @@
 import axios from "axios";
+import { api_url } from "./api";
 
 class ProductManager {
   add(productData) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/product/add.php`,
+          `${api_url}/api_gulgonen/product/add.php`,
           productData,
           {
             headers: {
@@ -27,7 +28,7 @@ class ProductManager {
     return new Promise(async (resolve, reject) => {
       await axios
         .post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/product/remove.php`,
+          `${api_url}/api_gulgonen/product/remove.php`,
           productData
         )
         .then((response) => {
@@ -44,7 +45,7 @@ class ProductManager {
   }
 
   fallingOutofStock(body) {
-    var url = `https://backend.gulgonenkoop.com/api_gulgonen/product/out_of_stock.php`;
+    var url = `${api_url}/api_gulgonen/product/out_of_stock.php`;
 
     return new Promise((resolve, reject) => {
       axios
@@ -63,11 +64,11 @@ class ProductManager {
   }
 
   getProduct(id) {
-    // var url = `https://backend.gulgonenkoop.com/api_gulgonen/product/get.php`;
+    // var url = `${api_url}/api_gulgonen/product/get.php`;
 
     return new Promise((resolve, reject) => {
       axios
-        .get(`https://backend.gulgonenkoop.com/api_gulgonen/product/get.php?id=${id}`)
+        .get(`${api_url}/api_gulgonen/product/get.php?id=${id}`)
         .then((response) => {
           if (response.data.success) {
             if (response.data.data !== null) {
@@ -93,7 +94,7 @@ class ProductManager {
   fetchProducts() {
     return new Promise((resolve, reject) => {
       axios
-        .post(`https://backend.gulgonenkoop.com/api_gulgonen/product/get_all.php`)
+        .post(`${api_url}/api_gulgonen/product/get_all.php`)
         .then((response) => {
           // console.log(response.data.success);
 

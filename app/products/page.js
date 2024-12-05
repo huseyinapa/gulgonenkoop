@@ -8,6 +8,7 @@ import Header from "../components/home/header";
 import { removeProduct } from "@/actions/product/remove";
 import Footer from "../components/home/footer";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Products() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -112,16 +113,15 @@ export default function Products() {
       >
         <figure className="relative">
           <Link href={`/products/${slugify(product.name)}-${product.id.toLowerCase()}`}>
-            <img
+            <Image
               src={image || product.webpath}
               alt={product.name}
               className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
               onError={() => {
                 setImage(product.webpath);
               }}
-              onClick={() => {
-
-              }}
+              width={20}
+              height={20}
             />
           </Link>
           {isAdmin && (

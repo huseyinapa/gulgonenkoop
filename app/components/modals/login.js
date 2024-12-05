@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-import UserService from "../../utils/services/userService";
+import UserService from "../../services/userService";
 
 const LoginModal = () => {
   const [email, setEmail] = useState("");

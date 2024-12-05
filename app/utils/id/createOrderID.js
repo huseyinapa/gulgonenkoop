@@ -1,4 +1,5 @@
 import axios from "axios";
+import { api_url } from "../api";
 
 const characters = "0123456789";
 
@@ -6,7 +7,7 @@ class OrderID {
   static async fetchAllOrderIds() {
     try {
       const response = await axios.get(
-        "https://backend.gulgonenkoop.com/api_gulgonen/order/get_orders_id.php"
+        `${api_url}/api_gulgonen/order/get_orders_id.php`
       );
       return response.data.success ? response.data.orderIDS : [];
     } catch (error) {

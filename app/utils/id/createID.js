@@ -1,4 +1,5 @@
 import axios from "axios";
+import { api_url } from "../api";
 
 // Rastgele karakterler için kullanılacak karakterlerin havuzu
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -7,7 +8,7 @@ const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 async function fetchAllIds() {
   try {
     const response = await axios.get(
-      "https://backend.gulgonenkoop.com/api_gulgonen/user/getid.php"
+      `${api_url}/api_gulgonen/user/getid.php`
     );
     // console.log(response.data);
     return response.data.success ? response.data.userIDS : [];

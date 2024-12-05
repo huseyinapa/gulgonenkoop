@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
 import { removeProduct } from "@/actions/product/remove";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Product() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -44,11 +46,12 @@ export default function Product() {
     try {
       await toast.promise(removeProduct(pid, path), {
         loading: "İşlem yapılıyor...",
+        success: "Ürün başarıyla kaldırıldı.",
+        error: "Ürün kaldırılırken bir hata oluştu.",
       });
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product.id !== pid)
       ); // Ürünü state'den çıkar
-      toast.success("Ürün başarıyla kaldırıldı.");
     } catch (error) {
       toast.error("Ürün kaldırılırken bir hata oluştu.");
     } finally {
@@ -61,16 +64,36 @@ export default function Product() {
       className={`flex flex-wrap mx-auto my-8 p-4 justify-center sm:items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10
         ${loading ? "opacity-50" : ""}`}
     >
-      {loading && (
+      {/* {loading && (
         <div className="flex justify-center items-center">
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
         </div>
-      )}
+      )} */}
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
+
+  function slugify(text) {
+    const turkishMap = {
+      'ç': 'c', 'Ç': 'C',
+      'ğ': 'g', 'Ğ': 'G',
+      'ı': 'i', 'İ': 'I',
+      'ö': 'o', 'Ö': 'O',
+      'ş': 's', 'Ş': 'S',
+      'ü': 'u', 'Ü': 'U'
+    };
+
+    return text
+      .toLowerCase()
+      .replace(/[çÇğĞıİöÖşŞüÜ]/g, function (match) {
+        return turkishMap[match];
+      })
+      .replace(/[^a-z0-9\-]/g, '-')  // Alfanümerik olmayan karakterleri - ile değiştir
+      .replace(/-+/g, '-')           // Birden fazla "-" varsa tek "-"e indir
+      .replace(/^-|-$/g, '');
+  }
 
   function ProductCard({ product }) {
     const [image, setImage] = useState(product.image);
@@ -83,15 +106,19 @@ export default function Product() {
         className="card bg-white text-neutral-content w-[170px] sm:w-[180px] md:w-[260px] lg:w-72 h-[330px] md:h-[400px] lg:h-[450px] shadow-[#FFA4D5] shadow-[0_0_40px_3px]"
       >
         <figure className="relative">
-          <img
-            src={product.webpath}
-            alt={product.name}
-            className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[260px] w-72 object-cover rounded-t-lg"
-            onError={() => {
-              console.log("Image not found");
-              setImage(product.webpath);
-            }}
-          />
+          <Link href={`/products/${slugify(product.name)}-${product.id.toLowerCase()}`}>
+            <Image
+              src={image || product.webpath}
+              alt={product.name}
+              className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[210px] w-72 object-cover rounded-t-lg"
+              onError={() => {
+                console.log("Image not found");
+                setImage(product.webpath);
+              }}
+              width={20}
+              height={20}
+            />
+          </Link>
           {isAdmin && (
             <button
               className="absolute top-3 right-3 btn btn-sm btn-circle lg:btn-md shadow-sm"

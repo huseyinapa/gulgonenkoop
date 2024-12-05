@@ -1,12 +1,13 @@
 import axios from "axios";
+import { api_url } from "./api";
 
 class CartManager {
   add(productData) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/cart/add.php`,
-          // `https://backend.gulgonenkoop.com/api_gulgonen/cart/add.php`,
+          `${api_url}/api_gulgonen/cart/add.php`,
+          // `${api_url}/api_gulgonen/cart/add.php`,
 
           productData,
           {
@@ -29,7 +30,7 @@ class CartManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/cart/remove.php`,
+          `${api_url}/api_gulgonen/cart/remove.php`,
           productData
         );
         console.log(response.data);
@@ -43,7 +44,7 @@ class CartManager {
   }
 
   getProductInCart(productData) {
-    var url = `https://backend.gulgonenkoop.com/api_gulgonen/cart/get.php`;
+    var url = `${api_url}/api_gulgonen/cart/get.php`;
 
     return new Promise(async (resolve, reject) => {
       try {
@@ -72,7 +73,7 @@ class CartManager {
         formData.append("path", path);
 
         const response = await axios.post(
-          "https://backend.gulgonenkoop.com/api_gulgonen/cart/getallcartswithproduct.php",
+          `${api_url}/api_gulgonen/cart/getallcartswithproduct.php`,
           formData
         );
 
@@ -90,7 +91,7 @@ class CartManager {
   }
 
   // getProductsInCart(productData) {
-  //   var url = `https://backend.gulgonenkoop.com/api_gulgonen/cart/all_get.php`;
+  //   var url = `${api_url}/api_gulgonen/cart/all_get.php`;
 
   //   return new Promise(async (resolve, reject) => {
   //     try {
@@ -114,7 +115,7 @@ class CartManager {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
-          `https://backend.gulgonenkoop.com/api_gulgonen/cart/get_all.php`,
+          `${api_url}/api_gulgonen/cart/get_all.php`,
           productData
         );
         // console.log(response);

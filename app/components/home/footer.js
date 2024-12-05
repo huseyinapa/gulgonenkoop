@@ -51,39 +51,54 @@ export default function Footer() {
         </Link>
       </aside>
       <div className="flex flex-row items-center justify-center gap-3 md:gap-16 p-x4">
-        <img
+        <Image
           src="/images/icons/iyzico.svg"
           alt="iyzico"
           className="h-auto w-32 object-contain rounded-md"
+          width={"20"}
+          height={"20"}
         />
-        <img
+        <Image
           src="/images/icons/mastercard.svg"
           alt="mastercard"
           className="h-auto w-14 object-contain rounded-md"
+          width={"20"}
+          height={"20"}
         />
-        <img
+        <Image
           src="/images/icons/visa.svg"
           alt="visa"
           className="h-auto w-14 object-contain rounded-md"
+          width={"20"}
+          height={"20"}
         />
-        <img
+        <Image
           src="/images/icons/troy.svg"
           alt="a-express"
           className="h-auto w-14 object-contain rounded-md"
+          width={"20"}
+          height={"20"}
         />
-        <img
+        <Image
           src="/images/icons/american-express.svg"
           alt="a-express"
           className="h-auto w-14 object-contain rounded-md"
+          width={"20"}
+          height={"20"}
         />
       </div>
       <nav className="grid grid-flow-col gap-4">
-        <a className="link link-hover">Hakkımızda</a>
-        <a className="link link-hover">İletişim</a>
-        <a className="link link-hover" href="/privacy-policy">
+        <a className="link link-hover"
+          href="/mesafeli-satis-sozlesmesi"
+        >Mesafeli Satış Sözleşmesi</a>
+        <a className="link link-hover"
+          href="/teslimat-ve-iade-politikasi"
+        >Teslimat Ve İade Politikası</a>
+        {/* <a className="link link-hover" href="/iletisim">İletişim</a> */}
+        <a className="link link-hover" href="/gizlilik-politikasi">
           Gizlilik Politikası
         </a>
-        <a className="link link-hover" href="/terms-of-use">
+        <a className="link link-hover" href="/kullanim-kosullari">
           Kullanım Koşulları
         </a>
       </nav>
