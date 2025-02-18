@@ -392,6 +392,9 @@ export default function Payment() {
               />
               <div className="collapse-title text-xl font-medium">
                 Diğer Ödeme Seçenekleri
+                <span className="text-xs text-opacity-70">
+                  - Şuanda kullanılamıyor
+                </span>
               </div>
               <div className="collapse-content">
                 <div className="card pt-3 w-[320px] md:w-[450px] lg:w-[500px] xl:w-[620px] h-56 md:h-52 lg:h-48 xl:h-48 shadow-secondary shadow-[0_0_10px]">
@@ -408,7 +411,6 @@ export default function Payment() {
                         "Iban: TR**** **** **** *****",
                         "TR**** **** **** *****"
                       )}
-                      {/* {transfer("Banka: QNB Finansbank", "QNB Finansbank")} */}
                       <span>Banka: QNB Finansbank</span>
                       {transfer("Açıklama: XUW", "XUW")}
                     </div>
@@ -424,10 +426,10 @@ export default function Payment() {
             </div>
 
             <Product products={items} />
-          </div>
+          </div >
 
           {/* //? Ödeme Detay kartı */}
-          <div className="card hidden md:flex w-[230px] md:w-[250px] lg:w-[300px] md:h-[300px] lg:h-80 shadow-secondary shadow-[0_0_0_2px]">
+          <div div className="card hidden md:flex w-[230px] md:w-[250px] lg:w-[300px] md:h-[300px] lg:h-80 shadow-secondary shadow-[0_0_0_2px]" >
             <div className="card-title md:text-lg pt-3 justify-center">
               Ödenecek Tutar
             </div>
@@ -522,9 +524,9 @@ export default function Payment() {
                 )}
               </a>
             </div>
-          </div>
-        </div>
-      </div>
+          </div >
+        </div >
+      </div >
       <Footer />
 
       <BottomNavBar
@@ -535,7 +537,7 @@ export default function Payment() {
       />
 
       <AddressModal setAddress={setAddress} />
-    </div>
+    </div >
   );
 
   // function shortenText(input) {

@@ -1,7 +1,7 @@
 "use client";
 
 // Home.js (Sayfa bileşeni olarak kullanılıyor)
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Header from "./components/home/header";
 import Store from "./components/home/store";
 import Footer from "./components/home/footer";
