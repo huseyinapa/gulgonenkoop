@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Store = () => {
@@ -30,19 +31,19 @@ const Store = () => {
         </div>
       </div>
       <div className="absolute top-10 right-20 z-10 p-6 text-white flex flex-col items-center space-y-4">
-        <img
+        <Image
           src="/images/ggkoop.png"
           alt="GG Koop"
           className="w-[450px] h-auto my-4 rounded-full object-contain"
-          width={"96"}
-          height={"96"}
+          width={96}
+          height={96}
         />
-        <img
+        <Image
           src="/images/ggkoop2.png"
           alt="GG Koop2"
           className="w-[450px] h-auto my-4 rounded-full object-contain"
-          width={"80"}
-          height={"80"}
+          width={80}
+          height={80}
         />
       </div>
       <div className="absolute inset-0 z-0">

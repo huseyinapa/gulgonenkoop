@@ -1,8 +1,19 @@
 import axios from "axios";
 import { api_url } from "../utils/api";
 
+type UserData = {
+  id: string;
+  name?: string;
+  surname?: string;
+  email: string;
+  password: string;
+  permission: string;
+  last_login: string;
+  date: string;
+};
+
 class UserService {
-  registerUser(userData:string) {
+  registerUser(userData: string) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
@@ -21,7 +32,7 @@ class UserService {
     });
   }
 
-  loginUser(userData:string) {
+  loginUser(userData: FormData): Promise<UserData | null> {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(
@@ -31,18 +42,18 @@ class UserService {
 
         // console.log(`Response: ${response.data.data}`);
         if (response.data.success) {
-          resolve(response);
+          resolve(response.data.data as UserData);
         } else {
           resolve(null);
         }
       } catch (error) {
         console.error("Login error:", error);
-        reject(error);
+        reject(null);
       }
     });
   }
 
-  getUserData(data:string) {
+  getUserData(data: string) {
     var url = `${api_url}/api_gulgonen/user/get.php`;
 
     return new Promise((resolve, reject) => {
@@ -65,13 +76,13 @@ class UserService {
           //   resolve(response.data.message);
           // }
         })
-        .catch((error:any) => {
+        .catch((error: any) => {
           reject("Bir hata oluştu!");
         });
     });
   }
 
-  checkUserEmail(email:string) {
+  checkUserEmail(email: string) {
     var url = `${api_url}/api_gulgonen/user/check_email.php`;
 
     return new Promise((resolve, reject) => {

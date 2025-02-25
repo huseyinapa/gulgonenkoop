@@ -5,11 +5,12 @@ import toast from "react-hot-toast";
 
 import CartHeader from "./components/header";
 import CartProduct from "./components/cartProduct";
-import Footer from "../components/home/footer";
-import BottomNavBar from "../components/bottomNavBar";
+import Footer from "../_components/home/footer";
+import BottomNavBar from "../_components/bottomNavBar";
 import CartManager from "../utils/cart";
 import ProductManager from "../utils/product";
 import { useRouter } from "next/navigation";
+import { CartItem } from "../types/cart";
 
 // import CartManager from "../utils/cart";
 // import ProductManager from "../utils/product";
@@ -17,8 +18,8 @@ import { useRouter } from "next/navigation";
 export default function Cart() {
   const router = useRouter();
 
-  const [cartItems, setCartItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [selectedItems, setSelectedItems] = useState<CartItem[]>([]);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [length, setLength] = useState(1999); //3333333333333
@@ -50,7 +51,7 @@ export default function Cart() {
     for (let i = 0; i < cartItems.length; i++) {
       const item = cartItems[i];
 
-      if (item?.stock < item?.amount) {
+      if (item?.stock < (item?.amount ?? 0)) {
         return true;
       }
     }
@@ -130,11 +131,14 @@ export default function Cart() {
 
         <Footer />
 
-        <BottomNavBar 
+        <BottomNavBar
           address={""}
           title={`Seçilen Ürünler (${cartItems.length})`}
           agreement={false}
-          items={selectedItems}
+          items={selectedItems.map((item) => ({
+            ...item,
+            amount: item.amount || 0,
+          }))}
         />
       </main>
     );
@@ -146,7 +150,9 @@ export default function Cart() {
       const cartForm = new FormData();
       cartForm.append("id", userID as string);
 
-      const productInCart = await cartManager.fetchCart(cartForm as unknown as string);
+      const productInCart = (await cartManager.fetchCart(
+        cartForm as unknown as string
+      )) as Array<{ pid: string; amount: number }>;
       console.log(productInCart);
       if (!productInCart) return setLength(9991); //! sepette ürün yok
 
@@ -154,7 +160,7 @@ export default function Cart() {
       // const arr = [];
       console.log(productInCart);
 
-      for (let i = 0; i < productInCart?.length; i++) {
+      for (let i = 0; i < productInCart.length; i++) {
         // const productForm = new FormData();
         // productForm.append("id", productInCart[i].pid);
 
@@ -162,9 +168,17 @@ export default function Cart() {
 
         products.push({
           ...product,
-          image: product?.webpath, // image değerini webpath ile değiştir
-          pid: productInCart[i]?.pid, // kaldırılabilir, yerine id kullanılır.
-          amount: productInCart[i]?.amount,
+          id: product?.id || productInCart[i].pid,
+          image: product?.webpath || '',
+          pid: productInCart[i].pid,
+          amount: productInCart[i].amount,
+          stock: product?.stock || 0,
+          name: product?.name || '',
+          description: product?.description || '',
+          price: product?.price || 0,
+          size: product?.size || '',
+          type: product?.type || '',
+          date: product?.date || '',
         });
 
         // arr.push(productInCart[i].pid);
@@ -172,8 +186,8 @@ export default function Cart() {
 
       console.log(products);
 
-      setCartItems(products as unknown as never[]);
-      setSelectedItems(products as unknown as never[]);
+      setCartItems(products);
+      setSelectedItems(products);
       setLength(products.length);
     } catch (error) {
       console.log(error);

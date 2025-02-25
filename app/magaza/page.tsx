@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../components/home/header';
-import Footer from '../components/home/footer';
+import Header from '../_components/home/header';
+import Footer from '../_components/home/footer';
 
 const Magaza = () => {
   return (
@@ -18,7 +18,7 @@ const Magaza = () => {
             width="600"
             height="450"
             style={{ border: 0 }}
-            allowFullScreen=""
+            allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>

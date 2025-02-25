@@ -43,7 +43,13 @@ export default function PayHeader() {
       </div>
       <div className="navbar-center flex justify-center items-center">
         <div className="flex flex-row items-center justify-center gap-1">
-          <img className="size-8" src="/images/icons/security-shield.png" alt="Güvenli Ödeme" />
+          <Image
+            src="/images/icons/security-shield.png"
+            className="size-8"
+            alt="Güvenli Ödeme"
+            height={20}
+            width={20}
+          />
           <span className="font-semibold">Güvenli Ödeme</span>
         </div>
       </div>

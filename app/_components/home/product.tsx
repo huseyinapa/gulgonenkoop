@@ -41,7 +41,7 @@ export default function Product() {
   useEffect(() => {
     checkIsAdmin();
     getProducts();
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   function checkIsAdmin() {
     const permission = localStorage.getItem("permission");
@@ -52,7 +52,7 @@ export default function Product() {
     try {
       const fetchedProducts = await productManager.fetchProducts();
       if (fetchedProducts) {
-        setProducts(fetchedProducts as Product[]);
+        setProducts(fetchedProducts as unknown as Product[]);
       }
     } catch (error) {
       console.log(error);
@@ -96,13 +96,17 @@ export default function Product() {
       formData.append("id", id);
       formData.append("pid", data.id);
 
-      const cartProductData = await cartManager.getProductInCart(id) as CartResponse;
+      const productInCartForm = new FormData();
+      productInCartForm.append("id", id);
+      productInCartForm.append("pid", data.id);
+
+      const cartProductData = await cartManager.getProductInCart(productInCartForm);
 
       if (productData.stock < 1) {
         return toast.error("Ürün stokta bulunmuyor.");
       }
 
-      if (cartProductData && cartProductData.amount >= productData.stock) {
+      if (cartProductData && cartProductData.data && cartProductData.data.amount >= productData.stock) {
         return toast.error(`Stoktaki tutardan fazlası sepete eklenemez.`);
       }
 

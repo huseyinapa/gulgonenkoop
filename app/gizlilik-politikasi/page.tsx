@@ -1,7 +1,7 @@
 "use client";
 
-import Footer from "../components/home/footer";
-import Header from "../components/home/header";
+import Footer from "../_components/home/footer";
+import Header from "../_components/home/header";
 
 export default function PrivacyPolicy() {
   return (

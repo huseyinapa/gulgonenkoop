@@ -4,23 +4,25 @@ import CartManager from "@/app/utils/cart";
 import ProductManager from "@/app/utils/product";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Header from "../components/home/header";
-import { removeProduct } from "@/actions/product/remove";
-import Footer from "../components/home/footer";
+import Header from "../_components/home/header";
+import removeProduct from "@/actions/product/remove";
+import Footer from "../_components/home/footer";
 import Link from "next/link";
 import Image from "next/image";
 
 // Ürün tipini tanımlıyoruz.
 export interface Product {
   id: string;
+  stock: number;
+  amount?: number;
   name: string;
+  description: string;
+  price: number;
   image: string;
   webpath: string;
-  description: string;
   size: string;
   type: string;
-  price: string;
-  stock?: number;
+  date: string;
 }
 
 // Sepet için dönüş değeri örneğinde "amount" alanını kullandığımızı varsayalım.
@@ -106,7 +108,7 @@ export default function Products(): JSX.Element {
       .replace(/^-|-$/g, ""); // Başlangıç ve bitiş "-" karakterlerini kaldırır
   }
 
-  async function handleAddCart(data: Product): Promise<void> {
+  async function handleAddCart(data: Product): Promise<void | string> {
     const id = localStorage.getItem("id") ?? null;
     if (id === null) {
       toast.error("Sepete ürün eklemek için kayıt olmanız/giriş yapmanız gerekir.");
@@ -220,7 +222,7 @@ export default function Products(): JSX.Element {
             Sepete Ekle
           </button>
           <div className="text-[#8a4269] font-semibold text-base lg:text-lg">
-            {parseInt(product.price).toLocaleString("tr-TR", {
+            {product.price.toLocaleString("tr-TR", {
               style: "currency",
               currency: "TRY",
             })}

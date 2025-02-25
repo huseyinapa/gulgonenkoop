@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 // var items = localStorage.getItem("selected.items");
 export default function Product({ products }: { products: any[] }) {
   const totalPrice = products.reduce(
@@ -42,10 +44,12 @@ export default function Product({ products }: { products: any[] }) {
         className="relative mx-auto bg-white items-stretch lg:items-start w-[290px] md:w-[400px] lg:w-[480px] xl:w-[500px] h-[110px] md:h-[130px] lg:h-[130px] xl:h-[130px] flex md:flex-row p-3 space-x-3 shadow-secondary shadow-[0_0_10px] rounded-lg"
       >
         <figure className="">
-          <img
+          <Image
             src="/images/icons/shopping-bag.svg"
             alt="Ürün görseli"
             className="w-auto md:w-36 h-[80px] md:h-[100px] object-contain bg-red-400" //rounded-lg rounded-br-[80px]
+            width={20}
+            height={20}
           />
         </figure>
         <div className="flex flex-col justify-between w-full lg:h-full">

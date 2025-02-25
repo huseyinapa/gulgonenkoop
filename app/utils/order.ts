@@ -23,7 +23,7 @@ class OrderManager {
     });
   }
 
-  getOrder(data: string) {
+  getOrder(data: FormData) {
     var url = `${api_url}/api_gulgonen/order/get.php`;
 
     return new Promise(async (resolve, reject) => {

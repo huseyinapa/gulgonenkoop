@@ -2,10 +2,10 @@
 
 // Home.js (Sayfa bileşeni olarak kullanılıyor)
 import React, { useEffect, useRef } from "react";
-import Header from "./components/home/header";
-import Store from "./components/home/store";
-import Footer from "./components/home/footer";
-import Product from "./components/home/product";
+import Header from "./_components/home/header";
+import Store from "./_components/home/store";
+import Footer from "./_components/home/footer";
+import Product from "./_components/home/product";
 
 // Header component'i için interface ekleyelim
 interface HeaderProps {

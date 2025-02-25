@@ -5,7 +5,7 @@ interface CartResponse {
   success: boolean;
   data: {
     amount: number;
-    // ... diğer özellikler
+    price: number;
   } | null;
   message: string;
 }
@@ -19,7 +19,10 @@ class CartManager {
           data,
           {
             headers: {
-              "Content-Type": data instanceof FormData ? "multipart/form-data" : "application/json",
+              "Content-Type":
+                data instanceof FormData
+                  ? "multipart/form-data"
+                  : "application/json",
             },
           }
         );
@@ -46,20 +49,21 @@ class CartManager {
     });
   }
 
-  getProductInCart(productData: string) {
+  getProductInCart(productData: FormData): Promise<CartResponse | null> {
     var url = `${api_url}/api_gulgonen/cart/get.php`;
 
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await axios.post(url, productData);
+        const { data: productInCart } = await axios.post(url, productData);
 
-        console.log(response.data.message);
+        console.log(`Sepetteki ürün: ${productInCart}`);
+        console.log(productInCart);
 
-        response.data.success
-          ? response.data.data !== null
-            ? resolve(response.data.data)
-            : resolve(null)
-          : reject(null);
+        if (productInCart !== null) {
+          return resolve(productInCart);
+        } else {
+          return reject(null);
+        }
       } catch (error) {
         console.log(error);
 
@@ -68,7 +72,7 @@ class CartManager {
     });
   }
 
-  getAllCartsWithProduct(pid: string, path: string) {
+  getAllCartsWithProduct(pid: string, path: string): Promise<string> {
     return new Promise(async (resolve, reject) => {
       try {
         const formData = new FormData();
@@ -80,7 +84,7 @@ class CartManager {
           formData
         );
 
-        console.log("DATA?" + response.data);
+        console.log("DATA?", response.data);
         if (response.data) {
           return resolve(response.data.message); // PHP dosyasından gelen sepet bilgileri
         } else {

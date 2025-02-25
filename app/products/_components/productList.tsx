@@ -5,12 +5,12 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 
 import CartManager from "@/app/utils/cart";
-import ProductManager from "@/app/utils/product";
+import ProductManager, { ProductData } from "@/app/utils/product";
 import Image from "next/image";
 
-export default function ProductList({ excludingProductId }) {
+export default function ProductList({ excludingProductId }: { excludingProductId?: string }) {
     const [isAdmin, setIsAdmin] = useState(false);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<ProductData[]>([]);
     const [loading, setLoading] = useState(false);
 
     const productManager = new ProductManager();
@@ -22,7 +22,7 @@ export default function ProductList({ excludingProductId }) {
     }, []);
 
     function checkIsAdmin() {
-        const getPermission = parseInt(localStorage.getItem("permission")) ?? 0;
+        const getPermission = parseInt(localStorage.getItem("permission") ?? "0");
         setIsAdmin(getPermission === 1);
     }
 
@@ -32,7 +32,7 @@ export default function ProductList({ excludingProductId }) {
             if (products !== null) {
                 setProducts(products.filter((e) => e.id !== excludingProductId));
             } else {
-                setProducts(null);
+                setProducts([]);
                 toast.error("Stoğumuzda ürün bulunmuyor.");
             }
         } catch (error) {
@@ -65,7 +65,7 @@ export default function ProductList({ excludingProductId }) {
         </div>
     );
 
-    function slugify(text) {
+    function slugify(text: string) {
         const turkishMap = {
             'ç': 'c', 'Ç': 'C',
             'ğ': 'g', 'Ğ': 'G',
@@ -77,15 +77,15 @@ export default function ProductList({ excludingProductId }) {
 
         return text
             .toLowerCase()
-            .replace(/[çÇğĞıİöÖşŞüÜ]/g, function (match) {
-                return turkishMap[match];
+            .replace(/[çÇğĞıİöÖşŞüÜ]/g, function (match: string) {
+                return turkishMap[match as keyof typeof turkishMap];
             })
             .replace(/[^a-z0-9\-]/g, '-')  // Alfanümerik olmayan karakterleri - ile değiştir
             .replace(/-+/g, '-')           // Birden fazla "-" varsa tek "-"e indir
             .replace(/^-|-$/g, '');
     }
 
-    function ProductCard({ product }) {
+    function ProductCard({ product }: { product: ProductData }) {
         const [image, setImage] = useState(product.image);
 
         return (
@@ -130,7 +130,7 @@ export default function ProductList({ excludingProductId }) {
                         Sepete Ekle
                     </button>
                     <div className="text-[#8a4269] font-semibold text-base">
-                        {parseInt(product.price).toLocaleString("tr-TR", {
+                        {product.price.toLocaleString("tr-TR", {
                             style: "currency",
                             currency: "TRY",
                         })}
@@ -140,7 +140,7 @@ export default function ProductList({ excludingProductId }) {
         );
     }
 
-    async function handleAddCart(data) {
+    async function handleAddCart(data: ProductData) {
         var id = localStorage.getItem("id") ?? null;
         if (id === null) {
             toast.error(
@@ -160,11 +160,16 @@ export default function ProductList({ excludingProductId }) {
                 productInCartForm
             );
 
-            if (productData !== null && productData.stock < 1) {
+            if (productData === null) {
+                return toast.error("Ürün bulunamadı.");
+            }
+
+            if (productData.stock < 1) {
                 return toast.error("Ürün stokta bulunmuyor.");
             } else if (
                 cartProductData !== null &&
-                cartProductData.amount >= productData.stock
+                cartProductData.data !== null &&
+                cartProductData.data.amount >= productData.stock
             ) {
                 return toast.error(`Stoktaki tutardan fazlası sepete eklenemez.`);
             }

@@ -6,12 +6,12 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 import PayHeader from "./_components/header";
-import Footer from "../components/home/footer";
-import BottomNavBar from "../components/bottomNavBar";
+import Footer from "../_components/home/footer";
+import BottomNavBar from "../_components/bottomNavBar";
 
 import Product from "./_components/items";
 import AddressModal from "./_components/modal/addressModal";
-import PaymentManager from "../utils/payment/payment";
+import PaymentManager, { PaymentResponse } from "../utils/payment/payment";
 import Functions from "../functions";
 
 import OrderManager from "../utils/order";
@@ -20,6 +20,8 @@ import ProductManager from "../utils/product";
 
 import OrderID from "../utils/id/createOrderID";
 import { AddressComp } from "./_components/addressComp";
+import Image from "next/image";
+import { PayResponse } from "../types/payment";
 
 interface PaymentItem {
   id: string;
@@ -45,8 +47,21 @@ export default function Payment() {
 
   const [items, setItems] = useState<PaymentItem[]>([]);
   const [address, setAddress] = useState<any>({});
-  const [paymentData, setPaymentData] = useState({});
-  const [userData, setUserData] = useState({});
+  const [paymentData, setPaymentData] = useState<PaymentData>({
+    cardHolderName: '',
+    cardNumber: '',
+    expiryDate: '',
+    cvv: ''
+  });
+  interface UserData {
+    ip?: string;
+    email?: string;
+    id?: string;
+    last_login?: string;
+    date?: string;
+  }
+
+  const [userData, setUserData] = useState<UserData>({});
 
   const [userIp, setUserIp] = useState("");
 
@@ -70,11 +85,11 @@ export default function Payment() {
     setItems(convertedItems);
 
     console.log(convertedItems);
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     getUserInfo();
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const getIP = async () => {
     const ip = (await axios.get("https://api.ipify.org/?format=json")).data.ip;
@@ -229,7 +244,10 @@ export default function Payment() {
 
         setOrderProgress(true);
 
-        var paymentProcess = await new PaymentManager().request(
+        if (userInfo.phone == undefined)
+          return toast.error("Sayfayi yenileyip tekrar deneyiniz.");
+
+        const paymentProcess: PaymentResponse = await new PaymentManager().request(
           userInfo,
           cartItems,
           paymentData
@@ -239,12 +257,14 @@ export default function Payment() {
         // console.log(paymentProcess.pay);
         // console.log(paymentProcess.pay.data.status);
 
-        if (paymentProcess?.pay?.data?.status === "success") {
+        if (paymentProcess && paymentProcess?.pay?.data.status === "success") {
           // await cartManager.
           console.log(paymentProcess);
           await fallingOutofCart(paymentProcess, items);
           //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
-
+          toast.success(
+            'Ödeme işlemi başarılı, siparişiniz için teşekkür ederiz. Sipariş durumunu "Siparişlerim" kısmından takip edebilirsiniz.'
+          );
           // ! router.push(`/home?userid=test&orderid=testt`);
         }
       } catch (error) {
@@ -261,7 +281,7 @@ export default function Payment() {
       <PayHeader />
       <div className="mx-auto">
         {/* <div className="flex flex-row items-center justify-center space-x-1">
-          <img className="size-8" src="/images/icons/security-shield.png" />
+          <Image className="size-8" src="/images/icons/security-shield.png" />
           <span className="font-semibold">Güvenli Ödeme</span>
         </div> */}
         <div className="flex flex-row items-start justify-center md:justify-between py-4 px-3 md:p-3 lg:p-8">
@@ -278,7 +298,7 @@ export default function Payment() {
                 type="radio"
                 name="my-accordion-2"
                 //! defaultChecked
-                checked={!isCollapseChecked ? "checked" : ""}
+                checked={!isCollapseChecked}
                 onChange={(status) => {
                   // console.log(status.target.name);
                   // console.log(status.target.checked);
@@ -323,7 +343,7 @@ export default function Payment() {
                             className="input input-bordered text-neutral md:w-[190px] lg:w-[210px] max-w-xs md:h-10 lg:h-12"
                             id="cardNumber"
                             name="cardNumber"
-                            maxLength="19"
+                            maxLength={19}
                             value={paymentData?.cardNumber || ""}
                             onChange={handleChange}
                           />
@@ -345,7 +365,7 @@ export default function Payment() {
                             className="input input-bordered text-neutral w-[100px] md:w-[190px] lg:w-[210px] max-w-xs md:h-10 lg:h-12"
                             id="expiryDate"
                             name="expiryDate"
-                            maxLength="5"
+                            maxLength={5}
                             value={paymentData.expiryDate || ""}
                             onChange={handleChange}
                           // onFocus={() => setIsCardFlipped(false)}
@@ -371,20 +391,26 @@ export default function Payment() {
                     </div>
                   </div>
                   <div className="flex flex-row items-center justify-center gap-3 md:gap-6">
-                    <img
+                    <Image
                       src="images/icons/iyzico.svg"
                       alt="iyzico"
                       className="h-auto w-32 object-contain rounded-md"
+                      height={20}
+                      width={20}
                     />
-                    <img
+                    <Image
                       src="images/icons/mastercard.svg"
                       alt="mastercard"
                       className="h-auto w-14 object-contain rounded-md"
+                      height={20}
+                      width={20}
                     />
-                    <img
+                    <Image
                       src="images/icons/visa.svg"
                       alt="visa"
                       className="h-auto w-14 object-contain rounded-md"
+                      height={20}
+                      width={20}
                     />
                   </div>
                 </div>
@@ -392,7 +418,7 @@ export default function Payment() {
             </div>
 
             <div
-              className={`collapse collapse-arrow
+              className={`collapse collapse-arrow cursor-none
               w-[110%] md:w-[110%] lg:w-[100%]
               ${isCollapseChecked ? "bg-secondary-content" : "bg-base-200"}
             `}
@@ -400,10 +426,10 @@ export default function Payment() {
               <input
                 type="radio"
                 name="my-accordion-2"
-                checked={isCollapseChecked ? "checked" : ""}
-                onChange={(status) => {
-                  setCollapseChecked(true);
-                }}
+                checked={false}
+              // onChange={(status) => {
+              //   setCollapseChecked(true);
+              // }}
               />
               <div className="collapse-title text-xl font-medium">
                 Diğer Ödeme Seçenekleri
@@ -561,13 +587,16 @@ export default function Payment() {
   //   return output;
   // }
 
-  function transfer(text, copyData) {
+  function transfer(text: string, copyData: string) {
     return (
       <div className="flex flex-row items-center gap-2">
         <span> {text} </span>
-        <img
+        <Image
           className="link size-5"
           src="images/icons/copy.png"
+          alt="copy"
+          width={20}
+          height={20}
           onClick={() => {
             navigator.clipboard.writeText(copyData).then(() => {
               toast.success("Panoya kopyalandı.", {
@@ -595,7 +624,7 @@ export default function Payment() {
 
       var checkProduct = await productManager.getProduct(element.pid);
 
-      if (checkProduct?.stock < element.amount) {
+      if (checkProduct && checkProduct?.stock < element.amount) {
         toast.error(
           "Sepetinizdeki ürünlerden bir kısmı stoklarımızda kalmamış, lütfen tekrar kontrol ediniz.",
           { duration: 5000 }
@@ -606,7 +635,7 @@ export default function Payment() {
     }
   }
 
-  async function fallingOutofCart(payData: any) {
+  async function fallingOutofCart(payData: PaymentResponse, items: any) {
     const id = localStorage.getItem("id");
 
     console.log(payData);
@@ -621,7 +650,11 @@ export default function Payment() {
       contactName: `${address.name} ${address.surname}`,
     };
 
-    const pay = payData.pay.data;
+    const pay = payData.data;
+    if (!pay) {
+      toast.error("Ödeme işlemi başarısız. Lütfen tekrar deneyiniz.");
+      return;
+    }
     const payment = {
       paymentId: pay.paymentId,
       conversationId: pay.conversationId,
@@ -676,11 +709,11 @@ export default function Payment() {
           var checkProduct = await productManager.getProduct(element.pid);
           console.log("6");
 
-          const newStock = checkProduct?.stock - element?.amount;
+          const newStock = (checkProduct?.stock || 0) - (element?.amount || 0);
 
           let productStockForm = new FormData();
           productStockForm.append("id", element?.pid);
-          productStockForm.append("stock", newStock);
+          productStockForm.append("stock", newStock.toString());
           var productStock = await productManager.fallingOutofStock(
             productStockForm as any
           );

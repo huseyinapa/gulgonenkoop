@@ -45,4 +45,5 @@ async function productIdentifier() {
   return `P-${newIdentifier}`;
 }
 
+/* eslint-disable import/no-anonymous-default-export */
 export default { userIdentifier, productIdentifier };

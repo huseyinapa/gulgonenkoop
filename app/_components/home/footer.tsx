@@ -147,7 +147,7 @@ export default function Footer() {
         </div>
       </nav>
       <aside>
-        <p>&copy; 2024 - Tüm hakkı saklıdır.</p>
+        <p>&copy; 2025 - Tüm hakkı saklıdır.</p>
       </aside>
     </footer>
   );

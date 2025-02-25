@@ -11,7 +11,7 @@ export default function LoginModal() {
 
   const userService = new UserService();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -26,16 +26,17 @@ export default function LoginModal() {
     formData.append("password", password);
 
     try {
-      var response = await userService.loginUser(formData as unknown as string);
-      // console.log(response.data);
+      var response = await userService.loginUser(formData);
+      console.log(response);
 
-      if (response !== null) {
-        localStorage.setItem("id", response?.data?.data?.id);
+      if (response) {
+        localStorage.setItem("id", response.id);
         localStorage.setItem("name", "");
         localStorage.setItem("surname", "");
         localStorage.setItem("email", email);
         localStorage.setItem("password", password);
-        localStorage.setItem("permission", response?.data?.data?.permission);
+        localStorage.setItem("permission", response.permission);
+
         localStorage.setItem("last_login", date.toString());
         localStorage.setItem("date", date.toString());
 
@@ -94,10 +95,10 @@ export default function LoginModal() {
               className="btn-link"
               onClick={() => {
                 if (document.getElementById("login_modal")) {
-                  document.getElementById("login_modal")?.close();
+                  (document.getElementById("login_modal") as HTMLDialogElement)?.close();
                 }
                 if (document.getElementById("register_modal")) {
-                  document.getElementById("register_modal")?.showModal();
+                  (document.getElementById("register_modal") as HTMLDialogElement)?.showModal();
                 }
               }}
             >
@@ -109,7 +110,7 @@ export default function LoginModal() {
               className="btn"
               onClick={() => {
                 if (document.getElementById("login_modal")) {
-                  document.getElementById("login_modal")?.close();
+                  (document.getElementById("login_modal") as HTMLDialogElement)?.close();
                 }
               }}
             >

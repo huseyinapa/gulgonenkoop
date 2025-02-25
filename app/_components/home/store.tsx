@@ -13,21 +13,19 @@ export default function Store() {
         <div className="blur-[106px] h-72 bg-gradient-to-br from-[#d82685c2] to-[#d8268557]"></div>
         <div className="blur-[106px] h-48 bg-gradient-to-r from-[#d82685c2] to-[#d8268557]"></div>
       </div>
-      <div className="mx-auto py-5 max-w-4xl px-2 md:px-12 xl:px-6">
-        <h1 className="mt-5 text-5xl text-center tracking-wide">
+      <div className="mx-auto py-5 max-w-4xl text-center md:px-12 xl:px-6">
+        <h1 className="mt-5 text-2xl md:text-5xl text-center tracking-wide">
           <span className="animate-text bg-gradient-to-r from-[#220615] via-[#220615c2] to-[#22061565] bg-clip-text text-transparent font-bold">
-            S.S. Gülgönen Tarımsal Kalkınma
+            Gülgönen Tarımsal Kalkınma
           </span>
         </h1>
-        <h1 className="mt-4 mb-10 text-4xl text-center text-[#220615] font-semibold">
+        <h1 className="mt-2 md:mt-4 mb-10 text-xl md:text-4xl text-center text-[#220615] font-semibold">
           <span>Kooperatifi</span>
         </h1>
         <h1 className="text-center">
           <span>
             Doğal kaynakların ve topraklarımızın verimini en üst düzeye çıkarmak
-            amacıyla bir araya gelen çiftçilerin birliğidir. Biz,
-            topraklarımızın bereketini sizinle paylaşıyor ve bu topraklardan
-            elde edilen ürünlerimizi gurur ve sevgiyle sunuyoruz.
+            amacıyla bir araya gelen çiftçilerin birliğidir.
           </span>
         </h1>
         <div className="divider my-16"></div>

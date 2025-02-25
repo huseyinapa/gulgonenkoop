@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../components/home/header";
-import Footer from "../components/home/footer";
+import Header from "../_components/home/header";
+import Footer from "../_components/home/footer";
 
 const Contact = () => {
   return (

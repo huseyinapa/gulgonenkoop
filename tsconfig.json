@@ -29,9 +29,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/components/home/header.tsx",
-    "app/components/modals/register.js",
-    "app/components/modals/login.js"
+    "app/_components/home/header.tsx",
+    "app/_components/modals/register.js",
+    "app/_components/modals/login.js",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }

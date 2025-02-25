@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import Header from "../components/home/header";
-import Footer from "../components/home/footer";
+import Header from "../_components/home/header";
+import Footer from "../_components/home/footer";
 
 import OrderManager from "../utils/order";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Order {
   orderId: string;
@@ -34,7 +35,7 @@ export default function Order() {
     getOrders();
     if (storedEmail) setIsLoggedIn(true);
     else router.push("/");
-  }, [orders]);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   // useEffect(() => {
   // orders değiştiğinde yapılacak işlemler
@@ -49,54 +50,61 @@ export default function Order() {
 
       let getOrderForm = new FormData();
       getOrderForm.append("customerId", id ?? "");
-      const orderData = await orderManager.getOrder(getOrderForm as any);
+      const orderData = await orderManager.getOrder(getOrderForm);
       console.log(orderData);
 
-      if (orderData === null) return;
+      if (orderData === null || orderData === undefined) return;
 
       const orderArray = [];
 
-      for (let i = 0; i < orderData?.length; i++) {
-        const order = orderData[i];
+      // Check if orderData is an array before iterating
+      if (Array.isArray(orderData)) {
+        for (let i = 0; i < orderData.length; i++) {
+          const order = orderData[i];
 
-        let status = "";
+          let status = "";
 
-        switch (order["status"]) {
-          case "0":
-            status = "Onay bekliyor";
-            break;
-          case "1":
-            status = "Onaylandı";
-            break;
-          case "2":
-            status = "Kargoda";
-            break;
-          case "3":
-            status = "Teslim edildi";
-            break;
-          case "4":
-            status = "İptal Edildi!";
-            break;
-          default:
-            status = "Onay bekleniyor..";
-            break;
+          switch (order["status"]) {
+            case "0":
+              status = "Onay bekliyor";
+              break;
+            case "1":
+              status = "Onaylandı";
+              break;
+            case "2":
+              status = "Kargoda";
+              break;
+            case "3":
+              status = "Teslim edildi";
+              break;
+            case "4":
+              status = "İptal Edildi!";
+              break;
+            default:
+              status = "Onay bekleniyor..";
+              break;
+          }
+
+          orderArray.push({
+            ...order,
+            status: order["status"],
+            statusText: status,
+            payment: JSON.parse(order["payment"]),
+            items: JSON.parse(order["items"]),
+          });
         }
 
-        orderArray.push({
-          ...order,
-          status: order["status"],
-          statusText: status,
-          payment: JSON.parse(order["payment"]),
-          items: JSON.parse(order["items"]),
-        });
+        // Sort the array by date (descending)
+        orderArray.sort((a, b) => b.date - a.date);
+
+        setOrders(orderArray as any[]);
+      } else {
+        console.log("orderData is not an array:", orderData);
+        toast.error("Beklenmedik bir sorun oluştu. Hata kodu: O-25");
       }
-
-      orderArray.sort((a, b) => b.date - a.date);
-
-      setOrders(orderArray as any[]);
     } catch (error) {
       console.log(error);
-      toast.error("Beklenmedik bir sorun oluştur. Hata kodu: O-25");
+      toast.error("Beklenmedik bir sorun oluştu. Hata kodu: O-25");
     }
   }
 
@@ -143,7 +151,7 @@ export default function Order() {
         <div className="flex flex-wrap mx-auto px-8 justify-center sm:items-center md:grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-6 lg:gap-8">
           {orders.map((order) => (
             <OrderCard
-              key={order?.orderId }
+              key={order?.orderId}
               data={order as any}
               setDetails={setDetails}
               cancelOrder={cancelOrder}
@@ -178,10 +186,11 @@ export default function Order() {
         className="card flex flex-col mx-auto p-4 md:px-2 lg:px-0 justify-center items-center w-[400px] md:w-[400px] lg:w-[400px] h-[560px] md:h-[530px] lg:h-[530px] space-x-4 shadow-neutral shadow-[0_0_10px] rounded-lg"
       >
         <figure className="relative my-2">
-          <img
+          <Image
             src="/images/icons/shopping-bag.svg"
             alt="Ürün görseli"
             className="w-[370px] h-40 object-contain" //rounded-lg rounded-br-[80px]
+            height={100} width={100}
           />
           <a
             className="absolute top-0 right-0 btn btn-glass"
@@ -212,7 +221,7 @@ export default function Order() {
                   setDetails(data.items);
 
                   // router.push(`/orders/${data.orderId}`);
-                  (document.getElementById("my_modal_5")as HTMLDialogElement)?.showModal();
+                  (document.getElementById("my_modal_5") as HTMLDialogElement)?.showModal();
                 }}
               >
                 Görmek için tıklayın
@@ -299,7 +308,12 @@ function ModalDetails({ details }: { details: any[] }) {
           {details.map((detail: any, index: number) => (
             <div key={index} className="flex flex-row space-x-4">
               <figure>
-                <img src={detail.image} className="w-28 h-auto" />
+                <Image
+                  className="w-28 h-auto"
+                  src={detail.image}
+                  alt="Ürün görseli"
+                  height={100} width={100}
+                />
               </figure>
               <div className="flex flex-col justify-between">
                 <div className="">

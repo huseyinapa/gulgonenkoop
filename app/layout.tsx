@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import LoginModal from "./components/modals/login";
-import RegisterModal from "./components/modals/register";
+import LoginModal from "./_components/modals/login";
+import RegisterModal from "./_components/modals/register";
 
 const inter = Inter({ subsets: ["latin"] });
 

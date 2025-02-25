@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,10 +8,10 @@ import toast from "react-hot-toast";
 import func from "../../functions";
 
 interface HeaderProps {
-  onClick: (sectionId: string) => void;
+  onClick?: (sectionId: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onClick }) => {
+const Header: React.FC<HeaderProps> = () => {
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -30,7 +30,6 @@ const Header: React.FC<HeaderProps> = ({ onClick }) => {
 
   function checkIsAdmin() {
     var getPermission = parseInt(localStorage.getItem("permission") ?? "0");
-
     if (getPermission === 1) setIsAdmin(true);
     else setIsAdmin(false);
   }
@@ -51,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ onClick }) => {
             />
           </Link>
           <div className="card-title text-secondary hidden lg:flex">
-            S.S. Gülgönen Tarımsal Kalkınma Kooperatifi
+            Gülgönen Tarımsal Kalkınma Kooperatifi
           </div>
         </div>
       </div>
@@ -60,8 +59,15 @@ const Header: React.FC<HeaderProps> = ({ onClick }) => {
           <a href="/products" className="link link-hover font-semibold">
             Ürünlerimiz
           </a>
-          <a href="/iletisim" className="link link-hover font-semibold">İletişim</a>
-          <a href="/magaza" className="link link-hover font-semibold">Mağazalarımız</a>
+          <a href="/iletisim" className="link link-hover font-semibold">
+            İletişim
+          </a>
+          <a href="/magaza" className="link link-hover font-semibold">
+            Mağazalarımız
+          </a>
+          <a href="/sunum" className="link link-hover font-semibold">
+            Sunum
+          </a>
         </div>
       </div>
       <div className="navbar-end flex">
@@ -208,22 +214,32 @@ const Header: React.FC<HeaderProps> = ({ onClick }) => {
         ) : (
           <div className="flex flex-row gap-2">
             <div
-              className="btn btn-circle flex flex-row md:w-[150px] bg-secondary"
+              className="btn btn-circle flex flex-row w-[100px] md:w-[120px] bg-secondary"
               onClick={() => {
-                (document.getElementById("register_modal") as HTMLDialogElement)?.showModal();
+                (
+                  document.getElementById("register_modal") as HTMLDialogElement
+                )?.showModal();
               }}
             >
-              <div className="text-md hidden md:flex  text-secondary-content">
+              <div className="text-sm md:text-base flex text-secondary-content">
                 Kayıt ol
               </div>
             </div>
             <div
-              className="btn btn-circle flex flex-row md:w-[150px]"
+              className="btn btn-circle flex flex-row w-[70px] md:w-[120px]"
               onClick={() => {
-                (document.getElementById("login_modal") as HTMLDialogElement)?.showModal();
+                (
+                  document.getElementById("login_modal") as HTMLDialogElement
+                )?.showModal();
               }}
             >
               <div className="text-md hidden md:flex">Giriş yap</div>
+              <Image
+                src="/assets/login.svg"
+                alt="Giriş yap"
+                className="size-5 md:size-6 md:hidden"
+                width={20}
+                height={20} />
             </div>
           </div>
         )}

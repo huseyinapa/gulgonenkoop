@@ -1,6 +1,7 @@
 "use client";
 
 import OrderManager from "@/app/utils/order";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -11,7 +12,7 @@ export default function OrderDetails({ order: initialOrder }: { order: any }) {
     setOrder(initialOrder);
   }, [initialOrder]);
 
-  const cancelOrder = async () => {
+  const cancelOrder = async (orderId: any) => {
     try {
       let cancelOrderForm = new FormData();
       cancelOrderForm.append("orderId", order.orderId);
@@ -74,10 +75,12 @@ export default function OrderDetails({ order: initialOrder }: { order: any }) {
       className="card flex flex-col mx-auto p-4 md:px-2 lg:px-0 justify-center items-center w-[400px] md:w-[400px] lg:w-[400px] h-[560px] md:h-[530px] lg:h-[530px] space-x-4 shadow-neutral shadow-[0_0_10px] rounded-lg"
     >
       <figure className="relative my-2">
-        <img
+        <Image
           src="/images/icons/shopping-bag.svg"
           alt="Ürün görseli"
-          className="w-[370px] h-40 object-contain" //rounded-lg rounded-br-[80px]
+          className="w-[370px] h-40 object-contain"
+          width={20}
+          height={20}
         />
         <a className="absolute top-0 right-0 btn btn-glass">
           Sipariş Detayları
@@ -137,17 +140,16 @@ export default function OrderDetails({ order: initialOrder }: { order: any }) {
         </div>
         <div
           className={`btn rounded-md pointer-events-none
-          ${
-            order.status === "0"
+          ${order.status === "0"
               ? "bg-gray-300"
               : order.status === "1"
-              ? "bg-purple-400"
-              : order.status === "2"
-              ? "bg-button-rose"
-              : order.status === "3"
-              ? "bg-green-500 text-white"
-              : "bg-red-600"
-          }`}
+                ? "bg-purple-400"
+                : order.status === "2"
+                  ? "bg-button-rose"
+                  : order.status === "3"
+                    ? "bg-green-500 text-white"
+                    : "bg-red-600"
+            }`}
         >
           {status}
         </div>

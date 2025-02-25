@@ -1,7 +1,7 @@
 "use client";
 
-import Footer from "../components/home/footer";
-import Header from "../components/home/header";
+import Footer from "../_components/home/footer";
+import Header from "../_components/home/header";
 
 export default function TermsofUse() {
   return (
@@ -53,7 +53,7 @@ export default function TermsofUse() {
         <p>
           SİTE&apos;de yayınlanan tüm metin, kod, grafikler, logolar, resimler, ses
           dosyaları ve kullanılan yazılımın sahibi (bundan böyle ve daha sonra
-            &quot;içerik&quot; olarak anılacaktır) Gülgönen Kooperatifi olup, tüm hakları
+          &quot;içerik&quot; olarak anılacaktır) Gülgönen Kooperatifi olup, tüm hakları
           saklıdır. Yazılı izin olmaksızın site içeriğinin çoğaltılması veya
           kopyalanması kesinlikle yasaktır.
         </p>

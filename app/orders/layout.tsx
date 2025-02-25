@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Header from "../components/home/header";
-import Footer from "../components/home/footer";
+import Header from "../_components/home/header";
+import Footer from "../_components/home/footer";
 interface MainLayoutProps {
   children: React.ReactNode;
 }

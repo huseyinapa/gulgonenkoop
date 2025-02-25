@@ -1,5 +1,5 @@
 import OrderManager from "@/app/utils/order";
-import OrderDetails from "./OrderDetails";
+import Image from "next/image";
 
 interface Order {
   orderId: string;
@@ -11,15 +11,15 @@ interface Order {
   total: number;
   date: string;
 }
-export function padZero(number: number) {
-  return number < 10 ? `0${number}` : number;
+function padZero(number: number) {
+  return number < 10 ? parseInt(`0${number}`) : number;
 }
 
-async function getOrderProduct(orderId: string) {
+async function getOrderProduct(orderId: string): Promise<Order | null> {
   try {
     const orderData = await new OrderManager().getOrderWithID(orderId) as Order;
 
-    let order = {};
+    let order = {} as Order;
 
     const date = new Date(parseInt(orderData?.date));
 
@@ -40,7 +40,7 @@ async function getOrderProduct(orderId: string) {
       items: JSON.parse(orderData?.items),
       total: orderData?.total,
       date: formattedDate,
-    };
+    } as Order;
 
     console.log(order);
 
@@ -180,10 +180,12 @@ export default async function Product({ params: { orderId } }: { params: { order
                 {/* Ürün Bilgileri */}
                 <div className="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-4">
                   <div className="flex">
-                    <img
+                    <Image
                       src={item.image}
                       alt="gül"
                       className="size-36 md:size-28 object-cover rounded-lg bg-pink-300"
+                      height={36}
+                      width={36}
                     />
                   </div>
                   <div className="flex flex-col items-center md:items-start md:justify-between">
