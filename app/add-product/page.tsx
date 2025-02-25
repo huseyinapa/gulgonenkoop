@@ -147,6 +147,8 @@ function ProductAdd() {
                 src={image}
                 alt="Ürün Görseli"
                 className="w-full h-full mx-auto object-cover"
+                width={400}
+                height={400}
               />
             ) : (
               <div className="w-64 h-64 mx-auto bg-gray-400"></div>
