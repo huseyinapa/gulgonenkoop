@@ -229,6 +229,7 @@ function ProductAdd() {
                   </option>
                   <option value={"Ad"}>Adet</option>
                   <option value={"L"}>Litre</option>
+                  <option value={"ML"}>Mililitre</option>
                   <option value={"Gr"}>Gram</option>
                   <option value={"Kg"}>Kilogram</option>
                 </select>
