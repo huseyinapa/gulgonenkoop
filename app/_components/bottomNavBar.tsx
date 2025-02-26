@@ -2,13 +2,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-interface CardItem{
+interface CardItem {
   price: number,
   amount: number,
-  [key:string]:any
+  [key: string]: any
 }
 
-interface BottomNavBarProps{
+interface BottomNavBarProps {
   title: string,
   agreement: boolean,
   items: CardItem[],
@@ -18,14 +18,14 @@ interface BottomNavBarProps{
 export default function BottomNavBar({ title, agreement, items, address }: BottomNavBarProps) {
   const router = useRouter();
 
-  console.log(items);
+  // console.log(items);
 
   const [isChecked, setChecked] = useState(false);
 
   const handleCheckboxChange = () => setChecked(!isChecked);
 
-  const totalPrice = items?.reduce (
-    (total:number, item:CardItem) => total + item?.price * item?.amount,
+  const totalPrice = items?.reduce(
+    (total: number, item: CardItem) => total + item?.price * item?.amount,
     0
   );
 
@@ -60,115 +60,115 @@ export default function BottomNavBar({ title, agreement, items, address }: Botto
               <div className="flex flex-col items-center gap-2">
                 <a
                   className="btn btn-sm h-10 bg-purple-600 text-white"
-                  // onClick={() => {
-                  //   if (!isChecked) {
-                  //     return toast.error(
-                  //       '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
-                  //     );
-                  //   } else if (Object.keys(address).length === 0) {
-                  //     return toast.error("Teslimat adresini doldurunuz.");
-                  //   }
+                // onClick={() => {
+                //   if (!isChecked) {
+                //     return toast.error(
+                //       '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
+                //     );
+                //   } else if (Object.keys(address).length === 0) {
+                //     return toast.error("Teslimat adresini doldurunuz.");
+                //   }
 
-                  // }}
+                // }}
 
-                  //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
-                  // onClick={async () => {
-                  //   if (orderProgress) return;
+                //! kontrol işlemi ve belirlenen sayfaya veri gönderimi
+                // onClick={async () => {
+                //   if (orderProgress) return;
 
-                  //   const userInfo = await getUserInfo();
+                //   const userInfo = await getUserInfo();
 
-                  //   if (!isChecked) {
-                  //     return toast.error(
-                  //       '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
-                  //     );
-                  //   } else if (Object.keys(address).length === 0) {
-                  //     return toast.error("Teslimat adresini doldurunuz.");
-                  //   } else if (
-                  //     !paymentData.cardHolderName ||
-                  //     paymentData.cardHolderName.trim() === ""
-                  //   ) {
-                  //     // setEffect(true);
-                  //     return toast.error(
-                  //       "Kredi kartı sahibi adı boş bırakılamaz."
-                  //     );
-                  //   } else if (
-                  //     !paymentData.cardNumber ||
-                  //     paymentData.cardNumber.length < 16 ||
-                  //     paymentData.cardNumber.trim() === ""
-                  //   ) {
-                  //     // setEffect(true);
-                  //     return toast.error(
-                  //       "Kredi kartı numarası eksik yada boş, kontrol ediniz."
-                  //     );
-                  //   } else if (
-                  //     !paymentData.expiryDate ||
-                  //     paymentData.expiryDate.trim() === ""
-                  //   ) {
-                  //     // setEffect(true);
-                  //     return toast.error(
-                  //       "Son kullanma tarihi boş bırakılamaz."
-                  //     );
-                  //   } else if (
-                  //     !paymentData.cvv ||
-                  //     paymentData.cvv.trim() === ""
-                  //   ) {
-                  //     // setEffect(true);
-                  //     return toast.error("Kredi kartı cvv boş bırakılamaz.");
-                  //   }
-                  //   // else if (paymentData) {
-                  //   //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
-                  //   // }
+                //   if (!isChecked) {
+                //     return toast.error(
+                //       '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
+                //     );
+                //   } else if (Object.keys(address).length === 0) {
+                //     return toast.error("Teslimat adresini doldurunuz.");
+                //   } else if (
+                //     !paymentData.cardHolderName ||
+                //     paymentData.cardHolderName.trim() === ""
+                //   ) {
+                //     // setEffect(true);
+                //     return toast.error(
+                //       "Kredi kartı sahibi adı boş bırakılamaz."
+                //     );
+                //   } else if (
+                //     !paymentData.cardNumber ||
+                //     paymentData.cardNumber.length < 16 ||
+                //     paymentData.cardNumber.trim() === ""
+                //   ) {
+                //     // setEffect(true);
+                //     return toast.error(
+                //       "Kredi kartı numarası eksik yada boş, kontrol ediniz."
+                //     );
+                //   } else if (
+                //     !paymentData.expiryDate ||
+                //     paymentData.expiryDate.trim() === ""
+                //   ) {
+                //     // setEffect(true);
+                //     return toast.error(
+                //       "Son kullanma tarihi boş bırakılamaz."
+                //     );
+                //   } else if (
+                //     !paymentData.cvv ||
+                //     paymentData.cvv.trim() === ""
+                //   ) {
+                //     // setEffect(true);
+                //     return toast.error("Kredi kartı cvv boş bırakılamaz.");
+                //   }
+                //   // else if (paymentData) {
+                //   //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
+                //   // }
 
-                  //   console.log(userInfo);
-                  //   console.log(userData);
+                //   console.log(userInfo);
+                //   console.log(userData);
 
-                  //   try {
-                  //     if (userData.ip === undefined) getIP();
-                  //     if (userInfo === null)
-                  //       return toast.error(
-                  //         "Beklenmedik bir sorun oluştu. Hata: P-FLN"
-                  //       );
+                //   try {
+                //     if (userData.ip === undefined) getIP();
+                //     if (userInfo === null)
+                //       return toast.error(
+                //         "Beklenmedik bir sorun oluştu. Hata: P-FLN"
+                //       );
 
-                  //     console.log(address);
+                //     console.log(address);
 
-                  //     console.log(paymentData);
+                //     console.log(paymentData);
 
-                  //     console.log(userData);
-                  //     // Siparis onaylanirken indicator dondur
+                //     console.log(userData);
+                //     // Siparis onaylanirken indicator dondur
 
-                  //     const stockControl = await checkStock(items);
+                //     const stockControl = await checkStock(items);
 
-                  //     if (!stockControl) return;
+                //     if (!stockControl) return;
 
-                  //     const cartItems = JSON.stringify(items);
-                  //     console.log(cartItems);
+                //     const cartItems = JSON.stringify(items);
+                //     console.log(cartItems);
 
-                  //     setOrderProgress(true);
+                //     setOrderProgress(true);
 
-                  //     var paymentProcess = await new PaymentManager().request(
-                  //       userInfo,
-                  //       cartItems,
-                  //       paymentData
-                  //     );
+                //     var paymentProcess = await new PaymentManager().request(
+                //       userInfo,
+                //       cartItems,
+                //       paymentData
+                //     );
 
-                  //     console.log(paymentProcess);
-                  //     console.log(paymentProcess.pay);
-                  //     console.log(paymentProcess.pay.data.status);
+                //     console.log(paymentProcess);
+                //     console.log(paymentProcess.pay);
+                //     console.log(paymentProcess.pay.data.status);
 
-                  //     if (paymentProcess.pay.data.status === "success") {
-                  //       // await cartManager.
-                  //       console.log(paymentProcess);
-                  //       await fallingOutofCart(paymentProcess, items);
-                  //       //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
+                //     if (paymentProcess.pay.data.status === "success") {
+                //       // await cartManager.
+                //       console.log(paymentProcess);
+                //       await fallingOutofCart(paymentProcess, items);
+                //       //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
 
-                  //       // ! router.push(`/home?userid=test&orderid=testt`);
-                  //     }
-                  //   } catch (error) {
-                  //     console.log(error);
-                  //     toast.error(error);
-                  //   }
-                  //   setOrderProgress(false);
-                  // }}
+                //       // ! router.push(`/home?userid=test&orderid=testt`);
+                //     }
+                //   } catch (error) {
+                //     console.log(error);
+                //     toast.error(error);
+                //   }
+                //   setOrderProgress(false);
+                // }}
                 >
                   Siparişi Onayla
                 </a>
@@ -220,7 +220,7 @@ export default function BottomNavBar({ title, agreement, items, address }: Botto
                 />
                 <a
                   className={`label-text flex flex-row gap-2`}
-                  // ${effect && "text-red-400"}
+                // ${effect && "text-red-400"}
                 >
                   <span
                     className="text-secondary"

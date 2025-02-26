@@ -25,7 +25,7 @@ export default async function removeProduct(
     toast.success(cartUsersResponse);
     toast.success("Ürün kaldırıldı ve sepetlerden çıkarıldı.");
   } catch (error) {
-    toast.error("Konsolu kontrol ediniz!");
-    console.log(error);
+    toast.error("Ürün kaldırılırken sorun oluştu!");
+    // console.log(error);
   }
 }

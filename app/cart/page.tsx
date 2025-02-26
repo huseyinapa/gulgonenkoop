@@ -58,7 +58,7 @@ export default function Cart() {
 
     return false; // true false değiştirilme sebebi miktar stoktan fazla mı diyor cevap belirli zaten
   }
-  console.log(length);
+  // console.log(length);
 
   if (length === 1999)
     return (
@@ -153,12 +153,12 @@ export default function Cart() {
       const productInCart = (await cartManager.fetchCart(
         cartForm as unknown as string
       )) as Array<{ pid: string; amount: number }>;
-      console.log(productInCart);
+      // console.log(productInCart);
       if (!productInCart) return setLength(9991); //! sepette ürün yok
 
       const products = [];
       // const arr = [];
-      console.log(productInCart);
+      // console.log(productInCart);
 
       for (let i = 0; i < productInCart.length; i++) {
         // const productForm = new FormData();
@@ -184,13 +184,13 @@ export default function Cart() {
         // arr.push(productInCart[i].pid);
       }
 
-      console.log(products);
+      // console.log(products);
 
       setCartItems(products);
       setSelectedItems(products);
       setLength(products.length);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error("Bilinmeyen hata: C-FC");
     }
   }

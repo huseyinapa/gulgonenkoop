@@ -28,7 +28,7 @@ class ProductManager {
             },
           }
         );
-        console.log(response.data);
+        //  console.log(response.data);
         response.data.success ? resolve(true) : reject(false);
       } catch (error) {
         console.error("Ürün ekleme hatası:", error);
@@ -44,7 +44,7 @@ class ProductManager {
           `${api_url}/api_gulgonen/product/remove.php`,
           productData
         );
-        console.log("test data" + response.data);
+        //  console.log("test data" + response.data);
         response.data.success ? resolve(true) : reject(false);
       } catch (error) {
         console.error("Ürün kaldırma hatası:", error);
@@ -78,7 +78,7 @@ class ProductManager {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //  console.log(error);
           reject(null);
         });
     });

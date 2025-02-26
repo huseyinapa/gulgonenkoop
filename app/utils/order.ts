@@ -14,7 +14,7 @@ class OrderManager {
             },
           }
         );
-        console.log("addOrder:", response.data);
+        //  console.log("addOrder:", response.data);
         resolve(response.data.success);
       } catch (error) {
         console.error(error);
@@ -30,7 +30,7 @@ class OrderManager {
       try {
         const response = await axios.post(url, data);
 
-        console.log(response.data);
+        //  console.log(response.data);
 
         response.data.success
           ? response.data.orders !== null
@@ -38,7 +38,7 @@ class OrderManager {
             : reject(null)
           : reject(null);
       } catch (error) {
-        console.log(error);
+        //  console.log(error);
         reject(null);
       }
     });
@@ -57,7 +57,7 @@ class OrderManager {
             : reject(null)
           : reject(null);
       } catch (error) {
-        console.log(error);
+        //  console.log(error);
         reject(null);
       }
     });
@@ -89,7 +89,7 @@ class OrderManager {
           `${api_url}/api_gulgonen/order/confirm.php`,
           data
         );
-        // console.log(response.data);
+        // //  console.log(response.data);
         resolve(response.data.success);
       } catch (error) {
         console.error("Ürün ekleme hatası:", error);
@@ -105,7 +105,7 @@ class OrderManager {
           `${api_url}/api_gulgonen/order/ship.php`,
           data
         );
-        // console.log(response.data);
+        // //  console.log(response.data);
         resolve(response.data.success);
       } catch (error) {
         console.error("Kargolama hatası:", error);
@@ -121,7 +121,7 @@ class OrderManager {
           `${api_url}/api_gulgonen/order/cancel.php`,
           data
         );
-        // console.log(response.data);
+        // //  console.log(response.data);
         resolve(response.data.success);
       } catch (error) {
         console.error("Ürün ekleme hatası:", error);

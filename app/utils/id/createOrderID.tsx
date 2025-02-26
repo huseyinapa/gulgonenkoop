@@ -11,7 +11,7 @@ class OrderID {
       );
       return response.data.success ? response.data.orderIDS : [];
     } catch (error) {
-      console.log("Error fetching ids:", error);
+      //  console.log("Error fetching ids:", error);
       return [];
     }
   }

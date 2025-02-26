@@ -84,7 +84,7 @@ export default function Payment() {
     }
     setItems(convertedItems);
 
-    console.log(convertedItems);
+    // console.log(convertedItems);
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -120,14 +120,14 @@ export default function Payment() {
       const userDate = localStorage.getItem("date");
 
       if (!email || !userID || !userLastLogin || !userAddress || !userDate) {
-        console.log("Gerekli veriler eksik!");
+        // console.log("Gerekli veriler eksik!");
         return toast.error("Gerekli veriler eksik. Yeniden giriş yapınız!");
       }
 
       const lastLogin = new Functions().DateTime(userLastLogin);
       const date = new Functions().DateTime(userDate);
 
-      console.log(userAddress);
+      // console.log(userAddress);
 
       const userData = {
         ip: userIp,
@@ -138,13 +138,13 @@ export default function Payment() {
         date: date,
       };
 
-      console.log(userData);
+      // console.log(userData);
 
       setUserData(userData);
-      console.log(userData);
+      // console.log(userData);
       return userData;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(
         "Bir sorun oluştu! Hata kodu: P-GUI. Eğer sorun çözülmez ise Instagram üzerinden bize ulaşınız."
       );
@@ -177,7 +177,7 @@ export default function Payment() {
     // console.log(paymentData);
   };
 
-  console.log(userData);
+  // console.log(userData);
 
   const paymentProgress = async () => {
     {
@@ -220,19 +220,19 @@ export default function Payment() {
       //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
       // }
 
-      console.log(userInfo);
-      console.log(userData);
+      // console.log(userInfo);
+      // console.log(userData);
 
       try {
         if (userData?.ip === undefined) getIP();
         if (userInfo === null)
           return toast.error("Beklenmedik bir sorun oluştu. Hata: P-FLN");
 
-        console.log(address);
+        // console.log(address);
 
-        console.log(paymentData);
+        // console.log(paymentData);
 
-        console.log(userData);
+        // console.log(userData);
         // Siparis onaylanirken indicator dondur
 
         const stockControl = await checkStock(items);
@@ -240,7 +240,7 @@ export default function Payment() {
         if (!stockControl) return;
 
         const cartItems = JSON.stringify(items);
-        console.log(cartItems);
+        // console.log(cartItems);
 
         setOrderProgress(true);
 
@@ -259,7 +259,7 @@ export default function Payment() {
 
         if (paymentProcess && paymentProcess?.pay?.data.status === "success") {
           // await cartManager.
-          console.log(paymentProcess);
+          // console.log(paymentProcess);
           await fallingOutofCart(paymentProcess, items);
           //* İlk olarak stok kontrolu sonrasında ödeme yapılacak eğer başarılı olursa stoktan düşüp order table a ekleyecek
           toast.success(
@@ -268,7 +268,7 @@ export default function Payment() {
           // ! router.push(`/home?userid=test&orderid=testt`);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         toast.error(error as any);
       }
       setOrderProgress(false);
@@ -638,9 +638,9 @@ export default function Payment() {
   async function fallingOutofCart(payData: PaymentResponse, items: any) {
     const id = localStorage.getItem("id");
 
-    console.log(payData);
-    console.log(address);
-    console.log(userData);
+    // console.log(payData);
+    // console.log(address);
+    // console.log(userData);
 
     const customer = {
       id: id,
@@ -663,7 +663,7 @@ export default function Payment() {
       cardAssociation: pay.cardAssociation,
     };
 
-    console.log(payment);
+    // console.log(payment);
 
     const customerify = JSON.stringify(customer);
     const paymentify = JSON.stringify(payment);
@@ -671,11 +671,9 @@ export default function Payment() {
 
     // console.log(itemsify);items
     // console.log(JSON.parse(items));
-    console.log("1");
 
     try {
       const orderID = await new OrderID().orderIdentifier();
-      console.log("2");
 
       let addOrderForm = new FormData();
       addOrderForm.append("orderId", orderID);
@@ -688,11 +686,9 @@ export default function Payment() {
       addOrderForm.append("date", Date.now().toString());
 
       const orderResult = await orderManager.add(addOrderForm as any);
-      console.log("3");
 
       if (orderResult) {
         //! Custom toast yapılıp siparişlerim sayfasına yönlendiricez
-        console.log("4");
 
         for (let index = 0; index < items.length; index++) {
           const element = items[index];
@@ -701,13 +697,11 @@ export default function Payment() {
           cartProductForm.append("id", id as string);
           cartProductForm.append("pid", element.pid as string);
           var cartProduct = await cartManager.remove(cartProductForm as any);
-          console.log(cartProduct);
-          console.log("5");
+          // console.log(cartProduct);
 
           // let checkProductForm = new FormData();
           // checkProductForm.append("id", element.pid);
           var checkProduct = await productManager.getProduct(element.pid);
-          console.log("6");
 
           const newStock = (checkProduct?.stock || 0) - (element?.amount || 0);
 
@@ -717,11 +711,9 @@ export default function Payment() {
           var productStock = await productManager.fallingOutofStock(
             productStockForm as any
           );
-          console.log(productStock);
-          console.log("7");
+          // console.log(productStock);
         }
         // ?indicator eklenecek
-        console.log("8");
 
         toast.success(
           "Sipariş verildi. Siparişinizin onay durumunu Siparişlerim sayfasından kontrol edebilirsiniz.",
@@ -729,7 +721,6 @@ export default function Payment() {
         );
         localStorage.removeItem("delivery.address");
         localStorage.removeItem("selected.items");
-        console.log("9");
 
         router.push(`/orders/${orderID}`); // işlem tamamlandı sayfasına yönlendir ve eğer tıklarsa gidebilir
       } else {
@@ -739,7 +730,7 @@ export default function Payment() {
       }
     } catch (error) {
       toast.error(`Bilinmeyen hata: Hata kodu: P-323`);
-      console.log(error);
+      // console.log(error);
       //! Mongoya hata eklenebilir.
       // ---Her Manager için ayrı model açılacak.---
     }

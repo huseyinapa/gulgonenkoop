@@ -46,12 +46,12 @@ export default function Order() {
   async function getOrders() {
     try {
       const id = localStorage.getItem("id");
-      console.log(id);
+      // console.log(id);
 
       let getOrderForm = new FormData();
       getOrderForm.append("customerId", id ?? "");
       const orderData = await orderManager.getOrder(getOrderForm);
-      console.log(orderData);
+      // console.log(orderData);
 
       if (orderData === null || orderData === undefined) return;
 
@@ -99,11 +99,11 @@ export default function Order() {
 
         setOrders(orderArray as any[]);
       } else {
-        console.log("orderData is not an array:", orderData);
+        // console.log("orderData is not an array:", orderData);
         toast.error("Beklenmedik bir sorun oluştu. Hata kodu: O-25");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error("Beklenmedik bir sorun oluştu. Hata kodu: O-25");
     }
   }

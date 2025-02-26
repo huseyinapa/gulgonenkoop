@@ -36,7 +36,7 @@ export default function ProductList({ excludingProductId }: { excludingProductId
                 toast.error("Stoğumuzda ürün bulunmuyor.");
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Ürünler getirilirken bir hata oluştu.");
         }
     }

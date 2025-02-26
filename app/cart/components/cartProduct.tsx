@@ -78,7 +78,7 @@ function CartProduct({
   const handleIncreaseAmount = async (itemId: string) => {
     const product = await productManager.getProduct(itemId);
 
-    console.log(localSelected);
+    // console.log(localSelected);
 
     setLocalSelected((prevItems: any[]) =>
       prevItems.map((item: any) =>
@@ -108,7 +108,7 @@ function CartProduct({
       )
     );
 
-    console.log(localSelected);
+    // console.log(localSelected);
 
     setLocalCartItems((prevItems: any[]) =>
       prevItems.map((item: any) =>
@@ -125,7 +125,7 @@ function CartProduct({
     );
   };
 
-  console.log(localCartItems);
+  // console.log(localCartItems);
 
   async function handleRemoveItem(pid: string) {
     const id = localStorage.getItem("id");
@@ -154,11 +154,11 @@ function CartProduct({
       }
     } catch (error) {
       toast.error("Beklenmedik bir sorun oluştu. Kod: C-CP");
-      console.log(error);
+      // console.log(error);
     }
   }
 
-  console.log(localSelected);
+  // console.log(localSelected);
 
   const totalPrice = localSelected.reduce((total, item) => {
     return total + item.price * (item.amount ?? 1);
@@ -253,7 +253,7 @@ function CartProduct({
 
   // Ürün kartı fonksiyonunu JSX olarak çağırıyoruz.
   function ProductCard({ product }: { product: any }) {
-    console.log(product);
+    // console.log(product);
     return (
       <div
         key={product.pid}

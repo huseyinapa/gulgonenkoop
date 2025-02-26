@@ -10,7 +10,7 @@ async function fetchAllIds() {
     const response = await axios.get(
       `${api_url}/api_gulgonen/user/getid.php`
     );
-    // console.log(response.data);
+    // //  console.log(response.data);
     return response.data.success ? response.data.userIDS : [];
   } catch (error) {
     console.error("Error fetching ids:", error);

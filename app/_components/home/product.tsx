@@ -55,7 +55,7 @@ export default function Product() {
         setProducts(fetchedProducts as unknown as Product[]);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -166,7 +166,7 @@ export default function Product() {
   function ProductCard({ product }: { product: Product }) {
     const [image, setImage] = useState(product.image);
     console.log("Image not found");
-    console.log(product.image);
+    // console.log(product.image);
 
     return (
       <div

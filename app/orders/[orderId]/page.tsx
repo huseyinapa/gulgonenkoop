@@ -42,17 +42,17 @@ async function getOrderProduct(orderId: string): Promise<Order | null> {
       date: formattedDate,
     } as Order;
 
-    console.log(order);
+    // console.log(order);
 
     return order;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return null;
   }
 }
 
 export default async function Product({ params: { orderId } }: { params: { orderId: string } }) {
-  console.log(orderId);
+  // console.log(orderId);
 
   const order = await getOrderProduct(orderId);
 

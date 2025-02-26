@@ -28,7 +28,7 @@ export default function AddressModal({ setAddress }: AddressModalProps) {
     window.addEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   function handleBeforeUnload() {
     if (Object.keys(userInfo).length === 2) {
@@ -63,7 +63,7 @@ export default function AddressModal({ setAddress }: AddressModalProps) {
       address &&
       zipCode
     ) {
-      console.log(JSON.stringify(userInfo));
+      // console.log(JSON.stringify(userInfo));
 
       localStorage.setItem("delivery.address", JSON.stringify(userInfo));
 
@@ -100,7 +100,7 @@ export default function AddressModal({ setAddress }: AddressModalProps) {
     // console.log("user info2: ", userInfo);ss
   };
 
-  console.log(userInfo);
+  // console.log(userIönfo);
 
   return (
     <dialog id="address_modal" className="modal modal-bottom md:modal-middle">
@@ -308,7 +308,7 @@ export default function AddressModal({ setAddress }: AddressModalProps) {
     const api_cities = await fetch("/api/address");
     const cities = (await api_cities.json()).data;
 
-    console.log(cities);
+    // console.log(cities);
 
     const storedCity = localStorage.getItem("city");
 

@@ -29,14 +29,14 @@ async function getProductData(productId: string): Promise<Product | null> {
       `${api_url}/api_gulgonen/product/get.php?id=${productId}`
     );
 
-    console.log(product);
+    // console.log(product);
     if (!product.data) {
       return null;
     }
 
     return product.data;
   } catch (error) {
-    console.log("HATA:" + error);
+    // console.log("HATA:" + error);
     return null;
   }
 }
@@ -63,13 +63,13 @@ interface ProductPageParams {
 export default async function ProductPage({
   params: { productId },
 }: ProductPageParams) {
-  console.log(productId);
+  // console.log(productId);
 
   const id = extractIdFromUrl(productId);
 
   const product = await getProductData(id as string);
 
-  console.log(id);
+  // console.log(id);
   if (!product) {
     return <div>Product not found</div>;
   }

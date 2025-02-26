@@ -67,7 +67,7 @@ export default function RegisterModal() {
                 }
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Beklenmedik bir sorun oluştu.");
         }
     };

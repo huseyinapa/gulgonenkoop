@@ -22,7 +22,7 @@ class UserService {
         );
 
         // console.log("Register service: ", response);
-        console.log(response.data);
+        // console.log(response.data);
 
         response.data.success ? resolve(true) : reject(false);
       } catch (error) {

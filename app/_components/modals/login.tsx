@@ -27,7 +27,7 @@ export default function LoginModal() {
 
     try {
       var response = await userService.loginUser(formData);
-      console.log(response);
+      // console.log(response);
 
       if (response) {
         localStorage.setItem("id", response.id);

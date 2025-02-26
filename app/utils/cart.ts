@@ -56,8 +56,8 @@ class CartManager {
       try {
         const { data: productInCart } = await axios.post(url, productData);
 
-        console.log(`Sepetteki ürün: ${productInCart}`);
-        console.log(productInCart);
+        //  //  console.log(`Sepetteki ürün: ${productInCart}`);
+        //  console.log(productInCart);
 
         if (productInCart !== null) {
           return resolve(productInCart);
@@ -65,7 +65,7 @@ class CartManager {
           return reject(null);
         }
       } catch (error) {
-        console.log(error);
+        //  console.log(error);
 
         reject(null);
       }
@@ -84,14 +84,14 @@ class CartManager {
           formData
         );
 
-        console.log("DATA?", response.data);
+        //  console.log("DATA?", response.data);
         if (response.data) {
           return resolve(response.data.message); // PHP dosyasından gelen sepet bilgileri
         } else {
           return reject(null); // Hiçbir sepet bulunamadı
         }
       } catch (error) {
-        console.log("Sepet bilgisi alınamadı:", error);
+        //  console.log("Sepet bilgisi alınamadı:", error);
         return reject(null); // Hiçbir sepet bulunamadı
       }
     });
@@ -104,7 +104,7 @@ class CartManager {
   //     try {
   //       const response = await axios.post(url, productData);
 
-  //       console.log(response.data.message);
+  //       //  console.log(response.data.message);
 
   //       response.data.success
   //         ? response.data.data !== null
@@ -112,7 +112,7 @@ class CartManager {
   //           : resolve(null)
   //         : reject(null);
   //     } catch (error) {
-  //       console.log(error);
+  //       //  console.log(error);
   //       reject(null);
   //     }
   //   });
@@ -125,10 +125,10 @@ class CartManager {
           `${api_url}/api_gulgonen/cart/get_all.php`,
           productData
         );
-        // console.log(response);
+        // //  console.log(response);
         resolve(response.data.success ? response.data.data : null);
       } catch (error) {
-        console.log(error);
+        //  console.log(error);
         reject(null);
       }
     });

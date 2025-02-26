@@ -9,24 +9,24 @@ export type PaymentResponse = {
 
 class PaymentManager {
   async request(userData: any, cartItems: any, paymentData: any): Promise<PaymentResponse> {
-    console.log(userData);
-    console.log(paymentData);
-    console.log(cartItems);
+    //  console.log(userData);
+    //  console.log(paymentData);
+    //  console.log(cartItems);
 
     const convertedItems = JSON.parse(cartItems) || [];
-    // console.log(convertedItems);
+    // //  console.log(convertedItems);
 
-    // console.log(userData);
-    // console.log(cartItems);
-    // console.log(paymentData);
+    // //  console.log(userData);
+    // //  console.log(cartItems);
+    // //  console.log(paymentData);
 
     const url = "https://api.gulgonenkoop.com/api/payment";
 
     const [expireMonth, expireYear] = paymentData.expiryDate.split("/");
 
-    console.log(userData.phone);
+    //  console.log(userData.phone);
     const phone = userData.phone?.replace(/[^0-9 ]/g, " ").trim();
-    console.log(phone);
+    //  console.log(phone);
 
     const gsmNumber = phone.includes("+90")
       ? userData.phone
@@ -90,21 +90,21 @@ class PaymentManager {
       basketItems: basketItems,
     };
 
-    console.log(payData);
+    //  console.log(payData);
 
     try {
-      console.log("pay data: ", payData);
+      //  console.log("pay data: ", payData);
       const { data: paymentResponse }: { data: PayResponse } = await axios.post(url, payData, {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
         },
       });
 
-      console.log(paymentResponse.success);
-      console.log(paymentResponse);
-      console.log(paymentResponse.data);
+      //  console.log(paymentResponse.success);
+      //  console.log(paymentResponse);
+      //  console.log(paymentResponse.data);
       // if (paymentResponse.data.status !== "success") {
-      //   console.log(paymentResponse.data);
+      //   //  console.log(paymentResponse.data);
       //   toast.error(paymentResponse.message);
       //   return { pay: paymentResponse.data, data: payData };
       // } else {
@@ -119,7 +119,7 @@ class PaymentManager {
       return { pay: paymentResponse, data: payData } as PaymentResponse;
       // setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      //  console.log(error);
       toast.error("Beklenmedik sorun oluştu. Hata kodu: UP");
       return { pay: null, data: null };
     }
