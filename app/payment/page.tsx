@@ -186,35 +186,41 @@ export default function Payment() {
       const userInfo = await getUserInfo();
 
       if (!isChecked) {
-        return toast.error(
+        toast.error(
           '"Mesafeli Satış Sözleşmesini" onaylamanız gerekmektedir.'
         );
+        return;
       } else if (Object.keys(address).length === 0) {
-        return toast.error("Teslimat adresini doldurunuz.");
+        toast.error("Teslimat adresini doldurunuz.");
+        return;
       } else if (
         !paymentData?.cardHolderName ||
         paymentData?.cardHolderName?.trim() === ""
       ) {
         // setEffect(true);
-        return toast.error("Kredi kartı sahibi adı boş bırakılamaz.");
+        toast.error("Kredi kartı sahibi adı boş bırakılamaz.");
+        return;
       } else if (
         !paymentData?.cardNumber ||
         paymentData?.cardNumber?.length < 16 ||
         paymentData?.cardNumber?.trim() === ""
       ) {
         // setEffect(true);
-        return toast.error(
+        toast.error(
           "Kredi kartı numarası eksik yada boş, kontrol ediniz."
         );
+        return;
       } else if (
         !paymentData?.expiryDate ||
         paymentData?.expiryDate?.trim() === ""
       ) {
         // setEffect(true);
-        return toast.error("Son kullanma tarihi boş bırakılamaz.");
+        toast.error("Son kullanma tarihi boş bırakılamaz.");
+        return;
       } else if (!paymentData?.cvv || paymentData?.cvv?.trim() === "") {
         // setEffect(true);
-        return toast.error("Kredi kartı cvv boş bırakılamaz.");
+        toast.error("Kredi kartı cvv boş bırakılamaz.");
+        return;
       }
       // else if (paymentData) {
       //   return toast.error("Kart bilgileri eksik yada boş bırakılmış!");
@@ -225,8 +231,10 @@ export default function Payment() {
 
       try {
         if (userData?.ip === undefined) getIP();
-        if (userInfo === null)
-          return toast.error("Beklenmedik bir sorun oluştu. Hata: P-FLN");
+        if (userInfo === null) {
+          toast.error("Beklenmedik bir sorun oluştu. Hata: P-FLN");
+          return;
+        }
 
         // console.log(address);
 
@@ -244,8 +252,10 @@ export default function Payment() {
 
         setOrderProgress(true);
 
-        if (userInfo.phone == undefined)
-          return toast.error("Sayfayi yenileyip tekrar deneyiniz.");
+        if (userInfo.phone == undefined) {
+          toast.error("Sayfayi yenileyip tekrar deneyiniz.");
+          return;
+        }
 
         const paymentProcess: PaymentResponse = await new PaymentManager().request(
           userInfo,
@@ -272,6 +282,7 @@ export default function Payment() {
         toast.error(error as any);
       }
       setOrderProgress(false);
+      return;
     }
   };
 
@@ -571,10 +582,14 @@ export default function Payment() {
       <Footer />
 
       <BottomNavBar
-        title={"Ödenecek Tutar"}
+        title="Ödenecek Tutar"
         agreement={true}
         items={items}
         address={address}
+        isChecked={isChecked}
+        setChecked={setChecked}
+        handlePayment={paymentProgress}
+        orderProgress={orderProgress}
       />
 
       <AddressModal setAddress={setAddress} />
